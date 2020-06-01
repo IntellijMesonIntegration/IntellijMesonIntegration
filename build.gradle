@@ -3,8 +3,8 @@ plugins {
     id 'org.jetbrains.intellij' version '0.4.21'
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'com.nonnulldinu.mesonintegration'
+version '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -20,8 +20,6 @@ intellij {
     version '2020.1.1'
 }
 patchPluginXml {
-    changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+    changeNotes """Nothing at the moment"""
 }
 sourceSets.main.java.srcDirs 'src/main/gen'
