@@ -1,0 +1,100 @@
+{
+  parserClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParser"
+  parserUtilClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="MesonBuild"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.nonnulldinu.clionmeson.build.psi"
+  psiImplPackage="com.nonnulldinu.clionmeson.build.psi.impl"
+
+  elementTypeHolderClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes"
+  elementTypeClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildElement"
+  tokenTypeClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildToken"
+
+//  psiImplUtilClass="com.nonnulldinu.clionmeson.build.psi.impl.PsiImplUtil"
+  tokens=[
+    NEWLINE='regexp:\n'
+    space="regexp:\s+"
+
+    IN_OP="in"
+    NOT_OP="not"
+
+    BRACE_BEGIN='['
+    BRACE_END=']'
+    CURLY_BRACE_BEGIN='{'
+    CURLY_BRACE_END='}'
+    PAREN_BEGIN='('
+    PAREN_END=')'
+    COMMA=','
+
+    COMP_OP1='=='
+    COMP_OP2='<='
+    COMP_OP3='>='
+    COMP_OP4='<'
+    COMP_OP5='>'
+    COMP_OP6='!='
+
+    COMP_ATR_OP1='*='
+    COMP_ATR_OP2='/='
+    COMP_ATR_OP3='%='
+    COMP_ATR_OP4='+='
+    COMP_ATR_OP5='-='
+    ATR_OP='='
+
+    PLUS_OP='+'
+    MINUS_OP='-'
+    MULT_OP='*'
+    DIV_OP='/'
+    MOD_OP='%'
+
+    BOOL_LITERAL_TRUE='true'
+    BOOL_LITERAL_FALSE='false'
+
+    LANG_TOKEN_FOREACH='foreach'
+    LANG_TOKEN_FOREACH_END='endforeach'
+    LANG_TOKEN_JUMP_CONTINUE='continue'
+    LANG_TOKEN_JUMP_BREAK='break'
+    LANG_TOKEN_IF='if'
+    LANG_TOKEN_ELSE_IF='elif'
+    LANG_TOKEN_ELSE='else'
+    LANG_TOKEN_ENDIF='endif'
+
+    LANG_TOKEN_QMARK='?'
+    LANG_TOKEN_COLON=':'
+
+    LANG_TOKEN_DOT='.'
+
+    octnum='regexp:0[0-7]+'
+    decnum='regexp:[1-9][0-9]*'
+    hexnum='regexp:0x[a-fA-F0-9]+'
+    id='regexp:[a-zA-Z_][a-zA-Z_0-9]*'
+
+    strmultiline="regexp:'''(.|\n)*?'''"
+    strsimple="regexp:'.*?(?<!\\)(\\\\)*?'"
+  ]
+//  name(".*_expression")='expression'
+//  extends(".*_expression")=expression
+}
+
+build_definition ::= (NEWLINE | statement)*
+statement ::= (func_call_statement) NEWLINE
+
+func_call_statement ::= func_name "(" [e_func_args] ")"
+func_name ::= id
+
+//func_args ::= expression ("," expression)* ["," id ":" expression ("," id ":" expression)*] | id ":" expression ("," id ":" expression)*
+func_args ::= positional_func_args ["," key_func_args] | key_func_args
+external e_func_args ::= func_args
+positional_func_args ::= positional_func_arg ("," positional_func_arg)*
+positional_func_arg ::= expression
+key_func_args ::= key_func_arg ("," key_func_arg)*
+key_func_arg ::= id ":" expression
+
+expression ::= id | string_literal | num_literal
+string_literal ::= strsimple | strmultiline
+num_literal ::= oct_literal | dec_literal | hex_literal
+oct_literal ::= octnum
+dec_literal ::= decnum
+hex_literal ::= hexnum
