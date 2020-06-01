@@ -27,6 +27,12 @@ public class MesonBuildFuncCallStatementImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
+  @Nullable
+  public MesonBuildFuncArgs getFuncArgs() {
+    return findChildByClass(MesonBuildFuncArgs.class);
+  }
+
+  @Override
   @NotNull
   public MesonBuildFuncName getFuncName() {
     return findNotNullChildByClass(MesonBuildFuncName.class);

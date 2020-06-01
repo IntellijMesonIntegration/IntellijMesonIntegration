@@ -28,6 +28,12 @@ public class MesonBuildExpressionImpl extends ASTWrapperPsiElement implements Me
 
   @Override
   @Nullable
+  public MesonBuildIdExpression getIdExpression() {
+    return findChildByClass(MesonBuildIdExpression.class);
+  }
+
+  @Override
+  @Nullable
   public MesonBuildNumLiteral getNumLiteral() {
     return findChildByClass(MesonBuildNumLiteral.class);
   }
@@ -36,12 +42,6 @@ public class MesonBuildExpressionImpl extends ASTWrapperPsiElement implements Me
   @Nullable
   public MesonBuildStringLiteral getStringLiteral() {
     return findChildByClass(MesonBuildStringLiteral.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
   }
 
 }

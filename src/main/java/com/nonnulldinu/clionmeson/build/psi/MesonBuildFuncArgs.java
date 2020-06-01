@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface MesonBuildFuncArgs extends PsiElement {
 
-  @Nullable
-  MesonBuildKeyFuncArgs getKeyFuncArgs();
-
-  @Nullable
-  MesonBuildPositionalFuncArgs getPositionalFuncArgs();
+  @NotNull
+  List<MesonBuildFuncArg> getFuncArgList();
 
 }

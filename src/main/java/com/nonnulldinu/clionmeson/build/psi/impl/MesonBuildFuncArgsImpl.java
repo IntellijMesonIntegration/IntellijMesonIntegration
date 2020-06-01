@@ -27,15 +27,9 @@ public class MesonBuildFuncArgsImpl extends ASTWrapperPsiElement implements Meso
   }
 
   @Override
-  @Nullable
-  public MesonBuildKeyFuncArgs getKeyFuncArgs() {
-    return findChildByClass(MesonBuildKeyFuncArgs.class);
-  }
-
-  @Override
-  @Nullable
-  public MesonBuildPositionalFuncArgs getPositionalFuncArgs() {
-    return findChildByClass(MesonBuildPositionalFuncArgs.class);
+  @NotNull
+  public List<MesonBuildFuncArg> getFuncArgList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFuncArg.class);
   }
 
 }
