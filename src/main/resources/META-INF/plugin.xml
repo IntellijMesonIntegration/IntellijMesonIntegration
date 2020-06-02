@@ -24,7 +24,8 @@
         <lang.parserDefinition language="MesonBuildLang"
                                implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
 
-        <moduleBuilder builderClass="com.nonnulldinu.clionmeson.ide.newProject.ui.NewProjectPanel"/>
+        <moduleType id="DEMO_MODULE_TYPE" implementationClass="com.nonnulldinu.clionmeson.ide.newProject.ui.MesonModuleType"/>
+<!--        <moduleBuilder builderClass="com.nonnulldinu.clionmeson.ide.newProject.ui.MesonModuleType"/>-->
     </extensions>
 
     <actions>
