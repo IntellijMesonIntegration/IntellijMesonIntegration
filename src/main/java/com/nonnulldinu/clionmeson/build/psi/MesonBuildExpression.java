@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildExpression extends PsiElement {
 
   @Nullable
+  MesonBuildIdExpression getIdExpression();
+
+  @Nullable
   MesonBuildNumLiteral getNumLiteral();
 
   @Nullable
   MesonBuildStringLiteral getStringLiteral();
-
-  @Nullable
-  PsiElement getId();
 
 }

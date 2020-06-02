@@ -10,16 +10,16 @@ public interface MesonBuildTypes {
 
   IElementType DEC_LITERAL = new MesonBuildElement("DEC_LITERAL");
   IElementType EXPRESSION = new MesonBuildElement("EXPRESSION");
+  IElementType FUNC_ARG = new MesonBuildElement("FUNC_ARG");
   IElementType FUNC_ARGS = new MesonBuildElement("FUNC_ARGS");
   IElementType FUNC_CALL_STATEMENT = new MesonBuildElement("FUNC_CALL_STATEMENT");
   IElementType FUNC_NAME = new MesonBuildElement("FUNC_NAME");
   IElementType HEX_LITERAL = new MesonBuildElement("HEX_LITERAL");
-  IElementType KEY_FUNC_ARG = new MesonBuildElement("KEY_FUNC_ARG");
-  IElementType KEY_FUNC_ARGS = new MesonBuildElement("KEY_FUNC_ARGS");
+  IElementType ID_EXPRESSION = new MesonBuildElement("ID_EXPRESSION");
+  IElementType KEYWORD_FUNC_ARG = new MesonBuildElement("KEYWORD_FUNC_ARG");
   IElementType NUM_LITERAL = new MesonBuildElement("NUM_LITERAL");
   IElementType OCT_LITERAL = new MesonBuildElement("OCT_LITERAL");
   IElementType POSITIONAL_FUNC_ARG = new MesonBuildElement("POSITIONAL_FUNC_ARG");
-  IElementType POSITIONAL_FUNC_ARGS = new MesonBuildElement("POSITIONAL_FUNC_ARGS");
   IElementType STATEMENT = new MesonBuildElement("STATEMENT");
   IElementType STRING_LITERAL = new MesonBuildElement("STRING_LITERAL");
 
@@ -79,6 +79,9 @@ public interface MesonBuildTypes {
       else if (type == EXPRESSION) {
         return new MesonBuildExpressionImpl(node);
       }
+      else if (type == FUNC_ARG) {
+        return new MesonBuildFuncArgImpl(node);
+      }
       else if (type == FUNC_ARGS) {
         return new MesonBuildFuncArgsImpl(node);
       }
@@ -91,11 +94,11 @@ public interface MesonBuildTypes {
       else if (type == HEX_LITERAL) {
         return new MesonBuildHexLiteralImpl(node);
       }
-      else if (type == KEY_FUNC_ARG) {
-        return new MesonBuildKeyFuncArgImpl(node);
+      else if (type == ID_EXPRESSION) {
+        return new MesonBuildIdExpressionImpl(node);
       }
-      else if (type == KEY_FUNC_ARGS) {
-        return new MesonBuildKeyFuncArgsImpl(node);
+      else if (type == KEYWORD_FUNC_ARG) {
+        return new MesonBuildKeywordFuncArgImpl(node);
       }
       else if (type == NUM_LITERAL) {
         return new MesonBuildNumLiteralImpl(node);
@@ -105,9 +108,6 @@ public interface MesonBuildTypes {
       }
       else if (type == POSITIONAL_FUNC_ARG) {
         return new MesonBuildPositionalFuncArgImpl(node);
-      }
-      else if (type == POSITIONAL_FUNC_ARGS) {
-        return new MesonBuildPositionalFuncArgsImpl(node);
       }
       else if (type == STATEMENT) {
         return new MesonBuildStatementImpl(node);

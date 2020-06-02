@@ -69,12 +69,12 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // id | string_literal | num_literal
+  // id_expression | string_literal | num_literal
   public static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, EXPRESSION, "<expression>");
-    r = consumeToken(b, ID);
+    r = id_expression(b, l + 1);
     if (!r) r = string_literal(b, l + 1);
     if (!r) r = num_literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
@@ -82,48 +82,53 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // positional_func_args ["," key_func_args] | key_func_args
-  public static boolean func_args(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "func_args")) return false;
+  // keyword_func_arg | positional_func_arg
+  public static boolean func_arg(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "func_arg")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FUNC_ARGS, "<func args>");
-    r = func_args_0(b, l + 1);
-    if (!r) r = key_func_args(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, FUNC_ARG, "<func arg>");
+    r = keyword_func_arg(b, l + 1);
+    if (!r) r = positional_func_arg(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // positional_func_args ["," key_func_args]
-  private static boolean func_args_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "func_args_0")) return false;
+  /* ********************************************************** */
+  // func_arg ("," func_arg)*
+  public static boolean func_args(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "func_args")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = positional_func_args(b, l + 1);
-    r = r && func_args_0_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    Marker m = enter_section_(b, l, _NONE_, FUNC_ARGS, "<func args>");
+    r = func_arg(b, l + 1);
+    r = r && func_args_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // ["," key_func_args]
-  private static boolean func_args_0_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "func_args_0_1")) return false;
-    func_args_0_1_0(b, l + 1);
+  // ("," func_arg)*
+  private static boolean func_args_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "func_args_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!func_args_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "func_args_1", c)) break;
+    }
     return true;
   }
 
-  // "," key_func_args
-  private static boolean func_args_0_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "func_args_0_1_0")) return false;
+  // "," func_arg
+  private static boolean func_args_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "func_args_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);
-    r = r && key_func_args(b, l + 1);
+    r = r && func_arg(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // func_name "(" [e_func_args] ")"
+  // func_name "(" [func_args] ")"
   public static boolean func_call_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "func_call_statement")) return false;
     if (!nextTokenIs(b, ID)) return false;
@@ -137,7 +142,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // [e_func_args]
+  // [func_args]
   private static boolean func_call_statement_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "func_call_statement_2")) return false;
     func_args(b, l + 1);
@@ -169,50 +174,27 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // id
+  public static boolean id_expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "id_expression")) return false;
+    if (!nextTokenIs(b, ID)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ID);
+    exit_section_(b, m, ID_EXPRESSION, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // id ":" expression
-  public static boolean key_func_arg(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "key_func_arg")) return false;
+  public static boolean keyword_func_arg(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "keyword_func_arg")) return false;
     if (!nextTokenIs(b, ID)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, ID, LANG_TOKEN_COLON);
     r = r && expression(b, l + 1);
-    exit_section_(b, m, KEY_FUNC_ARG, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // key_func_arg ("," key_func_arg)*
-  public static boolean key_func_args(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "key_func_args")) return false;
-    if (!nextTokenIs(b, ID)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = key_func_arg(b, l + 1);
-    r = r && key_func_args_1(b, l + 1);
-    exit_section_(b, m, KEY_FUNC_ARGS, r);
-    return r;
-  }
-
-  // ("," key_func_arg)*
-  private static boolean key_func_args_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "key_func_args_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!key_func_args_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "key_func_args_1", c)) break;
-    }
-    return true;
-  }
-
-  // "," key_func_arg
-  private static boolean key_func_args_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "key_func_args_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && key_func_arg(b, l + 1);
-    exit_section_(b, m, null, r);
+    exit_section_(b, m, KEYWORD_FUNC_ARG, r);
     return r;
   }
 
@@ -249,40 +231,6 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, POSITIONAL_FUNC_ARG, "<positional func arg>");
     r = expression(b, l + 1);
     exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // positional_func_arg ("," positional_func_arg)*
-  public static boolean positional_func_args(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "positional_func_args")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, POSITIONAL_FUNC_ARGS, "<positional func args>");
-    r = positional_func_arg(b, l + 1);
-    r = r && positional_func_args_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // ("," positional_func_arg)*
-  private static boolean positional_func_args_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "positional_func_args_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!positional_func_args_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "positional_func_args_1", c)) break;
-    }
-    return true;
-  }
-
-  // "," positional_func_arg
-  private static boolean positional_func_args_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "positional_func_args_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && positional_func_arg(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 

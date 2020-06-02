@@ -15,6 +15,10 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFuncArg(@NotNull MesonBuildFuncArg o) {
+    visitPsiElement(o);
+  }
+
   public void visitFuncArgs(@NotNull MesonBuildFuncArgs o) {
     visitPsiElement(o);
   }
@@ -31,11 +35,11 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitKeyFuncArg(@NotNull MesonBuildKeyFuncArg o) {
+  public void visitIdExpression(@NotNull MesonBuildIdExpression o) {
     visitPsiElement(o);
   }
 
-  public void visitKeyFuncArgs(@NotNull MesonBuildKeyFuncArgs o) {
+  public void visitKeywordFuncArg(@NotNull MesonBuildKeywordFuncArg o) {
     visitPsiElement(o);
   }
 
@@ -48,10 +52,6 @@ public class MesonBuildVisitor extends PsiElementVisitor {
   }
 
   public void visitPositionalFuncArg(@NotNull MesonBuildPositionalFuncArg o) {
-    visitPsiElement(o);
-  }
-
-  public void visitPositionalFuncArgs(@NotNull MesonBuildPositionalFuncArgs o) {
     visitPsiElement(o);
   }
 
