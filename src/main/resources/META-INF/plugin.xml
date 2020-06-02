@@ -20,6 +20,9 @@
         <!-- Add your extensions here -->
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
                   fieldName="INSTANCE" language="MesonBuildLang" extensions="build"/>
+
+        <lang.parserDefinition language="MesonBuildLang"
+                               implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
     </extensions>
 
     <actions>

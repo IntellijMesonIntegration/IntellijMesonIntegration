@@ -15,8 +15,8 @@
 
 //  psiImplUtilClass="com.nonnulldinu.clionmeson.build.psi.impl.PsiImplUtil"
   tokens=[
-    NEWLINE='regexp:\n'
-    space="regexp:\s+"
+    newline="regexp:\R"
+    SPACES="regexp:[ \t]+"
 
     IN_OP="in"
     NOT_OP="not"
@@ -66,33 +66,67 @@
 
     LANG_TOKEN_DOT='.'
 
-    octnum='regexp:0[0-7]+'
+    binnum='regexp:0b[01]+'
+    octnum='regexp:0[0-7]*' // ok this was supposed to be '0[0-7]+' but we need to match '0' as well so we will do it here
     decnum='regexp:[1-9][0-9]*'
     hexnum='regexp:0x[a-fA-F0-9]+'
     id='regexp:[a-zA-Z_][a-zA-Z_0-9]*'
 
     strmultiline="regexp:'''[.\n]*?'''"
     strsimple="regexp:/'([^\\']|\\\\|\\')*'/"
+
+    single_line_comment="regexp://.*"
+    multiline_comment="regexp:/\*[.\n]*\*/"
   ]
 //  name(".*_expression")='expression'
 //  extends(".*_expression")=expression
 }
 
-build_definition ::= (NEWLINE | statement)*
-statement ::= (func_call_statement) NEWLINE
+build_definition ::= (newline | statement)*
+
+statement ::= !<<eof>> (func_call_statement | assignment_statement) (newline) {pin=1; recoverWhile=statement_recover}
+private statement_recover ::= !(newline | func_call_statement | assignment_statement)
+
+// assignment statement
+assignment_statement ::= id_expression atrop expression
+atrop ::= "=" | "+=" | "-=" | "/=" | "*=" | "%="
 
 func_call_statement ::= func_name "(" [func_args] ")"
 func_name ::= id
 
 func_args ::= func_arg ("," func_arg)*
-func_arg ::= keyword_func_arg | positional_func_arg
+func_arg ::= keyword_elem | positional_func_arg
 positional_func_arg ::= expression
-keyword_func_arg ::= id ":" expression
+keyword_elem ::= id ":" expression
 
-id_expression ::= id
-expression ::= id_expression | string_literal | num_literal
-string_literal ::= strsimple | strmultiline
-num_literal ::= oct_literal | dec_literal | hex_literal
-oct_literal ::= octnum
-dec_literal ::= decnum
-hex_literal ::= hexnum
+id_expression ::= lvalue
+
+lvalue ::= subscript_expr | id
+subscript_root ::= id
+subscript_expr ::= subscript_root ("[" expression "]")+
+
+array ::= "[" [expression ("," expression)*] "]"
+dict ::= "{" [keyword_elem ("," keyword_elem)*] "}"
+
+// mult
+mul_op ::= "*" | "/" | "%"
+mul_expr ::= factor (mul_op factor)*
+factor ::= dict | array | par_expression | id_expression | string_literal | num_literal
+
+// add
+add_op ::= "+" | "-"
+add_expr ::= mul_expr (add_op mul_expr)*
+
+expression ::= dict | array | add_expr | id_expression | string_literal | num_literal | par_expression
+par_expression ::= "(" expression ")"
+
+// literals
+private string_literal ::= strsimple | strmultiline
+
+private num_literal ::= bin_literal | oct_literal | dec_literal | hex_literal
+private bin_literal ::= binnum
+private oct_literal ::= octnum
+private dec_literal ::= decnum
+private hex_literal ::= hexnum
+
+fake comment ::= single_line_comment | multiline_comment
