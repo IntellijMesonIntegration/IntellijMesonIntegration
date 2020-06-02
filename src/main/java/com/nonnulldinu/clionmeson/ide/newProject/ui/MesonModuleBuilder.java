@@ -9,10 +9,7 @@ import com.intellij.openapi.roots.ModifiableRootModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-
-
-public class DemoModuleBuilder extends ModuleBuilder {
+public class MesonModuleBuilder extends ModuleBuilder {
 	@Override
 	public void setupRootModel(@NotNull ModifiableRootModel model) {
 
@@ -20,12 +17,12 @@ public class DemoModuleBuilder extends ModuleBuilder {
 
 	@Override
 	public ModuleType getModuleType() {
-		return DemoModuleType.getInstance();
+		return MesonModuleType.getInstance();
 	}
 
 	@Nullable
 	@Override
 	public ModuleWizardStep getCustomOptionsStep(WizardContext context, Disposable parentDisposable) {
-		return new DemoModuleWizardStep();
+		return new MesonWizardStep();
 	}
 }

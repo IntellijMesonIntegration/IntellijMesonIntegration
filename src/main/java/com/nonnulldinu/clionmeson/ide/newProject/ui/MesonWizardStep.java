@@ -4,7 +4,7 @@ import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 
 import javax.swing.*;
 
-public class ModuleWizard extends ModuleWizardStep {
+public class MesonWizardStep extends ModuleWizardStep {
 	@Override
 	public JComponent getComponent() {
 		return new JLabel("Provide some setting here");

@@ -5,26 +5,26 @@ import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleTypeManager;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
-import com.nonnulldinu.clionmeson.*;
+import com.nonnulldinu.clionmeson.MesonIcons;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public class DemoModuleType extends ModuleType<DemoModuleBuilder> {
+public class MesonModuleType extends ModuleType<MesonModuleBuilder> {
 	private static final String ID = "DEMO_MODULE_TYPE";
 
-	public DemoModuleType() {
+	public MesonModuleType() {
 		super(ID);
 	}
 
-	public static DemoModuleType getInstance() {
-		return (DemoModuleType) ModuleTypeManager.getInstance().findByID(ID);
+	public static MesonModuleType getInstance() {
+		return (MesonModuleType) ModuleTypeManager.getInstance().findByID(ID);
 	}
 
 	@NotNull
 	@Override
-	public DemoModuleBuilder createModuleBuilder() {
-		return new DemoModuleBuilder();
+	public MesonModuleBuilder createModuleBuilder() {
+		return new MesonModuleBuilder();
 	}
 
 	@NotNull
@@ -48,7 +48,7 @@ public class DemoModuleType extends ModuleType<DemoModuleBuilder> {
 	@NotNull
 	@Override
 	public ModuleWizardStep[] createWizardSteps(@NotNull WizardContext wizardContext,
-	                                            @NotNull DemoModuleBuilder moduleBuilder,
+	                                            @NotNull MesonModuleBuilder moduleBuilder,
 	                                            @NotNull ModulesProvider modulesProvider) {
 		return super.createWizardSteps(wizardContext, moduleBuilder, modulesProvider);
 	}
