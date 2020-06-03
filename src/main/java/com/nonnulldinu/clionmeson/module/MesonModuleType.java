@@ -5,7 +5,7 @@ import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleTypeManager;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
-import com.nonnulldinu.clionmeson.icons.MesonIcons;
+import com.nonnulldinu.clionmeson.icons.PluginIcons;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -42,7 +42,7 @@ public class MesonModuleType extends ModuleType<MesonModuleBuilder> {
 	@NotNull
 	@Override
 	public Icon getNodeIcon(@Deprecated boolean b) {
-		return MesonIcons.FILE;
+		return PluginIcons.MESON_BUILD_ICON;
 	}
 
 	@NotNull

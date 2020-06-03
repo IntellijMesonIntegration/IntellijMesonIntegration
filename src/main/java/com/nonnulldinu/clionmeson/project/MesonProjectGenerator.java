@@ -46,7 +46,7 @@ import com.jetbrains.cidr.cpp.execution.CMakeRunConfigurationType;
 import com.jetbrains.cidr.execution.BuildTargetAndConfigurationData;
 import com.jetbrains.cidr.execution.BuildTargetData;
 import com.jetbrains.cidr.execution.ExecutableData;
-import com.nonnulldinu.clionmeson.icons.MesonIcons;
+import com.nonnulldinu.clionmeson.icons.PluginIcons;
 import com.nonnulldinu.clionmeson.module.MesonWizardStep;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -70,7 +70,7 @@ public class MesonProjectGenerator extends CLionProjectGenerator<Ref<String[]>> 
 	@Nullable
 	@Override
 	public Icon getLogo() {
-		return MesonIcons.FILE;
+		return PluginIcons.MESON_BUILD_ICON;
 	}
 
 	@NotNull
