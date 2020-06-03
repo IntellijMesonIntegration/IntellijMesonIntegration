@@ -23,9 +23,9 @@ public class MesonModuleBuilder extends ModuleBuilder {
 		return MesonModuleType.getInstance();
 	}
 
-	@Nullable
-	@Override
-	public ModuleWizardStep getCustomOptionsStep(WizardContext context, Disposable parentDisposable) {
-		return new MesonWizardStep();
-	}
+//	@Nullable
+//	@Override
+//	public ModuleWizardStep getCustomOptionsStep(WizardContext context, Disposable parentDisposable) {
+////		return new MesonWizardStep(projectGenerator, callback);
+//	}
 }
