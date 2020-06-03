@@ -11,9 +11,9 @@ public interface MesonBuildRepetitiveStatement extends PsiElement {
   MesonBuildExpression getExpression();
 
   @Nullable
-  MesonBuildIdList getIdList();
+  MesonBuildForStatementList getForStatementList();
 
   @Nullable
-  MesonBuildStatementList getStatementList();
+  MesonBuildIdList getIdList();
 
 }

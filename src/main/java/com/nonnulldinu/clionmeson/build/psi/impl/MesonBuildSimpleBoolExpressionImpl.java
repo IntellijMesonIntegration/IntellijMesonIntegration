@@ -28,6 +28,12 @@ public class MesonBuildSimpleBoolExpressionImpl extends ASTWrapperPsiElement imp
 
   @Override
   @Nullable
+  public MesonBuildBoolLiteral getBoolLiteral() {
+    return findChildByClass(MesonBuildBoolLiteral.class);
+  }
+
+  @Override
+  @Nullable
   public MesonBuildExpression getExpression() {
     return findChildByClass(MesonBuildExpression.class);
   }

@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildStatementImpl extends ASTWrapperPsiElement implements MesonBuildStatement {
+public class MesonBuildForStatementImpl extends ASTWrapperPsiElement implements MesonBuildForStatement {
 
-  public MesonBuildStatementImpl(@NotNull ASTNode node) {
+  public MesonBuildForStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitStatement(this);
+    visitor.visitForStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -30,6 +30,12 @@ public class MesonBuildStatementImpl extends ASTWrapperPsiElement implements Mes
   @Nullable
   public MesonBuildAssignmentStatement getAssignmentStatement() {
     return findChildByClass(MesonBuildAssignmentStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public MesonBuildControlStatement getControlStatement() {
+    return findChildByClass(MesonBuildControlStatement.class);
   }
 
   @Override

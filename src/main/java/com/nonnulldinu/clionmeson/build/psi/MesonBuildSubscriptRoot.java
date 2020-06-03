@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface MesonBuildSubscriptRoot extends PsiElement {
 
-  @NotNull
+  @Nullable
+  MesonBuildMethodCallChain getMethodCallChain();
+
+  @Nullable
   PsiElement getId();
 
 }

@@ -38,4 +38,10 @@ public class MesonBuildFullExpressionImpl extends ASTWrapperPsiElement implement
     return findChildByClass(MesonBuildFullBoolExpression.class);
   }
 
+  @Override
+  @Nullable
+  public MesonBuildTernaryExpression getTernaryExpression() {
+    return findChildByClass(MesonBuildTernaryExpression.class);
+  }
+
 }

@@ -5,18 +5,21 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildSimpleBoolExpression extends PsiElement {
+public interface MesonBuildNumLiteralUnary extends PsiElement {
+
+  @NotNull
+  MesonBuildUnaryNumOp getUnaryNumOp();
 
   @Nullable
-  MesonBuildBoolLiteral getBoolLiteral();
+  PsiElement getBinnum();
 
   @Nullable
-  MesonBuildExpression getExpression();
+  PsiElement getDecnum();
 
   @Nullable
-  MesonBuildRelCheckExpr getRelCheckExpr();
+  PsiElement getHexnum();
 
   @Nullable
-  MesonBuildSimpleBoolExpression getSimpleBoolExpression();
+  PsiElement getOctnum();
 
 }

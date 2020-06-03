@@ -13,4 +13,7 @@ public interface MesonBuildFullExpression extends PsiElement {
   @Nullable
   MesonBuildFullBoolExpression getFullBoolExpression();
 
+  @Nullable
+  MesonBuildTernaryExpression getTernaryExpression();
+
 }

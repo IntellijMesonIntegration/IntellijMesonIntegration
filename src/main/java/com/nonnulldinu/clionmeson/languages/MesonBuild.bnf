@@ -10,8 +10,8 @@
   psiImplPackage="com.nonnulldinu.clionmeson.build.psi.impl"
 
   elementTypeHolderClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes"
-  elementTypeClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildElement"
-  tokenTypeClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildToken"
+  elementTypeClass="com.nonnulldinu.clionmeson.build.elements.MesonBuildElement"
+  tokenTypeClass="com.nonnulldinu.clionmeson.build.elements.MesonBuildToken"
 
 //  psiImplUtilClass="com.nonnulldinu.clionmeson.build.psi.impl.PsiImplUtil"
   tokens=[
@@ -75,10 +75,11 @@
     decnum='regexp:[1-9][0-9]*'
     id='regexp:[a-zA-Z_][a-zA-Z_0-9]*'
 
-//    strmultiline="regexp:'''(.|\n)*?'''"
+    strmultiline="regexp:'''(.|\n)*'''"
     strsimple="regexp:'(\\.|[^\\'])*'"
 
-    comment="regexp:#.*"
+    block_comment="regexp:(\h*?#.*?\R+)(\h*?#.*?\R+)+"
+    line_comment="regexp:#.*\R+"
   ]
 //  name(".*_expression")='expression'
 //  extends(".*_expression")=expression
@@ -86,43 +87,51 @@
 
 build_definition ::= statement_list
 statement_list ::= (statement | newline)*
-statement ::= !<<eof>> (func_call_statement | assignment_statement | selection_statement | repetitive_statement) {pin=2; recoverWhile=statement_recover}
+for_statement_list ::= (for_statement | newline)*
+statement ::= !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement | repetitive_statement) {pin=2; recoverWhile=statement_recover}
 private statement_recover ::= newline
+for_statement ::= !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement | repetitive_statement | control_statement) {pin=2; recoverWhile=statement_recover}
+control_statement ::= ("continue" | "break") newline
 
 // assignment statement
 assignment_statement ::= id_expression atrop full_expression newline {pin=2}
 atrop ::= "=" | "+=" | "-=" | "/=" | "*=" | "%="
 
 // function call statement
-func_call_statement ::= func_name "(" [func_args] ")" newline {pin=2}
-func_name ::= id_expression
+func_call_expression ::= func_name "(" [func_args] ")" {pin=2}
+func_call_statement ::= func_call_expression newline
+func_name ::= id
 
 // if "selection" statement
 selection_statement ::= "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif" newline {pin=1; recoverWhile=selection_statement_recover}
 private selection_statement_recover ::= !"endif" newline
 
-repetitive_statement ::= "foreach" id_list ":" expression newline statement_list "endforeach" newline {pin=1; recoverWhile=repetitive_statement_recover}
+repetitive_statement ::= "foreach" id_list ":" expression newline for_statement_list "endforeach" newline {pin=1; recoverWhile=repetitive_statement_recover}
 private repetitive_statement_recover ::= !"endforeach" newline
 
-func_args ::= func_arg ("," func_arg)*
+func_args ::= newline? func_arg (newline? "," newline? func_arg)*(","? newline?)
 func_arg ::= keyword_elem | positional_func_arg
 positional_func_arg ::= full_expression
 keyword_elem ::= id ":" full_expression
+method_call_expression_base ::= dict | array | func_call_expression | par_expression | id | string_literal | num_literal
+method_call_chain ::= method_call_expression_base ("." func_call_expression | index_expr)+
+method_call_statement ::= method_call_chain newline
 
 id_expression ::= lvalue
 id_list ::= id ("," id)*
 
 lvalue ::= subscript_expr | id
-subscript_root ::= id
-subscript_expr ::= subscript_root ("[" full_expression "]")+
+subscript_root ::= method_call_chain | id
+index_expr ::= "[" full_expression "]"
+subscript_expr ::= subscript_root index_expr+
 
-array ::= "[" [full_expression ("," full_expression)*] "]"
-dict ::= "{" [keyword_elem ("," keyword_elem)*] "}"
+array ::= "[" [newline? full_expression (newline? "," newline? full_expression)*] (","? newline?) "]"
+dict ::= "{" [newline? keyword_elem (newline? "," newline? keyword_elem)*] (","? newline?) "}"
 
 // mult
 mul_op ::= "*" | "/" | "%"
 mul_expr ::= factor (mul_op factor)*
-factor ::= dict | array | par_expression | id_expression | string_literal | num_literal
+factor ::= dict | array | method_call_chain | func_call_expression | par_expression | id_expression | string_literal | num_literal
 
 // add
 add_op ::= "+" | "-"
@@ -133,8 +142,13 @@ equality_op ::= "==" | "!="
 rel_check_op ::= "<" | ">" | "<=" | ">=" | equality_op
 rel_check_expr ::= expression rel_check_op expression {pin=2}
 
+// boolean logic
+bool_literal ::= "true" | "false"
+
+unary_num_op ::= "+" | "-"
+
 // and, or and not
-simple_bool_expression ::= rel_check_expr | expression | "not" simple_bool_expression
+simple_bool_expression ::= bool_literal | rel_check_expr | expression | "not" simple_bool_expression
 
 conditional_and_expression ::= simple_bool_expression ("and" simple_bool_expression)*
 
@@ -142,14 +156,17 @@ conditional_or_expression ::= conditional_and_expression ("or" conditional_and_e
 
 full_bool_expression ::= conditional_or_expression
 
-expression ::= dict | array | add_expr | id_expression | string_literal | num_literal | par_expression
+expression ::= dict | array | add_expr | id_expression | string_literal | num_literal_unary | num_literal | par_expression
 par_expression ::= "(" full_expression ")"
 
-full_expression ::= full_bool_expression | expression
+ternary_expression ::= full_bool_expression "?" full_expression ":" full_expression
+
+full_expression ::= ternary_expression | full_bool_expression | expression
 
 // literals
-private string_literal ::= /*strmultiline |*/ strsimple
+private string_literal ::= strmultiline | strsimple
 
+num_literal_unary ::= unary_num_op num_literal
 private num_literal ::= bin_literal | oct_literal | dec_literal | hex_literal
 private bin_literal ::= binnum
 private oct_literal ::= octnum

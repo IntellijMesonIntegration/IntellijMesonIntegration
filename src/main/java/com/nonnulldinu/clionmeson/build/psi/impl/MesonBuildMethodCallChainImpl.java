@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildSubscriptRootImpl extends ASTWrapperPsiElement implements MesonBuildSubscriptRoot {
+public class MesonBuildMethodCallChainImpl extends ASTWrapperPsiElement implements MesonBuildMethodCallChain {
 
-  public MesonBuildSubscriptRootImpl(@NotNull ASTNode node) {
+  public MesonBuildMethodCallChainImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitSubscriptRoot(this);
+    visitor.visitMethodCallChain(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +27,21 @@ public class MesonBuildSubscriptRootImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @Nullable
-  public MesonBuildMethodCallChain getMethodCallChain() {
-    return findChildByClass(MesonBuildMethodCallChain.class);
+  @NotNull
+  public List<MesonBuildFuncCallExpression> getFuncCallExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFuncCallExpression.class);
   }
 
   @Override
-  @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
+  @NotNull
+  public List<MesonBuildIndexExpr> getIndexExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildIndexExpr.class);
+  }
+
+  @Override
+  @NotNull
+  public MesonBuildMethodCallExpressionBase getMethodCallExpressionBase() {
+    return findNotNullChildByClass(MesonBuildMethodCallExpressionBase.class);
   }
 
 }

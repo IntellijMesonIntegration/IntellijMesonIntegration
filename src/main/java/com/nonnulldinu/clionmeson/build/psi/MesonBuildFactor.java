@@ -14,7 +14,13 @@ public interface MesonBuildFactor extends PsiElement {
   MesonBuildDict getDict();
 
   @Nullable
+  MesonBuildFuncCallExpression getFuncCallExpression();
+
+  @Nullable
   MesonBuildIdExpression getIdExpression();
+
+  @Nullable
+  MesonBuildMethodCallChain getMethodCallChain();
 
   @Nullable
   MesonBuildParExpression getParExpression();
@@ -30,6 +36,9 @@ public interface MesonBuildFactor extends PsiElement {
 
   @Nullable
   PsiElement getOctnum();
+
+  @Nullable
+  PsiElement getStrmultiline();
 
   @Nullable
   PsiElement getStrsimple();

@@ -27,11 +27,19 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBoolLiteral(@NotNull MesonBuildBoolLiteral o) {
+    visitPsiElement(o);
+  }
+
   public void visitConditionalAndExpression(@NotNull MesonBuildConditionalAndExpression o) {
     visitPsiElement(o);
   }
 
   public void visitConditionalOrExpression(@NotNull MesonBuildConditionalOrExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitControlStatement(@NotNull MesonBuildControlStatement o) {
     visitPsiElement(o);
   }
 
@@ -51,6 +59,14 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitForStatement(@NotNull MesonBuildForStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitForStatementList(@NotNull MesonBuildForStatementList o) {
+    visitPsiElement(o);
+  }
+
   public void visitFullBoolExpression(@NotNull MesonBuildFullBoolExpression o) {
     visitPsiElement(o);
   }
@@ -64,6 +80,10 @@ public class MesonBuildVisitor extends PsiElementVisitor {
   }
 
   public void visitFuncArgs(@NotNull MesonBuildFuncArgs o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFuncCallExpression(@NotNull MesonBuildFuncCallExpression o) {
     visitPsiElement(o);
   }
 
@@ -83,6 +103,10 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitIndexExpr(@NotNull MesonBuildIndexExpr o) {
+    visitPsiElement(o);
+  }
+
   public void visitKeywordElem(@NotNull MesonBuildKeywordElem o) {
     visitPsiElement(o);
   }
@@ -91,11 +115,27 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMethodCallChain(@NotNull MesonBuildMethodCallChain o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMethodCallExpressionBase(@NotNull MesonBuildMethodCallExpressionBase o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMethodCallStatement(@NotNull MesonBuildMethodCallStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitMulExpr(@NotNull MesonBuildMulExpr o) {
     visitPsiElement(o);
   }
 
   public void visitMulOp(@NotNull MesonBuildMulOp o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNumLiteralUnary(@NotNull MesonBuildNumLiteralUnary o) {
     visitPsiElement(o);
   }
 
@@ -140,6 +180,14 @@ public class MesonBuildVisitor extends PsiElementVisitor {
   }
 
   public void visitSubscriptRoot(@NotNull MesonBuildSubscriptRoot o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTernaryExpression(@NotNull MesonBuildTernaryExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitUnaryNumOp(@NotNull MesonBuildUnaryNumOp o) {
     visitPsiElement(o);
   }
 

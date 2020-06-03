@@ -28,8 +28,8 @@ public class MesonBuildFuncNameImpl extends ASTWrapperPsiElement implements Meso
 
   @Override
   @NotNull
-  public MesonBuildIdExpression getIdExpression() {
-    return findNotNullChildByClass(MesonBuildIdExpression.class);
+  public PsiElement getId() {
+    return findNotNullChildByType(ID);
   }
 
 }

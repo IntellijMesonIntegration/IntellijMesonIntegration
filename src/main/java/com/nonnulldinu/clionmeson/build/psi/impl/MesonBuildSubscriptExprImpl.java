@@ -28,8 +28,8 @@ public class MesonBuildSubscriptExprImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
-  public List<MesonBuildFullExpression> getFullExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullExpression.class);
+  public List<MesonBuildIndexExpr> getIndexExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildIndexExpr.class);
   }
 
   @Override
