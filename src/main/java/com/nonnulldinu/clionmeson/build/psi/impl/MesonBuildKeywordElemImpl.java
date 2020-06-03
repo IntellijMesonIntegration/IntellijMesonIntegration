@@ -28,8 +28,8 @@ public class MesonBuildKeywordElemImpl extends ASTWrapperPsiElement implements M
 
   @Override
   @NotNull
-  public MesonBuildExpression getExpression() {
-    return findNotNullChildByClass(MesonBuildExpression.class);
+  public MesonBuildFullExpression getFullExpression() {
+    return findNotNullChildByClass(MesonBuildFullExpression.class);
   }
 
   @Override

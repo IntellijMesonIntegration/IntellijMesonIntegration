@@ -13,9 +13,14 @@ public interface MesonBuildTypes {
   IElementType ARRAY = new MesonBuildElement("ARRAY");
   IElementType ASSIGNMENT_STATEMENT = new MesonBuildElement("ASSIGNMENT_STATEMENT");
   IElementType ATROP = new MesonBuildElement("ATROP");
+  IElementType CONDITIONAL_AND_EXPRESSION = new MesonBuildElement("CONDITIONAL_AND_EXPRESSION");
+  IElementType CONDITIONAL_OR_EXPRESSION = new MesonBuildElement("CONDITIONAL_OR_EXPRESSION");
   IElementType DICT = new MesonBuildElement("DICT");
+  IElementType EQUALITY_OP = new MesonBuildElement("EQUALITY_OP");
   IElementType EXPRESSION = new MesonBuildElement("EXPRESSION");
   IElementType FACTOR = new MesonBuildElement("FACTOR");
+  IElementType FULL_BOOL_EXPRESSION = new MesonBuildElement("FULL_BOOL_EXPRESSION");
+  IElementType FULL_EXPRESSION = new MesonBuildElement("FULL_EXPRESSION");
   IElementType FUNC_ARG = new MesonBuildElement("FUNC_ARG");
   IElementType FUNC_ARGS = new MesonBuildElement("FUNC_ARGS");
   IElementType FUNC_CALL_STATEMENT = new MesonBuildElement("FUNC_CALL_STATEMENT");
@@ -27,7 +32,12 @@ public interface MesonBuildTypes {
   IElementType MUL_OP = new MesonBuildElement("MUL_OP");
   IElementType PAR_EXPRESSION = new MesonBuildElement("PAR_EXPRESSION");
   IElementType POSITIONAL_FUNC_ARG = new MesonBuildElement("POSITIONAL_FUNC_ARG");
+  IElementType REL_CHECK_EXPR = new MesonBuildElement("REL_CHECK_EXPR");
+  IElementType REL_CHECK_OP = new MesonBuildElement("REL_CHECK_OP");
+  IElementType SELECTION_STATEMENT = new MesonBuildElement("SELECTION_STATEMENT");
+  IElementType SIMPLE_BOOL_EXPRESSION = new MesonBuildElement("SIMPLE_BOOL_EXPRESSION");
   IElementType STATEMENT = new MesonBuildElement("STATEMENT");
+  IElementType STATEMENT_LIST = new MesonBuildElement("STATEMENT_LIST");
   IElementType SUBSCRIPT_EXPR = new MesonBuildElement("SUBSCRIPT_EXPR");
   IElementType SUBSCRIPT_ROOT = new MesonBuildElement("SUBSCRIPT_ROOT");
 
@@ -56,6 +66,7 @@ public interface MesonBuildTypes {
   IElementType HEXNUM = new MesonBuildToken("hexnum");
   IElementType ID = new MesonBuildToken("id");
   IElementType IN_OP = new MesonBuildToken("in");
+  IElementType LANG_TOKEN_AND = new MesonBuildToken("and");
   IElementType LANG_TOKEN_COLON = new MesonBuildToken(":");
   IElementType LANG_TOKEN_DOT = new MesonBuildToken(".");
   IElementType LANG_TOKEN_ELSE = new MesonBuildToken("else");
@@ -66,19 +77,19 @@ public interface MesonBuildTypes {
   IElementType LANG_TOKEN_IF = new MesonBuildToken("if");
   IElementType LANG_TOKEN_JUMP_BREAK = new MesonBuildToken("break");
   IElementType LANG_TOKEN_JUMP_CONTINUE = new MesonBuildToken("continue");
+  IElementType LANG_TOKEN_NOT = new MesonBuildToken("not");
+  IElementType LANG_TOKEN_OR = new MesonBuildToken("or");
   IElementType LANG_TOKEN_QMARK = new MesonBuildToken("?");
   IElementType MINUS_OP = new MesonBuildToken("-");
   IElementType MOD_OP = new MesonBuildToken("%");
   IElementType MULTILINE_COMMENT = new MesonBuildToken("multiline_comment");
   IElementType MULT_OP = new MesonBuildToken("*");
   IElementType NEWLINE = new MesonBuildToken("newline");
-  IElementType NOT_OP = new MesonBuildToken("not");
   IElementType OCTNUM = new MesonBuildToken("octnum");
   IElementType PAREN_BEGIN = new MesonBuildToken("(");
   IElementType PAREN_END = new MesonBuildToken(")");
   IElementType PLUS_OP = new MesonBuildToken("+");
   IElementType SINGLE_LINE_COMMENT = new MesonBuildToken("single_line_comment");
-  IElementType STRMULTILINE = new MesonBuildToken("strmultiline");
   IElementType STRSIMPLE = new MesonBuildToken("strsimple");
 
   class Factory {
@@ -99,14 +110,29 @@ public interface MesonBuildTypes {
       else if (type == ATROP) {
         return new MesonBuildAtropImpl(node);
       }
+      else if (type == CONDITIONAL_AND_EXPRESSION) {
+        return new MesonBuildConditionalAndExpressionImpl(node);
+      }
+      else if (type == CONDITIONAL_OR_EXPRESSION) {
+        return new MesonBuildConditionalOrExpressionImpl(node);
+      }
       else if (type == DICT) {
         return new MesonBuildDictImpl(node);
+      }
+      else if (type == EQUALITY_OP) {
+        return new MesonBuildEqualityOpImpl(node);
       }
       else if (type == EXPRESSION) {
         return new MesonBuildExpressionImpl(node);
       }
       else if (type == FACTOR) {
         return new MesonBuildFactorImpl(node);
+      }
+      else if (type == FULL_BOOL_EXPRESSION) {
+        return new MesonBuildFullBoolExpressionImpl(node);
+      }
+      else if (type == FULL_EXPRESSION) {
+        return new MesonBuildFullExpressionImpl(node);
       }
       else if (type == FUNC_ARG) {
         return new MesonBuildFuncArgImpl(node);
@@ -141,8 +167,23 @@ public interface MesonBuildTypes {
       else if (type == POSITIONAL_FUNC_ARG) {
         return new MesonBuildPositionalFuncArgImpl(node);
       }
+      else if (type == REL_CHECK_EXPR) {
+        return new MesonBuildRelCheckExprImpl(node);
+      }
+      else if (type == REL_CHECK_OP) {
+        return new MesonBuildRelCheckOpImpl(node);
+      }
+      else if (type == SELECTION_STATEMENT) {
+        return new MesonBuildSelectionStatementImpl(node);
+      }
+      else if (type == SIMPLE_BOOL_EXPRESSION) {
+        return new MesonBuildSimpleBoolExpressionImpl(node);
+      }
       else if (type == STATEMENT) {
         return new MesonBuildStatementImpl(node);
+      }
+      else if (type == STATEMENT_LIST) {
+        return new MesonBuildStatementListImpl(node);
       }
       else if (type == SUBSCRIPT_EXPR) {
         return new MesonBuildSubscriptExprImpl(node);

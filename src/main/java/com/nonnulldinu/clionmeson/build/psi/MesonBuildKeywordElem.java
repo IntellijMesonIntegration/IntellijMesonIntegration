@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildKeywordElem extends PsiElement {
 
   @NotNull
-  MesonBuildExpression getExpression();
+  MesonBuildFullExpression getFullExpression();
 
   @NotNull
   PsiElement getId();

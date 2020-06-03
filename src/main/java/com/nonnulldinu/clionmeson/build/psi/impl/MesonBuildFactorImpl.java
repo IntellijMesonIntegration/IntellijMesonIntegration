@@ -76,12 +76,6 @@ public class MesonBuildFactorImpl extends ASTWrapperPsiElement implements MesonB
 
   @Override
   @Nullable
-  public PsiElement getStrmultiline() {
-    return findChildByType(STRMULTILINE);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getStrsimple() {
     return findChildByType(STRSIMPLE);
   }

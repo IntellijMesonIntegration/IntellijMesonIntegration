@@ -2,6 +2,7 @@ package com.nonnulldinu.clionmeson.filetypes;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.IconLoader;
+import com.nonnulldinu.clionmeson.icons.PluginIcons;
 import com.nonnulldinu.clionmeson.languages.MesonBuildLang;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +12,6 @@ import javax.swing.*;
 
 public class MesonBuildFileType extends LanguageFileType {
     public static final MesonBuildFileType INSTANCE = new MesonBuildFileType();
-    public static final Icon ICON = IconLoader.getIcon("/icons/meson.build.svg");
 
     protected MesonBuildFileType() {
         super(MesonBuildLang.INSTANCE);
@@ -54,6 +54,6 @@ public class MesonBuildFileType extends LanguageFileType {
      */
     @Override
     public @Nullable Icon getIcon() {
-        return ICON;
+        return PluginIcons.MESON_BUILD_ICON;
     }
 }

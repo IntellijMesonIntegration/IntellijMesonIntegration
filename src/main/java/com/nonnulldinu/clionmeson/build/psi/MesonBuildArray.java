@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildArray extends PsiElement {
 
   @NotNull
-  List<MesonBuildExpression> getExpressionList();
+  List<MesonBuildFullExpression> getFullExpressionList();
 
 }

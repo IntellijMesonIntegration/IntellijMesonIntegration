@@ -28,8 +28,8 @@ public class MesonBuildParExpressionImpl extends ASTWrapperPsiElement implements
 
   @Override
   @NotNull
-  public MesonBuildExpression getExpression() {
-    return findNotNullChildByClass(MesonBuildExpression.class);
+  public MesonBuildFullExpression getFullExpression() {
+    return findNotNullChildByClass(MesonBuildFullExpression.class);
   }
 
 }

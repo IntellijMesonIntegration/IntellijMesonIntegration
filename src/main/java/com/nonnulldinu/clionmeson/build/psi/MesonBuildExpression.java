@@ -35,9 +35,6 @@ public interface MesonBuildExpression extends PsiElement {
   PsiElement getOctnum();
 
   @Nullable
-  PsiElement getStrmultiline();
-
-  @Nullable
   PsiElement getStrsimple();
 
 }

@@ -28,8 +28,8 @@ public class MesonBuildArrayImpl extends ASTWrapperPsiElement implements MesonBu
 
   @Override
   @NotNull
-  public List<MesonBuildExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildExpression.class);
+  public List<MesonBuildFullExpression> getFullExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullExpression.class);
   }
 
 }

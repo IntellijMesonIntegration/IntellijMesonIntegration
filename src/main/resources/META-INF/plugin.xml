@@ -23,8 +23,8 @@
 
         <lang.parserDefinition language="MesonBuildLang"
                                implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
-
-        <moduleBuilder builderClass="com.nonnulldinu.clionmeson.ide.newProject.ui.NewProjectPanel"/>
+        <lang.syntaxHighlighterFactory language="MesonBuildLang"
+                                       implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
     </extensions>
 
     <actions>

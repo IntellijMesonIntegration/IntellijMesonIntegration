@@ -32,9 +32,6 @@ public interface MesonBuildFactor extends PsiElement {
   PsiElement getOctnum();
 
   @Nullable
-  PsiElement getStrmultiline();
-
-  @Nullable
   PsiElement getStrsimple();
 
 }

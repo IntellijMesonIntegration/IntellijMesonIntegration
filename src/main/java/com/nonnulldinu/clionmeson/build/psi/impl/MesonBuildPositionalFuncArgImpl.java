@@ -28,8 +28,8 @@ public class MesonBuildPositionalFuncArgImpl extends ASTWrapperPsiElement implem
 
   @Override
   @NotNull
-  public MesonBuildExpression getExpression() {
-    return findNotNullChildByClass(MesonBuildExpression.class);
+  public MesonBuildFullExpression getFullExpression() {
+    return findNotNullChildByClass(MesonBuildFullExpression.class);
   }
 
 }

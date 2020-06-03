@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildPositionalFuncArg extends PsiElement {
 
   @NotNull
-  MesonBuildExpression getExpression();
+  MesonBuildFullExpression getFullExpression();
 
 }
