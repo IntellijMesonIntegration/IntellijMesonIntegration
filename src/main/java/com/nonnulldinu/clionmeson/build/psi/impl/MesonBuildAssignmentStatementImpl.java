@@ -33,15 +33,21 @@ public class MesonBuildAssignmentStatementImpl extends ASTWrapperPsiElement impl
   }
 
   @Override
-  @NotNull
-  public MesonBuildExpression getExpression() {
-    return findNotNullChildByClass(MesonBuildExpression.class);
+  @Nullable
+  public MesonBuildFullExpression getFullExpression() {
+    return findChildByClass(MesonBuildFullExpression.class);
   }
 
   @Override
   @NotNull
   public MesonBuildIdExpression getIdExpression() {
     return findNotNullChildByClass(MesonBuildIdExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNewline() {
+    return findChildByType(NEWLINE);
   }
 
 }

@@ -27,15 +27,15 @@ public class MesonBuildSelectionStatementImpl extends ASTWrapperPsiElement imple
   }
 
   @Override
-  @NotNull
-  public List<MesonBuildFullBoolExpression> getFullBoolExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullBoolExpression.class);
+  @Nullable
+  public MesonBuildFullBoolExpression getFullBoolExpression() {
+    return findChildByClass(MesonBuildFullBoolExpression.class);
   }
 
   @Override
-  @NotNull
-  public List<MesonBuildStatementList> getStatementListList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildStatementList.class);
+  @Nullable
+  public MesonBuildStatementList getStatementList() {
+    return findChildByClass(MesonBuildStatementList.class);
   }
 
 }

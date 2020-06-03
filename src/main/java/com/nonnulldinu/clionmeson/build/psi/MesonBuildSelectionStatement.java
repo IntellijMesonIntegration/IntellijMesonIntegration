@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface MesonBuildSelectionStatement extends PsiElement {
 
-  @NotNull
-  List<MesonBuildFullBoolExpression> getFullBoolExpressionList();
+  @Nullable
+  MesonBuildFullBoolExpression getFullBoolExpression();
 
-  @NotNull
-  List<MesonBuildStatementList> getStatementListList();
+  @Nullable
+  MesonBuildStatementList getStatementList();
 
 }

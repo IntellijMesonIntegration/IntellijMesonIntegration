@@ -13,4 +13,7 @@ public interface MesonBuildFuncCallStatement extends PsiElement {
   @NotNull
   MesonBuildFuncName getFuncName();
 
+  @Nullable
+  PsiElement getNewline();
+
 }

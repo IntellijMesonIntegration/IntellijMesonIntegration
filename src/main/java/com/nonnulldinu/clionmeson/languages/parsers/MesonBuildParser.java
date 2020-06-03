@@ -137,17 +137,19 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // id_expression atrop expression
+  // id_expression atrop full_expression newline
   public static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
     if (!nextTokenIs(b, ID)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT_STATEMENT, null);
     r = id_expression(b, l + 1);
     r = r && atrop(b, l + 1);
-    r = r && expression(b, l + 1);
-    exit_section_(b, m, ASSIGNMENT_STATEMENT, r);
-    return r;
+    p = r; // pin = 2
+    r = r && report_error_(b, full_expression(b, l + 1));
+    r = p && consumeToken(b, NEWLINE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */
@@ -307,11 +309,6 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  static boolean empty_statement(PsiBuilder b, int l) {
-    return true;
-  }
-
-  /* ********************************************************** */
   // "==" | "!="
   public static boolean equality_op(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "equality_op")) return false;
@@ -427,7 +424,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // func_name "(" [func_args] ")"
+  // func_name "(" [func_args] ")" newline
   public static boolean func_call_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "func_call_statement")) return false;
     if (!nextTokenIs(b, ID)) return false;
@@ -437,7 +434,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     r = r && consumeToken(b, PAREN_BEGIN);
     p = r; // pin = 2
     r = r && report_error_(b, func_call_statement_2(b, l + 1));
-    r = p && consumeToken(b, PAREN_END) && r;
+    r = p && report_error_(b, consumeTokens(b, -1, PAREN_END, NEWLINE)) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -450,13 +447,13 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // id
+  // id_expression
   public static boolean func_name(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "func_name")) return false;
     if (!nextTokenIs(b, ID)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, ID);
+    r = id_expression(b, l + 1);
     exit_section_(b, m, FUNC_NAME, r);
     return r;
   }
@@ -625,7 +622,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif"
+  // "if" full_bool_expression newline statement_list "endif" newline
   public static boolean selection_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "selection_statement")) return false;
     boolean r, p;
@@ -635,59 +632,27 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     r = r && report_error_(b, full_bool_expression(b, l + 1));
     r = p && report_error_(b, consumeToken(b, NEWLINE)) && r;
     r = p && report_error_(b, statement_list(b, l + 1)) && r;
-    r = p && report_error_(b, selection_statement_4(b, l + 1)) && r;
-    r = p && report_error_(b, selection_statement_5(b, l + 1)) && r;
-    r = p && consumeToken(b, LANG_TOKEN_ENDIF) && r;
+    r = p && report_error_(b, consumeTokens(b, -1, LANG_TOKEN_ENDIF, NEWLINE)) && r;
     exit_section_(b, l, m, r, p, selection_statement_recover_parser_);
     return r || p;
   }
 
-  // ("elif" full_bool_expression newline statement_list)*
-  private static boolean selection_statement_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "selection_statement_4")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!selection_statement_4_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "selection_statement_4", c)) break;
-    }
-    return true;
-  }
-
-  // "elif" full_bool_expression newline statement_list
-  private static boolean selection_statement_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "selection_statement_4_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LANG_TOKEN_ELSE_IF);
-    r = r && full_bool_expression(b, l + 1);
-    r = r && consumeToken(b, NEWLINE);
-    r = r && statement_list(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // ["else" newline statement_list]
-  private static boolean selection_statement_5(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "selection_statement_5")) return false;
-    selection_statement_5_0(b, l + 1);
-    return true;
-  }
-
-  // "else" newline statement_list
-  private static boolean selection_statement_5_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "selection_statement_5_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LANG_TOKEN_ELSE, NEWLINE);
-    r = r && statement_list(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
   /* ********************************************************** */
-  // !"endif"
+  // !"endif" newline
   static boolean selection_statement_recover(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "selection_statement_recover")) return false;
+    if (!nextTokenIs(b, NEWLINE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = selection_statement_recover_0(b, l + 1);
+    r = r && consumeToken(b, NEWLINE);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // !"endif"
+  private static boolean selection_statement_recover_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selection_statement_recover_0")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NOT_);
     r = !consumeToken(b, LANG_TOKEN_ENDIF);
@@ -720,17 +685,15 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !<<eof>> (func_call_statement | assignment_statement | selection_statement | empty_statement) newline
+  // !<<eof>> (func_call_statement | assignment_statement | selection_statement)
   public static boolean statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statement")) return false;
-    boolean r, p;
+    boolean r;
     Marker m = enter_section_(b, l, _NONE_, STATEMENT, "<statement>");
     r = statement_0(b, l + 1);
     r = r && statement_1(b, l + 1);
-    p = r; // pin = 2
-    r = r && consumeToken(b, NEWLINE);
-    exit_section_(b, l, m, r, p, statement_recover_parser_);
-    return r || p;
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   // !<<eof>>
@@ -743,7 +706,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // func_call_statement | assignment_statement | selection_statement | empty_statement
+  // func_call_statement | assignment_statement | selection_statement
   private static boolean statement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statement_1")) return false;
     boolean r;
@@ -751,7 +714,6 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     r = func_call_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
     if (!r) r = selection_statement(b, l + 1);
-    if (!r) r = empty_statement(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -774,34 +736,8 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   private static boolean statement_list_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statement_list_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = statement(b, l + 1);
     if (!r) r = consumeToken(b, NEWLINE);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // !(newline | func_call_statement | assignment_statement | selection_statement)
-  static boolean statement_recover(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "statement_recover")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NOT_);
-    r = !statement_recover_0(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // newline | func_call_statement | assignment_statement | selection_statement
-  private static boolean statement_recover_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "statement_recover_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, NEWLINE);
-    if (!r) r = func_call_statement(b, l + 1);
-    if (!r) r = assignment_statement(b, l + 1);
-    if (!r) r = selection_statement(b, l + 1);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -866,11 +802,6 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   static final Parser selection_statement_recover_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return selection_statement_recover(b, l + 1);
-    }
-  };
-  static final Parser statement_recover_parser_ = new Parser() {
-    public boolean parse(PsiBuilder b, int l) {
-      return statement_recover(b, l + 1);
     }
   };
 }

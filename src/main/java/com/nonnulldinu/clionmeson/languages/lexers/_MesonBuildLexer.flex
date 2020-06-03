@@ -22,7 +22,7 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 %type IElementType
 %unicode
 
-NEWLINE=\R
+NEWLINE=\R+
 WHITE_SPACE=\s+
 
 BINNUM=0b[01]+
