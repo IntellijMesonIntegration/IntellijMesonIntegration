@@ -25,6 +25,9 @@
                                implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
         <lang.syntaxHighlighterFactory language="MesonBuildLang"
                                        implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
+
+        <!-- Project Creation -->
+        <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGenerator"/>
     </extensions>
 
     <actions>
