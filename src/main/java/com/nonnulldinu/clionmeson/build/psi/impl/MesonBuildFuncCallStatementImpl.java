@@ -38,4 +38,10 @@ public class MesonBuildFuncCallStatementImpl extends ASTWrapperPsiElement implem
     return findNotNullChildByClass(MesonBuildFuncName.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getNewline() {
+    return findChildByType(NEWLINE);
+  }
+
 }

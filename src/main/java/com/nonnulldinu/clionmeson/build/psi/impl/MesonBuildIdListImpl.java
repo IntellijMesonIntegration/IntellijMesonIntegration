@@ -11,25 +11,19 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildFuncNameImpl extends ASTWrapperPsiElement implements MesonBuildFuncName {
+public class MesonBuildIdListImpl extends ASTWrapperPsiElement implements MesonBuildIdList {
 
-  public MesonBuildFuncNameImpl(@NotNull ASTNode node) {
+  public MesonBuildIdListImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitFuncName(this);
+    visitor.visitIdList(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof MesonBuildVisitor) accept((MesonBuildVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public MesonBuildIdExpression getIdExpression() {
-    return findNotNullChildByClass(MesonBuildIdExpression.class);
   }
 
 }

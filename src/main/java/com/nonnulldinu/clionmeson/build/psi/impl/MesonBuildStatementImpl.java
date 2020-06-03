@@ -40,14 +40,14 @@ public class MesonBuildStatementImpl extends ASTWrapperPsiElement implements Mes
 
   @Override
   @Nullable
-  public MesonBuildSelectionStatement getSelectionStatement() {
-    return findChildByClass(MesonBuildSelectionStatement.class);
+  public MesonBuildRepetitiveStatement getRepetitiveStatement() {
+    return findChildByClass(MesonBuildRepetitiveStatement.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getNewline() {
-    return findChildByType(NEWLINE);
+  public MesonBuildSelectionStatement getSelectionStatement() {
+    return findChildByClass(MesonBuildSelectionStatement.class);
   }
 
 }

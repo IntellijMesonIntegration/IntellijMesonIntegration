@@ -15,7 +15,7 @@
 
 //  psiImplUtilClass="com.nonnulldinu.clionmeson.build.psi.impl.PsiImplUtil"
   tokens=[
-    newline="regexp:\R"
+    newline="regexp:\s*\R\s*"
     SPACES="regexp:[ \t]+"
 
     IN_OP="in"
@@ -78,8 +78,7 @@
 //    strmultiline="regexp:'''(.|\n)*?'''"
     strsimple="regexp:'(\\.|[^\\'])*'"
 
-    single_line_comment="regexp://.*"
-    multiline_comment="regexp:/\*[.\n]*\*/"
+    comment="regexp:#.*"
   ]
 //  name(".*_expression")='expression'
 //  extends(".*_expression")=expression
@@ -87,22 +86,23 @@
 
 build_definition ::= statement_list
 statement_list ::= (statement | newline)*
-statement ::= !<<eof>> (func_call_statement | assignment_statement | selection_statement | empty_statement) newline {pin=2; recoverWhile=statement_recover}
-private statement_recover ::= !(newline | func_call_statement | assignment_statement | selection_statement)
-
-private empty_statement ::=
+statement ::= !<<eof>> (func_call_statement | assignment_statement | selection_statement | repetitive_statement) {pin=2; recoverWhile=statement_recover}
+private statement_recover ::= newline
 
 // assignment statement
-assignment_statement ::= id_expression atrop expression
+assignment_statement ::= id_expression atrop full_expression newline {pin=2}
 atrop ::= "=" | "+=" | "-=" | "/=" | "*=" | "%="
 
 // function call statement
-func_call_statement ::= func_name "(" [func_args] ")" {pin=2}
-func_name ::= id
+func_call_statement ::= func_name "(" [func_args] ")" newline {pin=2}
+func_name ::= id_expression
 
 // if "selection" statement
-selection_statement ::= "if" full_bool_expression newline statement_list "endif" {pin=1; recoverWhile=selection_statement_recover}
-private selection_statement_recover ::= !"endif"
+selection_statement ::= "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif" newline {pin=1; recoverWhile=selection_statement_recover}
+private selection_statement_recover ::= !"endif" newline
+
+repetitive_statement ::= "foreach" id_list ":" expression newline statement_list "endforeach" newline {pin=1; recoverWhile=repetitive_statement_recover}
+private repetitive_statement_recover ::= !"endforeach" newline
 
 func_args ::= func_arg ("," func_arg)*
 func_arg ::= keyword_elem | positional_func_arg
@@ -110,6 +110,7 @@ positional_func_arg ::= full_expression
 keyword_elem ::= id ":" full_expression
 
 id_expression ::= lvalue
+id_list ::= id ("," id)*
 
 lvalue ::= subscript_expr | id
 subscript_root ::= id
@@ -154,5 +155,3 @@ private bin_literal ::= binnum
 private oct_literal ::= octnum
 private dec_literal ::= decnum
 private hex_literal ::= hexnum
-
-fake comment ::= single_line_comment | multiline_comment

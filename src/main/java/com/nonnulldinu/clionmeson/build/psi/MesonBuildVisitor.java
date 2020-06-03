@@ -27,10 +27,6 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitComment(@NotNull MesonBuildComment o) {
-    visitPsiElement(o);
-  }
-
   public void visitConditionalAndExpression(@NotNull MesonBuildConditionalAndExpression o) {
     visitPsiElement(o);
   }
@@ -83,6 +79,10 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitIdList(@NotNull MesonBuildIdList o) {
+    visitPsiElement(o);
+  }
+
   public void visitKeywordElem(@NotNull MesonBuildKeywordElem o) {
     visitPsiElement(o);
   }
@@ -112,6 +112,10 @@ public class MesonBuildVisitor extends PsiElementVisitor {
   }
 
   public void visitRelCheckOp(@NotNull MesonBuildRelCheckOp o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRepetitiveStatement(@NotNull MesonBuildRepetitiveStatement o) {
     visitPsiElement(o);
   }
 

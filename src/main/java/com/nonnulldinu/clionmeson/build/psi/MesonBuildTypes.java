@@ -26,6 +26,7 @@ public interface MesonBuildTypes {
   IElementType FUNC_CALL_STATEMENT = new MesonBuildElement("FUNC_CALL_STATEMENT");
   IElementType FUNC_NAME = new MesonBuildElement("FUNC_NAME");
   IElementType ID_EXPRESSION = new MesonBuildElement("ID_EXPRESSION");
+  IElementType ID_LIST = new MesonBuildElement("ID_LIST");
   IElementType KEYWORD_ELEM = new MesonBuildElement("KEYWORD_ELEM");
   IElementType LVALUE = new MesonBuildElement("LVALUE");
   IElementType MUL_EXPR = new MesonBuildElement("MUL_EXPR");
@@ -34,6 +35,7 @@ public interface MesonBuildTypes {
   IElementType POSITIONAL_FUNC_ARG = new MesonBuildElement("POSITIONAL_FUNC_ARG");
   IElementType REL_CHECK_EXPR = new MesonBuildElement("REL_CHECK_EXPR");
   IElementType REL_CHECK_OP = new MesonBuildElement("REL_CHECK_OP");
+  IElementType REPETITIVE_STATEMENT = new MesonBuildElement("REPETITIVE_STATEMENT");
   IElementType SELECTION_STATEMENT = new MesonBuildElement("SELECTION_STATEMENT");
   IElementType SIMPLE_BOOL_EXPRESSION = new MesonBuildElement("SIMPLE_BOOL_EXPRESSION");
   IElementType STATEMENT = new MesonBuildElement("STATEMENT");
@@ -48,6 +50,7 @@ public interface MesonBuildTypes {
   IElementType BRACE_BEGIN = new MesonBuildToken("[");
   IElementType BRACE_END = new MesonBuildToken("]");
   IElementType COMMA = new MesonBuildToken(",");
+  IElementType COMMENT = new MesonBuildToken("comment");
   IElementType COMP_ATR_OP1 = new MesonBuildToken("*=");
   IElementType COMP_ATR_OP2 = new MesonBuildToken("/=");
   IElementType COMP_ATR_OP3 = new MesonBuildToken("%=");
@@ -82,14 +85,12 @@ public interface MesonBuildTypes {
   IElementType LANG_TOKEN_QMARK = new MesonBuildToken("?");
   IElementType MINUS_OP = new MesonBuildToken("-");
   IElementType MOD_OP = new MesonBuildToken("%");
-  IElementType MULTILINE_COMMENT = new MesonBuildToken("multiline_comment");
   IElementType MULT_OP = new MesonBuildToken("*");
   IElementType NEWLINE = new MesonBuildToken("newline");
   IElementType OCTNUM = new MesonBuildToken("octnum");
   IElementType PAREN_BEGIN = new MesonBuildToken("(");
   IElementType PAREN_END = new MesonBuildToken(")");
   IElementType PLUS_OP = new MesonBuildToken("+");
-  IElementType SINGLE_LINE_COMMENT = new MesonBuildToken("single_line_comment");
   IElementType STRSIMPLE = new MesonBuildToken("strsimple");
 
   class Factory {
@@ -149,6 +150,9 @@ public interface MesonBuildTypes {
       else if (type == ID_EXPRESSION) {
         return new MesonBuildIdExpressionImpl(node);
       }
+      else if (type == ID_LIST) {
+        return new MesonBuildIdListImpl(node);
+      }
       else if (type == KEYWORD_ELEM) {
         return new MesonBuildKeywordElemImpl(node);
       }
@@ -172,6 +176,9 @@ public interface MesonBuildTypes {
       }
       else if (type == REL_CHECK_OP) {
         return new MesonBuildRelCheckOpImpl(node);
+      }
+      else if (type == REPETITIVE_STATEMENT) {
+        return new MesonBuildRepetitiveStatementImpl(node);
       }
       else if (type == SELECTION_STATEMENT) {
         return new MesonBuildSelectionStatementImpl(node);

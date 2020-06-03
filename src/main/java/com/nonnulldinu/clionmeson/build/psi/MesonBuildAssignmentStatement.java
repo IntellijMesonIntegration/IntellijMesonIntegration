@@ -10,10 +10,13 @@ public interface MesonBuildAssignmentStatement extends PsiElement {
   @NotNull
   MesonBuildAtrop getAtrop();
 
-  @NotNull
-  MesonBuildExpression getExpression();
+  @Nullable
+  MesonBuildFullExpression getFullExpression();
 
   @NotNull
   MesonBuildIdExpression getIdExpression();
+
+  @Nullable
+  PsiElement getNewline();
 
 }

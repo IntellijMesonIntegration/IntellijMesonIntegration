@@ -5,15 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildFuncCallStatement extends PsiElement {
+public interface MesonBuildRepetitiveStatement extends PsiElement {
 
   @Nullable
-  MesonBuildFuncArgs getFuncArgs();
-
-  @NotNull
-  MesonBuildFuncName getFuncName();
+  MesonBuildExpression getExpression();
 
   @Nullable
-  PsiElement getNewline();
+  MesonBuildIdList getIdList();
+
+  @Nullable
+  MesonBuildStatementList getStatementList();
 
 }
