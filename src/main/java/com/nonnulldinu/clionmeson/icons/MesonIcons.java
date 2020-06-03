@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson;
+package com.nonnulldinu.clionmeson.icons;
 
 import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;

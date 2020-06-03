@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson.ide.newProject.ui;
+package com.nonnulldinu.clionmeson.module;
 
 import com.intellij.ide.util.projectWizard.ModuleBuilder;
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
@@ -9,6 +9,9 @@ import com.intellij.openapi.roots.ModifiableRootModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Builder which is used when a new project or module is created and not imported from source.
+ */
 public class MesonModuleBuilder extends ModuleBuilder {
 	@Override
 	public void setupRootModel(@NotNull ModifiableRootModel model) {

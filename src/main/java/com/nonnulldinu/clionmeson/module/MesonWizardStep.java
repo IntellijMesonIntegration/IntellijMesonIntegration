@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson.ide.newProject.ui;
+package com.nonnulldinu.clionmeson.module;
 
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 

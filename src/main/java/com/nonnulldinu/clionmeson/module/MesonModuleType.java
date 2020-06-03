@@ -1,11 +1,11 @@
-package com.nonnulldinu.clionmeson.ide.newProject.ui;
+package com.nonnulldinu.clionmeson.module;
 
 import com.intellij.ide.util.projectWizard.ModuleWizardStep;
 import com.intellij.ide.util.projectWizard.WizardContext;
 import com.intellij.openapi.module.ModuleType;
 import com.intellij.openapi.module.ModuleTypeManager;
 import com.intellij.openapi.roots.ui.configuration.ModulesProvider;
-import com.nonnulldinu.clionmeson.MesonIcons;
+import com.nonnulldinu.clionmeson.icons.MesonIcons;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

@@ -24,8 +24,14 @@
         <lang.parserDefinition language="MesonBuildLang"
                                implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
 
-        <moduleType id="DEMO_MODULE_TYPE" implementationClass="com.nonnulldinu.clionmeson.ide.newProject.ui.MesonModuleType"/>
-<!--        <moduleBuilder builderClass="com.nonnulldinu.clionmeson.ide.newProject.ui.MesonModuleType"/>-->
+        <!-- Project Creation -->
+        <projectOpenProcessor id="Cargo" implementation="org.rust.cargo.project.CargoProjectOpenProcessor"/>
+        <directoryProjectGenerator implementation="org.rust.ide.newProject.RsDirectoryProjectGenerator"/>
+
+        <projectOpenProcessor id="Meson" implementation="com.nonnulldinu.clionmeson.project.CLionDubProjectOpenProcessor" order="first"/>
+        <directoryProjectGenerator implementation="io.github.intellij.dlanguage.project.DlangProjectGenerator"/>
+
+        <moduleType id="DEMO_MODULE_TYPE" implementationClass="com.nonnulldinu.clionmeson.module.MesonModuleType"/>
     </extensions>
 
     <actions>
