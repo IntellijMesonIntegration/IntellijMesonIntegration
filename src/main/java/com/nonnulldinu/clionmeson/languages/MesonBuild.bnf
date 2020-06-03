@@ -19,7 +19,6 @@
     SPACES="regexp:[ \t]+"
 
     IN_OP="in"
-    NOT_OP="not"
 
     BRACE_BEGIN='['
     BRACE_END=']'
@@ -61,19 +60,23 @@
     LANG_TOKEN_ELSE='else'
     LANG_TOKEN_ENDIF='endif'
 
+    LANG_TOKEN_AND='and'
+    LANG_TOKEN_OR='or'
+    LANG_TOKEN_NOT='not'
+
     LANG_TOKEN_QMARK='?'
     LANG_TOKEN_COLON=':'
 
     LANG_TOKEN_DOT='.'
 
     binnum='regexp:0b[01]+'
+    hexnum='regexp:0x[a-fA-F0-9]+'
     octnum='regexp:0[0-7]*' // ok this was supposed to be '0[0-7]+' but we need to match '0' as well so we will do it here
     decnum='regexp:[1-9][0-9]*'
-    hexnum='regexp:0x[a-fA-F0-9]+'
     id='regexp:[a-zA-Z_][a-zA-Z_0-9]*'
 
-    strmultiline="regexp:'''[.\n]*?'''"
-    strsimple="regexp:/'([^\\']|\\\\|\\')*'/"
+//    strmultiline="regexp:'''(.|\n)*?'''"
+    strsimple="regexp:'(\\.|[^\\'])*'"
 
     single_line_comment="regexp://.*"
     multiline_comment="regexp:/\*[.\n]*\*/"
@@ -82,30 +85,37 @@
 //  extends(".*_expression")=expression
 }
 
-build_definition ::= (newline | statement)*
+build_definition ::= statement_list
+statement_list ::= (statement | newline)*
+statement ::= !<<eof>> (func_call_statement | assignment_statement | selection_statement | empty_statement) newline {pin=2; recoverWhile=statement_recover}
+private statement_recover ::= !(newline | func_call_statement | assignment_statement | selection_statement)
 
-statement ::= !<<eof>> (func_call_statement | assignment_statement) (newline) {pin=1; recoverWhile=statement_recover}
-private statement_recover ::= !(newline | func_call_statement | assignment_statement)
+private empty_statement ::=
 
 // assignment statement
 assignment_statement ::= id_expression atrop expression
 atrop ::= "=" | "+=" | "-=" | "/=" | "*=" | "%="
 
-func_call_statement ::= func_name "(" [func_args] ")"
+// function call statement
+func_call_statement ::= func_name "(" [func_args] ")" {pin=2}
 func_name ::= id
+
+// if "selection" statement
+selection_statement ::= "if" full_bool_expression newline statement_list "endif" {pin=1; recoverWhile=selection_statement_recover}
+private selection_statement_recover ::= !"endif"
 
 func_args ::= func_arg ("," func_arg)*
 func_arg ::= keyword_elem | positional_func_arg
-positional_func_arg ::= expression
-keyword_elem ::= id ":" expression
+positional_func_arg ::= full_expression
+keyword_elem ::= id ":" full_expression
 
 id_expression ::= lvalue
 
 lvalue ::= subscript_expr | id
 subscript_root ::= id
-subscript_expr ::= subscript_root ("[" expression "]")+
+subscript_expr ::= subscript_root ("[" full_expression "]")+
 
-array ::= "[" [expression ("," expression)*] "]"
+array ::= "[" [full_expression ("," full_expression)*] "]"
 dict ::= "{" [keyword_elem ("," keyword_elem)*] "}"
 
 // mult
@@ -117,11 +127,27 @@ factor ::= dict | array | par_expression | id_expression | string_literal | num_
 add_op ::= "+" | "-"
 add_expr ::= mul_expr (add_op mul_expr)*
 
+// relation check
+equality_op ::= "==" | "!="
+rel_check_op ::= "<" | ">" | "<=" | ">=" | equality_op
+rel_check_expr ::= expression rel_check_op expression {pin=2}
+
+// and, or and not
+simple_bool_expression ::= rel_check_expr | expression | "not" simple_bool_expression
+
+conditional_and_expression ::= simple_bool_expression ("and" simple_bool_expression)*
+
+conditional_or_expression ::= conditional_and_expression ("or" conditional_and_expression)*
+
+full_bool_expression ::= conditional_or_expression
+
 expression ::= dict | array | add_expr | id_expression | string_literal | num_literal | par_expression
-par_expression ::= "(" expression ")"
+par_expression ::= "(" full_expression ")"
+
+full_expression ::= full_bool_expression | expression
 
 // literals
-private string_literal ::= strsimple | strmultiline
+private string_literal ::= /*strmultiline |*/ strsimple
 
 private num_literal ::= bin_literal | oct_literal | dec_literal | hex_literal
 private bin_literal ::= binnum

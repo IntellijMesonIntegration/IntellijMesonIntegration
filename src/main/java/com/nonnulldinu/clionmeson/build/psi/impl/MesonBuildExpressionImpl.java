@@ -82,12 +82,6 @@ public class MesonBuildExpressionImpl extends ASTWrapperPsiElement implements Me
 
   @Override
   @Nullable
-  public PsiElement getStrmultiline() {
-    return findChildByType(STRMULTILINE);
-  }
-
-  @Override
-  @Nullable
   public PsiElement getStrsimple() {
     return findChildByType(STRSIMPLE);
   }

@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildSubscriptExprImpl extends ASTWrapperPsiElement implements MesonBuildSubscriptExpr {
+public class MesonBuildSimpleBoolExpressionImpl extends ASTWrapperPsiElement implements MesonBuildSimpleBoolExpression {
 
-  public MesonBuildSubscriptExprImpl(@NotNull ASTNode node) {
+  public MesonBuildSimpleBoolExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitSubscriptExpr(this);
+    visitor.visitSimpleBoolExpression(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +27,21 @@ public class MesonBuildSubscriptExprImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @NotNull
-  public List<MesonBuildFullExpression> getFullExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullExpression.class);
+  @Nullable
+  public MesonBuildExpression getExpression() {
+    return findChildByClass(MesonBuildExpression.class);
   }
 
   @Override
-  @NotNull
-  public MesonBuildSubscriptRoot getSubscriptRoot() {
-    return findNotNullChildByClass(MesonBuildSubscriptRoot.class);
+  @Nullable
+  public MesonBuildRelCheckExpr getRelCheckExpr() {
+    return findChildByClass(MesonBuildRelCheckExpr.class);
+  }
+
+  @Override
+  @Nullable
+  public MesonBuildSimpleBoolExpression getSimpleBoolExpression() {
+    return findChildByClass(MesonBuildSimpleBoolExpression.class);
   }
 
 }

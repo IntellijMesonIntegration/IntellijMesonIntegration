@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildSubscriptExpr extends PsiElement {
 
   @NotNull
-  List<MesonBuildExpression> getExpressionList();
+  List<MesonBuildFullExpression> getFullExpressionList();
 
   @NotNull
   MesonBuildSubscriptRoot getSubscriptRoot();

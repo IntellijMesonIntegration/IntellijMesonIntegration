@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildPositionalFuncArg extends PsiElement {
-
-  @NotNull
-  MesonBuildFullExpression getFullExpression();
+public interface MesonBuildEqualityOp extends PsiElement {
 
 }
