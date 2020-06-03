@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildCommentImpl extends ASTWrapperPsiElement implements MesonBuildComment {
+public class MesonBuildRepetitiveStatementImpl extends ASTWrapperPsiElement implements MesonBuildRepetitiveStatement {
 
-  public MesonBuildCommentImpl(@NotNull ASTNode node) {
+  public MesonBuildRepetitiveStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitComment(this);
+    visitor.visitRepetitiveStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,14 +28,20 @@ public class MesonBuildCommentImpl extends ASTWrapperPsiElement implements Meson
 
   @Override
   @Nullable
-  public PsiElement getMultilineComment() {
-    return findChildByType(MULTILINE_COMMENT);
+  public MesonBuildExpression getExpression() {
+    return findChildByClass(MesonBuildExpression.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getSingleLineComment() {
-    return findChildByType(SINGLE_LINE_COMMENT);
+  public MesonBuildIdList getIdList() {
+    return findChildByClass(MesonBuildIdList.class);
+  }
+
+  @Override
+  @Nullable
+  public MesonBuildStatementList getStatementList() {
+    return findChildByClass(MesonBuildStatementList.class);
   }
 
 }

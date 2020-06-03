@@ -14,6 +14,9 @@ public interface MesonBuildStatement extends PsiElement {
   MesonBuildFuncCallStatement getFuncCallStatement();
 
   @Nullable
+  MesonBuildRepetitiveStatement getRepetitiveStatement();
+
+  @Nullable
   MesonBuildSelectionStatement getSelectionStatement();
 
 }

@@ -15,7 +15,7 @@
 
 //  psiImplUtilClass="com.nonnulldinu.clionmeson.build.psi.impl.PsiImplUtil"
   tokens=[
-    newline="regexp:\R\s*\R?"
+    newline="regexp:\s*\R\s*"
     SPACES="regexp:[ \t]+"
 
     IN_OP="in"
@@ -78,8 +78,7 @@
 //    strmultiline="regexp:'''(.|\n)*?'''"
     strsimple="regexp:'(\\.|[^\\'])*'"
 
-    single_line_comment="regexp://.*"
-    multiline_comment="regexp:/\*[.\n]*\*/"
+    comment="regexp:#.*"
   ]
 //  name(".*_expression")='expression'
 //  extends(".*_expression")=expression
@@ -156,5 +155,3 @@ private bin_literal ::= binnum
 private oct_literal ::= octnum
 private dec_literal ::= decnum
 private hex_literal ::= hexnum
-
-fake comment ::= single_line_comment | multiline_comment

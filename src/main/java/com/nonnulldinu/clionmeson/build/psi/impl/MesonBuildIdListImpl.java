@@ -11,31 +11,19 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildSelectionStatementImpl extends ASTWrapperPsiElement implements MesonBuildSelectionStatement {
+public class MesonBuildIdListImpl extends ASTWrapperPsiElement implements MesonBuildIdList {
 
-  public MesonBuildSelectionStatementImpl(@NotNull ASTNode node) {
+  public MesonBuildIdListImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitSelectionStatement(this);
+    visitor.visitIdList(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof MesonBuildVisitor) accept((MesonBuildVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<MesonBuildFullBoolExpression> getFullBoolExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullBoolExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public List<MesonBuildStatementList> getStatementListList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildStatementList.class);
   }
 
 }

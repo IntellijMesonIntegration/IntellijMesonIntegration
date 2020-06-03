@@ -22,10 +22,8 @@ public class MesonBuildSyntaxHighlighter extends SyntaxHighlighterBase {
             createTextAttributesKey("MESON_BUILD_STR_VALUE", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey NUM_VALUE =
             createTextAttributesKey("MESON_BUILD_NUM_VALUE", DefaultLanguageHighlighterColors.NUMBER);
-    public static final TextAttributesKey LINE_COMMENT =
-            createTextAttributesKey("MESON_BUILD_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
-    public static final TextAttributesKey BLOCK_COMMENT =
-            createTextAttributesKey("MESON_BUILD_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT);
+    public static final TextAttributesKey COMMENT =
+            createTextAttributesKey("MESON_BUILD_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey BAD_CHARACTER =
             createTextAttributesKey("MESON_BUILD_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
@@ -35,8 +33,7 @@ public class MesonBuildSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] KEYWORD_KEYS = new TextAttributesKey[]{KEYWORD};
     private static final TextAttributesKey[] STR_VALUE_KEYS = new TextAttributesKey[]{STR_VALUE};
     private static final TextAttributesKey[] NUM_VALUE_KEYS = new TextAttributesKey[]{NUM_VALUE};
-    private static final TextAttributesKey[] LINE_COMMENT_KEYS = new TextAttributesKey[]{LINE_COMMENT};
-    private static final TextAttributesKey[] BLOCK_COMMENT_KEYS = new TextAttributesKey[]{BLOCK_COMMENT};
+    private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
@@ -92,10 +89,8 @@ public class MesonBuildSyntaxHighlighter extends SyntaxHighlighterBase {
         } else if (tokenType.equals(MesonBuildTypes.BINNUM) || tokenType.equals(MesonBuildTypes.OCTNUM)
                 || tokenType.equals(MesonBuildTypes.DECNUM) || tokenType.equals(MesonBuildTypes.HEXNUM)) {
             return NUM_VALUE_KEYS;
-        } else if (tokenType.equals(MesonBuildTypes.SINGLE_LINE_COMMENT)) {
-            return LINE_COMMENT_KEYS;
-        } else if (tokenType.equals(MesonBuildTypes.MULTILINE_COMMENT)) {
-            return BLOCK_COMMENT_KEYS;
+        } else if (tokenType.equals(MesonBuildTypes.COMMENT)) {
+            return COMMENT_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;
         } else {
