@@ -1,60 +1,26 @@
 package com.nonnulldinu.clionmeson.project;
 
-import com.intellij.execution.RunManager;
-import com.intellij.execution.RunnerAndConfigurationSettings;
-import com.intellij.execution.configurations.ConfigurationFactory;
-import com.intellij.execution.configurations.ConfigurationTypeUtil;
-import com.intellij.execution.process.ProcessAdapter;
-import com.intellij.execution.process.ProcessEvent;
 import com.intellij.ide.util.projectWizard.AbstractNewProjectStep;
 import com.intellij.ide.util.projectWizard.CustomStepProjectGenerator;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.impl.SimpleDataContext;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.application.WriteAction;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.progress.PerformInBackgroundOption;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.vfs.VfsUtilCore;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.impl.welcomeScreen.AbstractActionWithPanel;
 import com.intellij.platform.DirectoryProjectGenerator;
 import com.intellij.platform.GeneratorPeerImpl;
 import com.intellij.platform.ProjectGeneratorPeer;
-import com.intellij.util.ExceptionUtil;
-import com.intellij.util.concurrency.Semaphore;
-import com.intellij.util.containers.ContainerUtil;
-import com.intellij.util.messages.MessageBusConnection;
-import com.jetbrains.cidr.cpp.cmake.CMakeSettings;
-import com.jetbrains.cidr.cpp.cmake.model.CMakeModelConfigurationData;
-import com.jetbrains.cidr.cpp.cmake.model.CMakeTarget;
 import com.jetbrains.cidr.cpp.cmake.projectWizard.generators.CLionProjectGenerator;
-import com.jetbrains.cidr.cpp.cmake.workspace.CMakeWorkspace;
-import com.jetbrains.cidr.cpp.cmake.workspace.CMakeWorkspaceListener;
 //import com.jetbrains.cidr.cpp.embedded.platformio.ClionEmbeddedPlatformioBundle;
 //import com.jetbrains.cidr.cpp.embedded.platformio.CustomTool;
 //import com.jetbrains.cidr.cpp.embedded.platformio.PlatformioBaseConfiguration;
 //import com.jetbrains.cidr.cpp.embedded.platformio.PlatformioConfigurationType;
-import com.jetbrains.cidr.cpp.execution.CMakeBuildConfigurationHelper;
-import com.jetbrains.cidr.cpp.execution.CMakeRunConfigurationType;
-import com.jetbrains.cidr.execution.BuildTargetAndConfigurationData;
-import com.jetbrains.cidr.execution.BuildTargetData;
-import com.jetbrains.cidr.execution.ExecutableData;
 import com.nonnulldinu.clionmeson.icons.PluginIcons;
-import com.nonnulldinu.clionmeson.module.MesonWizardStep;
+import com.nonnulldinu.clionmeson.module.MesonProjectSettingsStep;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 //import static com.jetbrains.cidr.cpp.embedded.stm32cubemx.CMakeSTM32CubeMXProjectGenerator.EMBEDDED_PROJECTS_GROUP_NAME;
 
@@ -63,8 +29,7 @@ public class MesonProjectGenerator extends CLionProjectGenerator<Ref<String[]>> 
 	@Override
 	public AbstractActionWithPanel createStep(DirectoryProjectGenerator<Ref<String[]>> projectGenerator,
 	                                          AbstractNewProjectStep.AbstractCallback<Ref<String[]>> callback) {
-		return new MesonWizardStep(projectGenerator, callback);
-//		return new PlatformioProjectSettingsStep(projectGenerator, callback);
+		return new MesonProjectSettingsStep(projectGenerator, callback);
 	}
 
 	@Nullable
@@ -76,7 +41,7 @@ public class MesonProjectGenerator extends CLionProjectGenerator<Ref<String[]>> 
 	@NotNull
 	@Override
 	public String getGroupName() {
-		return "Meson";
+		return "C++";
 	}
 
 	@NotNull
