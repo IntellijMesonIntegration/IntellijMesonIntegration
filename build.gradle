@@ -20,6 +20,9 @@ intellij {
     version '2020.1.1'
 }
 patchPluginXml {
-    changeNotes """Nothing at the moment"""
+    changeNotes """
+        0.0.1 - To be released:
+        - Meson syntax highlight
+"""
 }
 sourceSets.main.java.srcDirs 'src/main/gen'
