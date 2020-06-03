@@ -62,10 +62,7 @@ public class MesonProjectGenerator extends CLionProjectGenerator<Ref<String[]>> 
 	}
 
 	@Override
-	public void generateProject(@NotNull Project project,
-	                            @NotNull VirtualFile baseDir,
-	                            @NotNull Ref<String[]> settings,
-	                            @NotNull Module module) {
+	public void generateProject(@NotNull Project project, @NotNull VirtualFile baseDir, @NotNull Ref<String[]> settings, @NotNull Module module) {
 		StringBuilder pioCmdLineTail = new StringBuilder();
 		for (String s : settings.get()) {
 			pioCmdLineTail.append(' ').append(s);
