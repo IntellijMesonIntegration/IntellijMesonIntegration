@@ -1,44 +1,18 @@
 package com.nonnulldinu.clionmeson.module;
 
-import com.intellij.ide.util.projectWizard.ModuleWizardStep;
-import com.intellij.execution.ExecutionException;
-import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.CapturingProcessHandler;
-import com.intellij.execution.process.CapturingProcessRunner;
-import com.intellij.execution.process.ProcessOutput;
 import com.intellij.ide.util.projectWizard.AbstractNewProjectStep;
 import com.intellij.ide.util.projectWizard.ProjectSettingsStepBase;
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationType;
-import com.intellij.notification.Notifications;
-import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.progress.ProgressIndicator;
-import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.ui.ComboBox;
-import com.intellij.openapi.ui.VerticalFlowLayout;
 import com.intellij.openapi.util.Ref;
-import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.platform.DirectoryProjectGenerator;
-import com.intellij.ui.ColoredTreeCellRenderer;
-import com.intellij.ui.SimpleTextAttributes;
-import com.intellij.ui.TreeSpeedSearch;
-import com.intellij.ui.components.JBLabel;
-import com.intellij.ui.components.JBScrollPane;
-import com.intellij.ui.treeStructure.Tree;
-import com.intellij.util.ArrayUtil;
-import com.intellij.util.ExceptionUtil;
 import com.intellij.util.ui.JBUI;
-import com.intellij.util.ui.components.BorderLayoutPanel;
-//import com.jetbrains.cidr.cpp.embedded.platformio.ClionEmbeddedPlatformioBundle;
-//import com.jetbrains.cidr.cpp.embedded.platformio.PlatformioBaseConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MesonProjectSettingsStep extends ProjectSettingsStepBase<Ref<String[]>> {
-//	private final ComboBox language;
-//	private final ComboBox standard;
 
 	public MesonProjectSettingsStep(DirectoryProjectGenerator<Ref<String[]>> projectGenerator, AbstractNewProjectStep.AbstractCallback<Ref<String[]>> callback) {
 		super(projectGenerator, callback);
@@ -59,8 +33,7 @@ public class MesonProjectSettingsStep extends ProjectSettingsStepBase<Ref<String
 
 		// standard label and combobox
 		final JLabel standardLabel = new JLabel("Language standard:");
-		ComboBox standardCombobox = new ComboBox<>(new String[] {"C11", "C14", "C17"});
-		standardCombobox.setSelectedItem("C17");
+		ComboBox standardCombobox = new ComboBox<>();
 
 		jPanel.add(standardLabel, new GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0));
 		jPanel.add(standardCombobox, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0));
@@ -68,21 +41,35 @@ public class MesonProjectSettingsStep extends ProjectSettingsStepBase<Ref<String
 		// create the spacer to push the items to the top left corner
 		jPanel.add(Box.createGlue(), new GridBagConstraints(2, 2, 1, 2, 1, 1, GridBagConstraints.CENTER, 0, JBUI.emptyInsets(), 0, 0));
 
+		// listeners
+		languageCombobox.addActionListener (new ActionListener() { // see: https://stackoverflow.com/questions/58939/jcombobox-selection-change-listener
+			public void actionPerformed(ActionEvent e) {
+				DefaultComboBoxModel model;
+				switch(languageCombobox.getSelectedIndex()) {
+					case 0:
+						model = new DefaultComboBoxModel(new String[] {"C90", "C99", "C11"});
+						break;
+					case 1:
+						model = new DefaultComboBoxModel(new String[] {"C++98", "C++11", "C++14", "C++17", "C++20"});
+						break;
+					case 2:
+						model = new DefaultComboBoxModel(new String[] {"Rust v1.38.0"});
+						break;
+					case 3:
+						model = new DefaultComboBoxModel(new String[] {"Java 8", "Java 11", "Java 14"});
+						break;
+					default:
+						model = new DefaultComboBoxModel();
+				}
+				standardCombobox.setModel(model);
+				standardCombobox.setSelectedIndex(standardCombobox.getModel().getSize() - 1);
+			}
+		});
+
+		// emit the signal update the standardCombobox and select the last standard
+		languageCombobox.actionPerformed(null);
+		standardCombobox.setSelectedIndex(standardCombobox.getModel().getSize() - 1);
+
 		return jPanel;
 	}
-
-//	// todo: maybe remove?
-//	@Override
-//	public boolean checkValid() {
-//		if (!super.checkValid()) return false;
-//		Ref<String[]> settings = getPeer().getSettings();
-//		if (settings.isNull() || settings.get().length == 0) {
-//			setWarningText("Please select target");
-//			return false;
-//		}
-//		else {
-//			setErrorText(null);
-//			return true;
-//		}
-//	}
 }
