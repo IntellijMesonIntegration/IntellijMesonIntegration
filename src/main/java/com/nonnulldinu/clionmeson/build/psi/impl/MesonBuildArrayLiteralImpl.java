@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildLvalueImpl extends ASTWrapperPsiElement implements MesonBuildLvalue {
+public class MesonBuildArrayLiteralImpl extends ASTWrapperPsiElement implements MesonBuildArrayLiteral {
 
-  public MesonBuildLvalueImpl(@NotNull ASTNode node) {
+  public MesonBuildArrayLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitLvalue(this);
+    visitor.visitArrayLiteral(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +27,9 @@ public class MesonBuildLvalueImpl extends ASTWrapperPsiElement implements MesonB
   }
 
   @Override
-  @Nullable
-  public MesonBuildSubscriptExpr getSubscriptExpr() {
-    return findChildByClass(MesonBuildSubscriptExpr.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
+  @NotNull
+  public List<MesonBuildFullExpression> getFullExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullExpression.class);
   }
 
 }

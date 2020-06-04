@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildFactorImpl extends ASTWrapperPsiElement implements MesonBuildFactor {
+public class MesonBuildAtomImpl extends ASTWrapperPsiElement implements MesonBuildAtom {
 
-  public MesonBuildFactorImpl(@NotNull ASTNode node) {
+  public MesonBuildAtomImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitFactor(this);
+    visitor.visitAtom(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,38 +28,32 @@ public class MesonBuildFactorImpl extends ASTWrapperPsiElement implements MesonB
 
   @Override
   @Nullable
-  public MesonBuildArray getArray() {
-    return findChildByClass(MesonBuildArray.class);
+  public MesonBuildArrayLiteral getArrayLiteral() {
+    return findChildByClass(MesonBuildArrayLiteral.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildDict getDict() {
-    return findChildByClass(MesonBuildDict.class);
+  public MesonBuildDictLiteral getDictLiteral() {
+    return findChildByClass(MesonBuildDictLiteral.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildFuncCallExpression getFuncCallExpression() {
-    return findChildByClass(MesonBuildFuncCallExpression.class);
+  public MesonBuildFullExpression getFullExpression() {
+    return findChildByClass(MesonBuildFullExpression.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildIdExpression getIdExpression() {
-    return findChildByClass(MesonBuildIdExpression.class);
+  public MesonBuildNumLiteralUnary getNumLiteralUnary() {
+    return findChildByClass(MesonBuildNumLiteralUnary.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildMethodCallChain getMethodCallChain() {
-    return findChildByClass(MesonBuildMethodCallChain.class);
-  }
-
-  @Override
-  @Nullable
-  public MesonBuildParExpression getParExpression() {
-    return findChildByClass(MesonBuildParExpression.class);
+  public MesonBuildSubscriptMethodChainExpr getSubscriptMethodChainExpr() {
+    return findChildByClass(MesonBuildSubscriptMethodChainExpr.class);
   }
 
   @Override

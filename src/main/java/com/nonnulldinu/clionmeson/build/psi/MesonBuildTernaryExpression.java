@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildTernaryExpression extends PsiElement {
 
   @NotNull
-  MesonBuildFullBoolExpression getFullBoolExpression();
+  MesonBuildConditionalOrExpression getConditionalOrExpression();
 
   @NotNull
   List<MesonBuildFullExpression> getFullExpressionList();

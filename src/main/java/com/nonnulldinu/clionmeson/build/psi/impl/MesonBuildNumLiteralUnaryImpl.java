@@ -27,12 +27,6 @@ public class MesonBuildNumLiteralUnaryImpl extends ASTWrapperPsiElement implemen
   }
 
   @Override
-  @NotNull
-  public MesonBuildUnaryNumOp getUnaryNumOp() {
-    return findNotNullChildByClass(MesonBuildUnaryNumOp.class);
-  }
-
-  @Override
   @Nullable
   public PsiElement getBinnum() {
     return findChildByType(BINNUM);

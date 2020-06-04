@@ -28,26 +28,20 @@ public class MesonBuildMethodCallExpressionBaseImpl extends ASTWrapperPsiElement
 
   @Override
   @Nullable
-  public MesonBuildArray getArray() {
-    return findChildByClass(MesonBuildArray.class);
+  public MesonBuildArrayLiteral getArrayLiteral() {
+    return findChildByClass(MesonBuildArrayLiteral.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildDict getDict() {
-    return findChildByClass(MesonBuildDict.class);
+  public MesonBuildDictLiteral getDictLiteral() {
+    return findChildByClass(MesonBuildDictLiteral.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildFuncCallExpression getFuncCallExpression() {
-    return findChildByClass(MesonBuildFuncCallExpression.class);
-  }
-
-  @Override
-  @Nullable
-  public MesonBuildParExpression getParExpression() {
-    return findChildByClass(MesonBuildParExpression.class);
+  public MesonBuildNumLiteralUnary getNumLiteralUnary() {
+    return findChildByClass(MesonBuildNumLiteralUnary.class);
   }
 
   @Override

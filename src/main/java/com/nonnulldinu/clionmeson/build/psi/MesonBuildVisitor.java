@@ -11,11 +11,7 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAddOp(@NotNull MesonBuildAddOp o) {
-    visitPsiElement(o);
-  }
-
-  public void visitArray(@NotNull MesonBuildArray o) {
+  public void visitArrayLiteral(@NotNull MesonBuildArrayLiteral o) {
     visitPsiElement(o);
   }
 
@@ -23,11 +19,11 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAtrop(@NotNull MesonBuildAtrop o) {
+  public void visitAtom(@NotNull MesonBuildAtom o) {
     visitPsiElement(o);
   }
 
-  public void visitBoolLiteral(@NotNull MesonBuildBoolLiteral o) {
+  public void visitAtrop(@NotNull MesonBuildAtrop o) {
     visitPsiElement(o);
   }
 
@@ -43,19 +39,7 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitDict(@NotNull MesonBuildDict o) {
-    visitPsiElement(o);
-  }
-
-  public void visitEqualityOp(@NotNull MesonBuildEqualityOp o) {
-    visitPsiElement(o);
-  }
-
-  public void visitExpression(@NotNull MesonBuildExpression o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFactor(@NotNull MesonBuildFactor o) {
+  public void visitDictLiteral(@NotNull MesonBuildDictLiteral o) {
     visitPsiElement(o);
   }
 
@@ -64,10 +48,6 @@ public class MesonBuildVisitor extends PsiElementVisitor {
   }
 
   public void visitForStatementList(@NotNull MesonBuildForStatementList o) {
-    visitPsiElement(o);
-  }
-
-  public void visitFullBoolExpression(@NotNull MesonBuildFullBoolExpression o) {
     visitPsiElement(o);
   }
 
@@ -103,19 +83,7 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitIndexExpr(@NotNull MesonBuildIndexExpr o) {
-    visitPsiElement(o);
-  }
-
   public void visitKeywordElem(@NotNull MesonBuildKeywordElem o) {
-    visitPsiElement(o);
-  }
-
-  public void visitLvalue(@NotNull MesonBuildLvalue o) {
-    visitPsiElement(o);
-  }
-
-  public void visitMethodCallChain(@NotNull MesonBuildMethodCallChain o) {
     visitPsiElement(o);
   }
 
@@ -139,19 +107,15 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitParExpression(@NotNull MesonBuildParExpression o) {
-    visitPsiElement(o);
-  }
-
   public void visitPositionalFuncArg(@NotNull MesonBuildPositionalFuncArg o) {
     visitPsiElement(o);
   }
 
-  public void visitRelCheckExpr(@NotNull MesonBuildRelCheckExpr o) {
+  public void visitRelationCheck(@NotNull MesonBuildRelationCheck o) {
     visitPsiElement(o);
   }
 
-  public void visitRelCheckOp(@NotNull MesonBuildRelCheckOp o) {
+  public void visitRelationCheckOp(@NotNull MesonBuildRelationCheckOp o) {
     visitPsiElement(o);
   }
 
@@ -163,10 +127,6 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitSimpleBoolExpression(@NotNull MesonBuildSimpleBoolExpression o) {
-    visitPsiElement(o);
-  }
-
   public void visitStatement(@NotNull MesonBuildStatement o) {
     visitPsiElement(o);
   }
@@ -175,19 +135,11 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitSubscriptExpr(@NotNull MesonBuildSubscriptExpr o) {
-    visitPsiElement(o);
-  }
-
-  public void visitSubscriptRoot(@NotNull MesonBuildSubscriptRoot o) {
+  public void visitSubscriptMethodChainExpr(@NotNull MesonBuildSubscriptMethodChainExpr o) {
     visitPsiElement(o);
   }
 
   public void visitTernaryExpression(@NotNull MesonBuildTernaryExpression o) {
-    visitPsiElement(o);
-  }
-
-  public void visitUnaryNumOp(@NotNull MesonBuildUnaryNumOp o) {
     visitPsiElement(o);
   }
 

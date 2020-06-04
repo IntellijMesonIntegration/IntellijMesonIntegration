@@ -106,7 +106,7 @@ func_name ::= id
 selection_statement ::= "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif" newline {pin=1; recoverWhile=selection_statement_recover}
 private selection_statement_recover ::= !"endif" newline
 
-repetitive_statement ::= "foreach" id_list ":" expression newline for_statement_list "endforeach" newline {pin=1; recoverWhile=repetitive_statement_recover}
+repetitive_statement ::= "foreach" id_list ":" full_expression newline for_statement_list "endforeach" newline {pin=1; recoverWhile=repetitive_statement_recover}
 private repetitive_statement_recover ::= !"endforeach" newline
 
 func_args ::= newline? func_arg (newline? "," newline? func_arg)*(","? newline?)
@@ -114,61 +114,48 @@ func_arg ::= keyword_elem | positional_func_arg
 positional_func_arg ::= full_expression
 keyword_elem ::= id ":" full_expression
 
-id_expression ::= lvalue
+id_expression ::= id
 id_list ::= id ("," id)*
 
-method_call_expression_base ::= dict | array | func_call_expression | par_expression | id | string_literal | num_literal
-method_call_chain ::= method_call_expression_base ("." func_call_expression | index_expr)+
-method_call_statement ::= method_call_chain newline
+method_call_expression_base ::= id | literal
+subscript_method_chain_expr ::= method_call_expression_base ("." func_call_expression | index_expr)+
+method_call_statement ::= subscript_method_chain_expr newline
 
-lvalue ::= subscript_expr | id
-subscript_root ::= method_call_chain | id
-index_expr ::= "[" full_expression "]"
-subscript_expr ::= subscript_root index_expr+
+private index_expr ::= "[" add_expr "]"
 
-array ::= "[" [newline? full_expression (newline? "," newline? full_expression)*] (","? newline?) "]"
-dict ::= "{" [newline? keyword_elem (newline? "," newline? keyword_elem)*] (","? newline?) "}"
+array_literal ::= "[" [newline? full_expression (newline? "," newline? full_expression)*] (","? newline?) "]"
+dict_literal ::= "{" [newline? keyword_elem (newline? "," newline? keyword_elem)*] (","? newline?) "}"
 
-// mult
-mul_op ::= "*" | "/" | "%"
-mul_expr ::= factor (mul_op factor)*
-factor ::= dict | array | method_call_chain | func_call_expression | par_expression | id_expression | string_literal | num_literal
+mul_op ::= '*' | '/' | '%'
+mul_expr ::= atom (mul_op atom)*
 
-// add
-add_op ::= "+" | "-"
+private add_op ::= '+' | '-'
 add_expr ::= mul_expr (add_op mul_expr)*
 
-// relation check
-equality_op ::= "==" | "!="
-rel_check_op ::= "<" | ">" | "<=" | ">=" | equality_op
-rel_check_expr ::= expression rel_check_op expression {pin=2}
+private eq_op ::= '==' | '!='
+relation_check_op ::= '>=' | '>' | '<=' | '<' | eq_op
+relation_check ::= add_expr relation_check_op add_expr {pin=2}
 
-// boolean logic
-bool_literal ::= "true" | "false"
-
-unary_num_op ::= "+" | "-"
-
-// and, or and not
-simple_bool_expression ::= rel_check_expr | method_call_chain | func_call_expression | expression | par_expression | id | bool_literal | "not" simple_bool_expression
-
-conditional_and_expression ::= simple_bool_expression ("and" simple_bool_expression)*
-
+private bool_atom ::= bool_literal | relation_check | par_expression | "not" bool_atom
+conditional_and_expression ::= bool_atom ("and" bool_atom)*
 conditional_or_expression ::= conditional_and_expression ("or" conditional_and_expression)*
 
-full_bool_expression ::= conditional_or_expression
+atom ::= literal | subscript_method_chain_expr | func_call_expression (index_expr)* | par_expression | id
 
-expression ::= dict | array | add_expr | string_literal | num_literal_unary | num_literal | par_expression
-par_expression ::= "(" full_expression ")"
+ternary_expression ::= (conditional_or_expression | add_expr) "?" full_expression ":" full_expression {pin=2}
 
-ternary_expression ::= full_bool_expression "?" full_expression ":" full_expression
-
-full_expression ::= ternary_expression | full_bool_expression | expression
+full_expression ::= ternary_expression | conditional_or_expression | add_expr
+private par_expression ::= "(" full_expression ")"
+private full_bool_expression ::= full_expression
 
 // literals
+private literal ::= dict_literal | array_literal | num_literal | string_literal | num_literal_unary | bool_literal
 private string_literal ::= strmultiline | strsimple
 
 num_literal_unary ::= unary_num_op num_literal
 private num_literal ::= bin_literal | oct_literal | dec_literal | hex_literal
+private bool_literal ::= "true" | "false"
+private unary_num_op ::= "+" | "-"
 private bin_literal ::= binnum
 private oct_literal ::= octnum
 private dec_literal ::= decnum

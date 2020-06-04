@@ -28,14 +28,14 @@ public class MesonBuildRepetitiveStatementImpl extends ASTWrapperPsiElement impl
 
   @Override
   @Nullable
-  public MesonBuildExpression getExpression() {
-    return findChildByClass(MesonBuildExpression.class);
+  public MesonBuildForStatementList getForStatementList() {
+    return findChildByClass(MesonBuildForStatementList.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildForStatementList getForStatementList() {
-    return findChildByClass(MesonBuildForStatementList.class);
+  public MesonBuildFullExpression getFullExpression() {
+    return findChildByClass(MesonBuildFullExpression.class);
   }
 
   @Override

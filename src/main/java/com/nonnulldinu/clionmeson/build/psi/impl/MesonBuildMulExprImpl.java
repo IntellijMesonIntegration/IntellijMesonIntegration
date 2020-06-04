@@ -28,8 +28,8 @@ public class MesonBuildMulExprImpl extends ASTWrapperPsiElement implements Meson
 
   @Override
   @NotNull
-  public List<MesonBuildFactor> getFactorList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFactor.class);
+  public List<MesonBuildAtom> getAtomList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildAtom.class);
   }
 
   @Override

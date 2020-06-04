@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildRelCheckOpImpl extends ASTWrapperPsiElement implements MesonBuildRelCheckOp {
+public class MesonBuildSubscriptMethodChainExprImpl extends ASTWrapperPsiElement implements MesonBuildSubscriptMethodChainExpr {
 
-  public MesonBuildRelCheckOpImpl(@NotNull ASTNode node) {
+  public MesonBuildSubscriptMethodChainExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitRelCheckOp(this);
+    visitor.visitSubscriptMethodChainExpr(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,9 +27,21 @@ public class MesonBuildRelCheckOpImpl extends ASTWrapperPsiElement implements Me
   }
 
   @Override
-  @Nullable
-  public MesonBuildEqualityOp getEqualityOp() {
-    return findChildByClass(MesonBuildEqualityOp.class);
+  @NotNull
+  public List<MesonBuildAtom> getAtomList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildAtom.class);
+  }
+
+  @Override
+  @NotNull
+  public List<MesonBuildFuncCallExpression> getFuncCallExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFuncCallExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public MesonBuildMethodCallExpressionBase getMethodCallExpressionBase() {
+    return findNotNullChildByClass(MesonBuildMethodCallExpressionBase.class);
   }
 
 }

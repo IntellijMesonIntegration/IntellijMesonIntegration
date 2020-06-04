@@ -5,22 +5,22 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildExpression extends PsiElement {
+public interface MesonBuildAtom extends PsiElement {
 
   @Nullable
-  MesonBuildAddExpr getAddExpr();
+  MesonBuildArrayLiteral getArrayLiteral();
 
   @Nullable
-  MesonBuildArray getArray();
+  MesonBuildDictLiteral getDictLiteral();
 
   @Nullable
-  MesonBuildDict getDict();
+  MesonBuildFullExpression getFullExpression();
 
   @Nullable
   MesonBuildNumLiteralUnary getNumLiteralUnary();
 
   @Nullable
-  MesonBuildParExpression getParExpression();
+  MesonBuildSubscriptMethodChainExpr getSubscriptMethodChainExpr();
 
   @Nullable
   PsiElement getBinnum();

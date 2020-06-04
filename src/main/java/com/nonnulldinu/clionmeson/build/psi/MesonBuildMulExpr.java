@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildMulExpr extends PsiElement {
 
   @NotNull
-  List<MesonBuildFactor> getFactorList();
+  List<MesonBuildAtom> getAtomList();
 
   @NotNull
   List<MesonBuildMulOp> getMulOpList();

@@ -70,118 +70,116 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "+" | "-"
-  public static boolean add_op(PsiBuilder b, int l) {
+  // '+' | '-'
+  static boolean add_op(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "add_op")) return false;
-    if (!nextTokenIs(b, "<add op>", MINUS_OP, PLUS_OP)) return false;
+    if (!nextTokenIs(b, "", MINUS_OP, PLUS_OP)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ADD_OP, "<add op>");
     r = consumeToken(b, PLUS_OP);
     if (!r) r = consumeToken(b, MINUS_OP);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
   // "[" [newline? full_expression (newline? "," newline? full_expression)*] (","? newline?) "]"
-  public static boolean array(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array")) return false;
+  public static boolean array_literal(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal")) return false;
     if (!nextTokenIs(b, BRACE_BEGIN)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, BRACE_BEGIN);
-    r = r && array_1(b, l + 1);
-    r = r && array_2(b, l + 1);
+    r = r && array_literal_1(b, l + 1);
+    r = r && array_literal_2(b, l + 1);
     r = r && consumeToken(b, BRACE_END);
-    exit_section_(b, m, ARRAY, r);
+    exit_section_(b, m, ARRAY_LITERAL, r);
     return r;
   }
 
   // [newline? full_expression (newline? "," newline? full_expression)*]
-  private static boolean array_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_1")) return false;
-    array_1_0(b, l + 1);
+  private static boolean array_literal_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_1")) return false;
+    array_literal_1_0(b, l + 1);
     return true;
   }
 
   // newline? full_expression (newline? "," newline? full_expression)*
-  private static boolean array_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_1_0")) return false;
+  private static boolean array_literal_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = array_1_0_0(b, l + 1);
+    r = array_literal_1_0_0(b, l + 1);
     r = r && full_expression(b, l + 1);
-    r = r && array_1_0_2(b, l + 1);
+    r = r && array_literal_1_0_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // newline?
-  private static boolean array_1_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_1_0_0")) return false;
+  private static boolean array_literal_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_1_0_0")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
 
   // (newline? "," newline? full_expression)*
-  private static boolean array_1_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_1_0_2")) return false;
+  private static boolean array_literal_1_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_1_0_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!array_1_0_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "array_1_0_2", c)) break;
+      if (!array_literal_1_0_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "array_literal_1_0_2", c)) break;
     }
     return true;
   }
 
   // newline? "," newline? full_expression
-  private static boolean array_1_0_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_1_0_2_0")) return false;
+  private static boolean array_literal_1_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_1_0_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = array_1_0_2_0_0(b, l + 1);
+    r = array_literal_1_0_2_0_0(b, l + 1);
     r = r && consumeToken(b, COMMA);
-    r = r && array_1_0_2_0_2(b, l + 1);
+    r = r && array_literal_1_0_2_0_2(b, l + 1);
     r = r && full_expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // newline?
-  private static boolean array_1_0_2_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_1_0_2_0_0")) return false;
+  private static boolean array_literal_1_0_2_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_1_0_2_0_0")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
 
   // newline?
-  private static boolean array_1_0_2_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_1_0_2_0_2")) return false;
+  private static boolean array_literal_1_0_2_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_1_0_2_0_2")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
 
   // ","? newline?
-  private static boolean array_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_2")) return false;
+  private static boolean array_literal_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_2")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = array_2_0(b, l + 1);
-    r = r && array_2_1(b, l + 1);
+    r = array_literal_2_0(b, l + 1);
+    r = r && array_literal_2_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // ","?
-  private static boolean array_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_2_0")) return false;
+  private static boolean array_literal_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_2_0")) return false;
     consumeToken(b, COMMA);
     return true;
   }
 
   // newline?
-  private static boolean array_2_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "array_2_1")) return false;
+  private static boolean array_literal_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "array_literal_2_1")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
@@ -190,8 +188,9 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   // id_expression atrop full_expression newline
   public static boolean assignment_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "assignment_statement")) return false;
+    if (!nextTokenIs(b, ID)) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT_STATEMENT, "<assignment statement>");
+    Marker m = enter_section_(b, l, _NONE_, ASSIGNMENT_STATEMENT, null);
     r = id_expression(b, l + 1);
     r = r && atrop(b, l + 1);
     p = r; // pin = 2
@@ -199,6 +198,19 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     r = p && consumeToken(b, NEWLINE) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
+  }
+
+  /* ********************************************************** */
+  // literal | subscript_method_chain_expr | par_expression
+  public static boolean atom(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "atom")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, ATOM, "<atom>");
+    r = literal(b, l + 1);
+    if (!r) r = subscript_method_chain_expr(b, l + 1);
+    if (!r) r = par_expression(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
   }
 
   /* ********************************************************** */
@@ -224,15 +236,38 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "true" | "false"
-  public static boolean bool_literal(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "bool_literal")) return false;
-    if (!nextTokenIs(b, "<bool literal>", BOOL_LITERAL_FALSE, BOOL_LITERAL_TRUE)) return false;
+  // bool_literal | relation_check | par_expression | "not" bool_atom
+  static boolean bool_atom(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bool_atom")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, BOOL_LITERAL, "<bool literal>");
+    Marker m = enter_section_(b);
+    r = bool_literal(b, l + 1);
+    if (!r) r = relation_check(b, l + 1);
+    if (!r) r = par_expression(b, l + 1);
+    if (!r) r = bool_atom_3(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // "not" bool_atom
+  private static boolean bool_atom_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bool_atom_3")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LANG_TOKEN_NOT);
+    r = r && bool_atom(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "true" | "false"
+  static boolean bool_literal(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "bool_literal")) return false;
+    if (!nextTokenIs(b, "", BOOL_LITERAL_FALSE, BOOL_LITERAL_TRUE)) return false;
+    boolean r;
     r = consumeToken(b, BOOL_LITERAL_TRUE);
     if (!r) r = consumeToken(b, BOOL_LITERAL_FALSE);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -243,18 +278,18 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // simple_bool_expression ("and" simple_bool_expression)*
+  // bool_atom ("and" bool_atom)*
   public static boolean conditional_and_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "conditional_and_expression")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CONDITIONAL_AND_EXPRESSION, "<conditional and expression>");
-    r = simple_bool_expression(b, l + 1);
+    r = bool_atom(b, l + 1);
     r = r && conditional_and_expression_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // ("and" simple_bool_expression)*
+  // ("and" bool_atom)*
   private static boolean conditional_and_expression_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "conditional_and_expression_1")) return false;
     while (true) {
@@ -265,13 +300,13 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // "and" simple_bool_expression
+  // "and" bool_atom
   private static boolean conditional_and_expression_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "conditional_and_expression_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LANG_TOKEN_AND);
-    r = r && simple_bool_expression(b, l + 1);
+    r = r && bool_atom(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -340,153 +375,116 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // "{" [newline? keyword_elem (newline? "," newline? keyword_elem)*] (","? newline?) "}"
-  public static boolean dict(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict")) return false;
+  public static boolean dict_literal(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal")) return false;
     if (!nextTokenIs(b, CURLY_BRACE_BEGIN)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, CURLY_BRACE_BEGIN);
-    r = r && dict_1(b, l + 1);
-    r = r && dict_2(b, l + 1);
+    r = r && dict_literal_1(b, l + 1);
+    r = r && dict_literal_2(b, l + 1);
     r = r && consumeToken(b, CURLY_BRACE_END);
-    exit_section_(b, m, DICT, r);
+    exit_section_(b, m, DICT_LITERAL, r);
     return r;
   }
 
   // [newline? keyword_elem (newline? "," newline? keyword_elem)*]
-  private static boolean dict_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_1")) return false;
-    dict_1_0(b, l + 1);
+  private static boolean dict_literal_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_1")) return false;
+    dict_literal_1_0(b, l + 1);
     return true;
   }
 
   // newline? keyword_elem (newline? "," newline? keyword_elem)*
-  private static boolean dict_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_1_0")) return false;
+  private static boolean dict_literal_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = dict_1_0_0(b, l + 1);
+    r = dict_literal_1_0_0(b, l + 1);
     r = r && keyword_elem(b, l + 1);
-    r = r && dict_1_0_2(b, l + 1);
+    r = r && dict_literal_1_0_2(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // newline?
-  private static boolean dict_1_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_1_0_0")) return false;
+  private static boolean dict_literal_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_1_0_0")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
 
   // (newline? "," newline? keyword_elem)*
-  private static boolean dict_1_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_1_0_2")) return false;
+  private static boolean dict_literal_1_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_1_0_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!dict_1_0_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "dict_1_0_2", c)) break;
+      if (!dict_literal_1_0_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "dict_literal_1_0_2", c)) break;
     }
     return true;
   }
 
   // newline? "," newline? keyword_elem
-  private static boolean dict_1_0_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_1_0_2_0")) return false;
+  private static boolean dict_literal_1_0_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_1_0_2_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = dict_1_0_2_0_0(b, l + 1);
+    r = dict_literal_1_0_2_0_0(b, l + 1);
     r = r && consumeToken(b, COMMA);
-    r = r && dict_1_0_2_0_2(b, l + 1);
+    r = r && dict_literal_1_0_2_0_2(b, l + 1);
     r = r && keyword_elem(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // newline?
-  private static boolean dict_1_0_2_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_1_0_2_0_0")) return false;
+  private static boolean dict_literal_1_0_2_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_1_0_2_0_0")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
 
   // newline?
-  private static boolean dict_1_0_2_0_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_1_0_2_0_2")) return false;
+  private static boolean dict_literal_1_0_2_0_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_1_0_2_0_2")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
 
   // ","? newline?
-  private static boolean dict_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_2")) return false;
+  private static boolean dict_literal_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_2")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = dict_2_0(b, l + 1);
-    r = r && dict_2_1(b, l + 1);
+    r = dict_literal_2_0(b, l + 1);
+    r = r && dict_literal_2_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // ","?
-  private static boolean dict_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_2_0")) return false;
+  private static boolean dict_literal_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_2_0")) return false;
     consumeToken(b, COMMA);
     return true;
   }
 
   // newline?
-  private static boolean dict_2_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dict_2_1")) return false;
+  private static boolean dict_literal_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "dict_literal_2_1")) return false;
     consumeToken(b, NEWLINE);
     return true;
   }
 
   /* ********************************************************** */
-  // "==" | "!="
-  public static boolean equality_op(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "equality_op")) return false;
-    if (!nextTokenIs(b, "<equality op>", COMP_OP1, COMP_OP6)) return false;
+  // '==' | '!='
+  static boolean eq_op(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "eq_op")) return false;
+    if (!nextTokenIs(b, "", COMP_OP1, COMP_OP6)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EQUALITY_OP, "<equality op>");
     r = consumeToken(b, COMP_OP1);
     if (!r) r = consumeToken(b, COMP_OP6);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // dict | array | add_expr | string_literal | num_literal_unary | num_literal | par_expression
-  public static boolean expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "expression")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXPRESSION, "<expression>");
-    r = dict(b, l + 1);
-    if (!r) r = array(b, l + 1);
-    if (!r) r = add_expr(b, l + 1);
-    if (!r) r = string_literal(b, l + 1);
-    if (!r) r = num_literal_unary(b, l + 1);
-    if (!r) r = num_literal(b, l + 1);
-    if (!r) r = par_expression(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // dict | array | method_call_chain | func_call_expression | par_expression | id_expression | string_literal | num_literal
-  public static boolean factor(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "factor")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FACTOR, "<factor>");
-    r = dict(b, l + 1);
-    if (!r) r = array(b, l + 1);
-    if (!r) r = method_call_chain(b, l + 1);
-    if (!r) r = func_call_expression(b, l + 1);
-    if (!r) r = par_expression(b, l + 1);
-    if (!r) r = id_expression(b, l + 1);
-    if (!r) r = string_literal(b, l + 1);
-    if (!r) r = num_literal(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -553,25 +551,20 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // conditional_or_expression
-  public static boolean full_bool_expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "full_bool_expression")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, FULL_BOOL_EXPRESSION, "<full bool expression>");
-    r = conditional_or_expression(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+  // full_expression
+  static boolean full_bool_expression(PsiBuilder b, int l) {
+    return full_expression(b, l + 1);
   }
 
   /* ********************************************************** */
-  // ternary_expression | full_bool_expression | expression
+  // ternary_expression | conditional_or_expression | add_expr
   public static boolean full_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "full_expression")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FULL_EXPRESSION, "<full expression>");
     r = ternary_expression(b, l + 1);
-    if (!r) r = full_bool_expression(b, l + 1);
-    if (!r) r = expression(b, l + 1);
+    if (!r) r = conditional_or_expression(b, l + 1);
+    if (!r) r = add_expr(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -727,13 +720,14 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // lvalue
+  // id
   public static boolean id_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "id_expression")) return false;
+    if (!nextTokenIs(b, ID)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, ID_EXPRESSION, "<id expression>");
-    r = lvalue(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ID);
+    exit_section_(b, m, ID_EXPRESSION, r);
     return r;
   }
 
@@ -772,16 +766,16 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // "[" full_expression "]"
-  public static boolean index_expr(PsiBuilder b, int l) {
+  // "[" atom "]"
+  static boolean index_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "index_expr")) return false;
     if (!nextTokenIs(b, BRACE_BEGIN)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, BRACE_BEGIN);
-    r = r && full_expression(b, l + 1);
+    r = r && atom(b, l + 1);
     r = r && consumeToken(b, BRACE_END);
-    exit_section_(b, m, INDEX_EXPR, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -799,108 +793,56 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // subscript_expr | id
-  public static boolean lvalue(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "lvalue")) return false;
+  // dict_literal | array_literal | num_literal | string_literal | num_literal_unary | bool_literal
+  static boolean literal(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "literal")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, LVALUE, "<lvalue>");
-    r = subscript_expr(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
-    exit_section_(b, l, m, r, false, null);
+    r = dict_literal(b, l + 1);
+    if (!r) r = array_literal(b, l + 1);
+    if (!r) r = num_literal(b, l + 1);
+    if (!r) r = string_literal(b, l + 1);
+    if (!r) r = num_literal_unary(b, l + 1);
+    if (!r) r = bool_literal(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // method_call_expression_base ("." func_call_expression | index_expr)+
-  public static boolean method_call_chain(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "method_call_chain")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, METHOD_CALL_CHAIN, "<method call chain>");
-    r = method_call_expression_base(b, l + 1);
-    r = r && method_call_chain_1(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // ("." func_call_expression | index_expr)+
-  private static boolean method_call_chain_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "method_call_chain_1")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = method_call_chain_1_0(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!method_call_chain_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "method_call_chain_1", c)) break;
-    }
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // "." func_call_expression | index_expr
-  private static boolean method_call_chain_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "method_call_chain_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = method_call_chain_1_0_0(b, l + 1);
-    if (!r) r = index_expr(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // "." func_call_expression
-  private static boolean method_call_chain_1_0_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "method_call_chain_1_0_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LANG_TOKEN_DOT);
-    r = r && func_call_expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // dict | array | func_call_expression | par_expression | id | string_literal | num_literal
+  // id | literal
   public static boolean method_call_expression_base(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "method_call_expression_base")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, METHOD_CALL_EXPRESSION_BASE, "<method call expression base>");
-    r = dict(b, l + 1);
-    if (!r) r = array(b, l + 1);
-    if (!r) r = func_call_expression(b, l + 1);
-    if (!r) r = par_expression(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
-    if (!r) r = string_literal(b, l + 1);
-    if (!r) r = num_literal(b, l + 1);
+    r = consumeToken(b, ID);
+    if (!r) r = literal(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // method_call_chain newline
+  // subscript_method_chain_expr newline
   public static boolean method_call_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "method_call_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, METHOD_CALL_STATEMENT, "<method call statement>");
-    r = method_call_chain(b, l + 1);
+    r = subscript_method_chain_expr(b, l + 1);
     r = r && consumeToken(b, NEWLINE);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // factor (mul_op factor)*
+  // atom (mul_op atom)*
   public static boolean mul_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mul_expr")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, MUL_EXPR, "<mul expr>");
-    r = factor(b, l + 1);
+    r = atom(b, l + 1);
     r = r && mul_expr_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // (mul_op factor)*
+  // (mul_op atom)*
   private static boolean mul_expr_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mul_expr_1")) return false;
     while (true) {
@@ -911,19 +853,19 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // mul_op factor
+  // mul_op atom
   private static boolean mul_expr_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mul_expr_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = mul_op(b, l + 1);
-    r = r && factor(b, l + 1);
+    r = r && atom(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // "*" | "/" | "%"
+  // '*' | '/' | '%'
   public static boolean mul_op(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "mul_op")) return false;
     boolean r;
@@ -968,7 +910,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // "(" full_expression ")"
-  public static boolean par_expression(PsiBuilder b, int l) {
+  static boolean par_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "par_expression")) return false;
     if (!nextTokenIs(b, PAREN_BEGIN)) return false;
     boolean r;
@@ -976,7 +918,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, PAREN_BEGIN);
     r = r && full_expression(b, l + 1);
     r = r && consumeToken(b, PAREN_END);
-    exit_section_(b, m, PAR_EXPRESSION, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -992,36 +934,36 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // expression rel_check_op expression
-  public static boolean rel_check_expr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "rel_check_expr")) return false;
+  // add_expr relation_check_op add_expr
+  public static boolean relation_check(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "relation_check")) return false;
     boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, REL_CHECK_EXPR, "<rel check expr>");
-    r = expression(b, l + 1);
-    r = r && rel_check_op(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, RELATION_CHECK, "<relation check>");
+    r = add_expr(b, l + 1);
+    r = r && relation_check_op(b, l + 1);
     p = r; // pin = 2
-    r = r && expression(b, l + 1);
+    r = r && add_expr(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
 
   /* ********************************************************** */
-  // "<" | ">" | "<=" | ">=" | equality_op
-  public static boolean rel_check_op(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "rel_check_op")) return false;
+  // '>=' | '>' | '<=' | '<' | eq_op
+  public static boolean relation_check_op(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "relation_check_op")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, REL_CHECK_OP, "<rel check op>");
-    r = consumeToken(b, COMP_OP4);
+    Marker m = enter_section_(b, l, _NONE_, RELATION_CHECK_OP, "<relation check op>");
+    r = consumeToken(b, COMP_OP3);
     if (!r) r = consumeToken(b, COMP_OP5);
     if (!r) r = consumeToken(b, COMP_OP2);
-    if (!r) r = consumeToken(b, COMP_OP3);
-    if (!r) r = equality_op(b, l + 1);
+    if (!r) r = consumeToken(b, COMP_OP4);
+    if (!r) r = eq_op(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // "foreach" id_list ":" expression newline for_statement_list "endforeach" newline
+  // "foreach" id_list ":" full_expression newline for_statement_list "endforeach" newline
   public static boolean repetitive_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "repetitive_statement")) return false;
     boolean r, p;
@@ -1030,7 +972,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     p = r; // pin = 1
     r = r && report_error_(b, id_list(b, l + 1));
     r = p && report_error_(b, consumeToken(b, LANG_TOKEN_COLON)) && r;
-    r = p && report_error_(b, expression(b, l + 1)) && r;
+    r = p && report_error_(b, full_expression(b, l + 1)) && r;
     r = p && report_error_(b, consumeToken(b, NEWLINE)) && r;
     r = p && report_error_(b, for_statement_list(b, l + 1)) && r;
     r = p && report_error_(b, consumeTokens(b, -1, LANG_TOKEN_FOREACH_END, NEWLINE)) && r;
@@ -1145,35 +1087,6 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // rel_check_expr | method_call_chain | func_call_expression | expression | par_expression | id | bool_literal | "not" simple_bool_expression
-  public static boolean simple_bool_expression(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simple_bool_expression")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SIMPLE_BOOL_EXPRESSION, "<simple bool expression>");
-    r = rel_check_expr(b, l + 1);
-    if (!r) r = method_call_chain(b, l + 1);
-    if (!r) r = func_call_expression(b, l + 1);
-    if (!r) r = expression(b, l + 1);
-    if (!r) r = par_expression(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
-    if (!r) r = bool_literal(b, l + 1);
-    if (!r) r = simple_bool_expression_7(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  // "not" simple_bool_expression
-  private static boolean simple_bool_expression_7(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simple_bool_expression_7")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LANG_TOKEN_NOT);
-    r = r && simple_bool_expression(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement | repetitive_statement)
   public static boolean statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statement")) return false;
@@ -1252,69 +1165,74 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // subscript_root index_expr+
-  public static boolean subscript_expr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "subscript_expr")) return false;
+  // method_call_expression_base ("." func_call_expression | index_expr)*
+  public static boolean subscript_method_chain_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "subscript_method_chain_expr")) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SUBSCRIPT_EXPR, "<subscript expr>");
-    r = subscript_root(b, l + 1);
-    r = r && subscript_expr_1(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, SUBSCRIPT_METHOD_CHAIN_EXPR, "<subscript method chain expr>");
+    r = method_call_expression_base(b, l + 1);
+    r = r && subscript_method_chain_expr_1(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
-  // index_expr+
-  private static boolean subscript_expr_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "subscript_expr_1")) return false;
+  // ("." func_call_expression | index_expr)*
+  private static boolean subscript_method_chain_expr_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "subscript_method_chain_expr_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!subscript_method_chain_expr_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "subscript_method_chain_expr_1", c)) break;
+    }
+    return true;
+  }
+
+  // "." func_call_expression | index_expr
+  private static boolean subscript_method_chain_expr_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "subscript_method_chain_expr_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = index_expr(b, l + 1);
-    while (r) {
-      int c = current_position_(b);
-      if (!index_expr(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "subscript_expr_1", c)) break;
-    }
+    r = subscript_method_chain_expr_1_0_0(b, l + 1);
+    if (!r) r = index_expr(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // "." func_call_expression
+  private static boolean subscript_method_chain_expr_1_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "subscript_method_chain_expr_1_0_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LANG_TOKEN_DOT);
+    r = r && func_call_expression(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   /* ********************************************************** */
-  // method_call_chain | id
-  public static boolean subscript_root(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "subscript_root")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, SUBSCRIPT_ROOT, "<subscript root>");
-    r = method_call_chain(b, l + 1);
-    if (!r) r = consumeToken(b, ID);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // full_bool_expression "?" full_expression ":" full_expression
+  // conditional_or_expression "?" full_expression ":" full_expression
   public static boolean ternary_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ternary_expression")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, TERNARY_EXPRESSION, "<ternary expression>");
-    r = full_bool_expression(b, l + 1);
+    r = conditional_or_expression(b, l + 1);
     r = r && consumeToken(b, LANG_TOKEN_QMARK);
-    r = r && full_expression(b, l + 1);
-    r = r && consumeToken(b, LANG_TOKEN_COLON);
-    r = r && full_expression(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
+    p = r; // pin = 2
+    r = r && report_error_(b, full_expression(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, LANG_TOKEN_COLON)) && r;
+    r = p && full_expression(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */
   // "+" | "-"
-  public static boolean unary_num_op(PsiBuilder b, int l) {
+  static boolean unary_num_op(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "unary_num_op")) return false;
-    if (!nextTokenIs(b, "<unary num op>", MINUS_OP, PLUS_OP)) return false;
+    if (!nextTokenIs(b, "", MINUS_OP, PLUS_OP)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, UNARY_NUM_OP, "<unary num op>");
     r = consumeToken(b, PLUS_OP);
     if (!r) r = consumeToken(b, MINUS_OP);
-    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

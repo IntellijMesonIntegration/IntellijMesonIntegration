@@ -28,8 +28,14 @@ public class MesonBuildConditionalAndExpressionImpl extends ASTWrapperPsiElement
 
   @Override
   @NotNull
-  public List<MesonBuildSimpleBoolExpression> getSimpleBoolExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildSimpleBoolExpression.class);
+  public List<MesonBuildFullExpression> getFullExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullExpression.class);
+  }
+
+  @Override
+  @NotNull
+  public List<MesonBuildRelationCheck> getRelationCheckList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildRelationCheck.class);
   }
 
 }

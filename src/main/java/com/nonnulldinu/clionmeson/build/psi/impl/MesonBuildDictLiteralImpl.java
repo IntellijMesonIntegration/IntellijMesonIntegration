@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildRelCheckExprImpl extends ASTWrapperPsiElement implements MesonBuildRelCheckExpr {
+public class MesonBuildDictLiteralImpl extends ASTWrapperPsiElement implements MesonBuildDictLiteral {
 
-  public MesonBuildRelCheckExprImpl(@NotNull ASTNode node) {
+  public MesonBuildDictLiteralImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitRelCheckExpr(this);
+    visitor.visitDictLiteral(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,14 +28,8 @@ public class MesonBuildRelCheckExprImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public List<MesonBuildExpression> getExpressionList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildExpression.class);
-  }
-
-  @Override
-  @NotNull
-  public MesonBuildRelCheckOp getRelCheckOp() {
-    return findNotNullChildByClass(MesonBuildRelCheckOp.class);
+  public List<MesonBuildKeywordElem> getKeywordElemList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildKeywordElem.class);
   }
 
 }

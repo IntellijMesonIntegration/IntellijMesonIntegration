@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildMethodCallStatement extends PsiElement {
 
   @NotNull
-  MesonBuildMethodCallChain getMethodCallChain();
+  MesonBuildSubscriptMethodChainExpr getSubscriptMethodChainExpr();
 
   @NotNull
   PsiElement getNewline();

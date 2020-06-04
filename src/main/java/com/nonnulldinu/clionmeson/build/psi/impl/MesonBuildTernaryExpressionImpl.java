@@ -28,8 +28,8 @@ public class MesonBuildTernaryExpressionImpl extends ASTWrapperPsiElement implem
 
   @Override
   @NotNull
-  public MesonBuildFullBoolExpression getFullBoolExpression() {
-    return findNotNullChildByClass(MesonBuildFullBoolExpression.class);
+  public MesonBuildConditionalOrExpression getConditionalOrExpression() {
+    return findNotNullChildByClass(MesonBuildConditionalOrExpression.class);
   }
 
   @Override

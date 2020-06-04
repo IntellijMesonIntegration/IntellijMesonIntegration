@@ -28,8 +28,8 @@ public class MesonBuildIdExpressionImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public MesonBuildLvalue getLvalue() {
-    return findNotNullChildByClass(MesonBuildLvalue.class);
+  public PsiElement getId() {
+    return findNotNullChildByType(ID);
   }
 
 }

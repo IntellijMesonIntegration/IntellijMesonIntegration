@@ -28,14 +28,14 @@ public class MesonBuildFullExpressionImpl extends ASTWrapperPsiElement implement
 
   @Override
   @Nullable
-  public MesonBuildExpression getExpression() {
-    return findChildByClass(MesonBuildExpression.class);
+  public MesonBuildAddExpr getAddExpr() {
+    return findChildByClass(MesonBuildAddExpr.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildFullBoolExpression getFullBoolExpression() {
-    return findChildByClass(MesonBuildFullBoolExpression.class);
+  public MesonBuildConditionalOrExpression getConditionalOrExpression() {
+    return findChildByClass(MesonBuildConditionalOrExpression.class);
   }
 
   @Override

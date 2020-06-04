@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildRepetitiveStatement extends PsiElement {
 
   @Nullable
-  MesonBuildExpression getExpression();
+  MesonBuildForStatementList getForStatementList();
 
   @Nullable
-  MesonBuildForStatementList getForStatementList();
+  MesonBuildFullExpression getFullExpression();
 
   @Nullable
   MesonBuildIdList getIdList();

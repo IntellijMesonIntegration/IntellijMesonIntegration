@@ -28,8 +28,8 @@ public class MesonBuildMethodCallStatementImpl extends ASTWrapperPsiElement impl
 
   @Override
   @NotNull
-  public MesonBuildMethodCallChain getMethodCallChain() {
-    return findNotNullChildByClass(MesonBuildMethodCallChain.class);
+  public MesonBuildSubscriptMethodChainExpr getSubscriptMethodChainExpr() {
+    return findNotNullChildByClass(MesonBuildSubscriptMethodChainExpr.class);
   }
 
   @Override

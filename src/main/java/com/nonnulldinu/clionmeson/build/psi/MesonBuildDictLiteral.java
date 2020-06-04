@@ -5,6 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildEqualityOp extends PsiElement {
+public interface MesonBuildDictLiteral extends PsiElement {
+
+  @NotNull
+  List<MesonBuildKeywordElem> getKeywordElemList();
 
 }

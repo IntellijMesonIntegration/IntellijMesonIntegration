@@ -11,19 +11,31 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildUnaryNumOpImpl extends ASTWrapperPsiElement implements MesonBuildUnaryNumOp {
+public class MesonBuildRelationCheckImpl extends ASTWrapperPsiElement implements MesonBuildRelationCheck {
 
-  public MesonBuildUnaryNumOpImpl(@NotNull ASTNode node) {
+  public MesonBuildRelationCheckImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitUnaryNumOp(this);
+    visitor.visitRelationCheck(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof MesonBuildVisitor) accept((MesonBuildVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<MesonBuildAddExpr> getAddExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildAddExpr.class);
+  }
+
+  @Override
+  @NotNull
+  public MesonBuildRelationCheckOp getRelationCheckOp() {
+    return findNotNullChildByClass(MesonBuildRelationCheckOp.class);
   }
 
 }

@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildIdExpression extends PsiElement {
 
   @NotNull
-  MesonBuildLvalue getLvalue();
+  PsiElement getId();
 
 }

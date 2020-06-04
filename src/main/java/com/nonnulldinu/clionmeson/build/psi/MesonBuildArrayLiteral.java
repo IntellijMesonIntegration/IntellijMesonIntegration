@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildFullBoolExpression extends PsiElement {
+public interface MesonBuildArrayLiteral extends PsiElement {
 
   @NotNull
-  MesonBuildConditionalOrExpression getConditionalOrExpression();
+  List<MesonBuildFullExpression> getFullExpressionList();
 
 }

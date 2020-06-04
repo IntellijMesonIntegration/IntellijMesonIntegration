@@ -8,16 +8,13 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildMethodCallExpressionBase extends PsiElement {
 
   @Nullable
-  MesonBuildArray getArray();
+  MesonBuildArrayLiteral getArrayLiteral();
 
   @Nullable
-  MesonBuildDict getDict();
+  MesonBuildDictLiteral getDictLiteral();
 
   @Nullable
-  MesonBuildFuncCallExpression getFuncCallExpression();
-
-  @Nullable
-  MesonBuildParExpression getParExpression();
+  MesonBuildNumLiteralUnary getNumLiteralUnary();
 
   @Nullable
   PsiElement getBinnum();

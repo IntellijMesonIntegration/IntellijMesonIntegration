@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildFullExpression extends PsiElement {
 
   @Nullable
-  MesonBuildExpression getExpression();
+  MesonBuildAddExpr getAddExpr();
 
   @Nullable
-  MesonBuildFullBoolExpression getFullBoolExpression();
+  MesonBuildConditionalOrExpression getConditionalOrExpression();
 
   @Nullable
   MesonBuildTernaryExpression getTernaryExpression();

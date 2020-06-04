@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface MesonBuildNumLiteralUnary extends PsiElement {
 
-  @NotNull
-  MesonBuildUnaryNumOp getUnaryNumOp();
-
   @Nullable
   PsiElement getBinnum();
 
