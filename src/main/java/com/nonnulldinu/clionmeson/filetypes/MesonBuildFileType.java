@@ -1,7 +1,6 @@
 package com.nonnulldinu.clionmeson.filetypes;
 
 import com.intellij.openapi.fileTypes.LanguageFileType;
-import com.intellij.openapi.util.IconLoader;
 import com.nonnulldinu.clionmeson.icons.PluginIcons;
 import com.nonnulldinu.clionmeson.languages.MesonBuildLang;
 import org.jetbrains.annotations.Nls;
@@ -12,6 +11,9 @@ import javax.swing.*;
 
 public class MesonBuildFileType extends LanguageFileType {
     public static final MesonBuildFileType INSTANCE = new MesonBuildFileType();
+    public static final String EXTENSION = "build";
+    public static final String FILE_NAME = "meson.build";
+    // todo: don't match the files by extension, but rather by exact file name (meson.build)
 
     protected MesonBuildFileType() {
         super(MesonBuildLang.INSTANCE);
@@ -23,8 +25,14 @@ public class MesonBuildFileType extends LanguageFileType {
      * @return The file type name.
      */
     @Override
-    public @NotNull String getName() {
+    @NotNull
+    public String getName() {
         return "Meson Build";
+    }
+
+    @Override
+    public boolean isReadOnly() {
+        return false;
     }
 
     /**
@@ -33,8 +41,10 @@ public class MesonBuildFileType extends LanguageFileType {
      * @return The file type description.
      */
     @Override
-    public @NotNull @Nls(capitalization = Nls.Capitalization.Sentence) String getDescription() {
-        return "Meson meson.build files";
+    @NotNull
+    @Nls(capitalization = Nls.Capitalization.Sentence)
+    public String getDescription() {
+        return "Meson meson.build file";
     }
 
     /**
@@ -43,8 +53,9 @@ public class MesonBuildFileType extends LanguageFileType {
      * @return The extension, <em>not</em> including the leading '.'.
      */
     @Override
-    public @NotNull String getDefaultExtension() {
-        return "build";
+    @NotNull
+    public String getDefaultExtension() {
+        return EXTENSION;
     }
 
     /**
@@ -53,7 +64,8 @@ public class MesonBuildFileType extends LanguageFileType {
      * @return The icon instance, or {@code null} if no icon should be shown.
      */
     @Override
-    public @Nullable Icon getIcon() {
+    @Nullable
+    public Icon getIcon() {
         return PluginIcons.MESON_BUILD_ICON;
     }
 }
