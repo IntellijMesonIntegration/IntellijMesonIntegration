@@ -27,8 +27,7 @@ import javax.swing.*;
 public class MesonProjectGenerator extends CLionProjectGenerator<Ref<String[]>> implements CustomStepProjectGenerator<Ref<String[]>> {
 
 	@Override
-	public AbstractActionWithPanel createStep(DirectoryProjectGenerator<Ref<String[]>> projectGenerator,
-	                                          AbstractNewProjectStep.AbstractCallback<Ref<String[]>> callback) {
+	public AbstractActionWithPanel createStep(DirectoryProjectGenerator<Ref<String[]>> projectGenerator, AbstractNewProjectStep.AbstractCallback<Ref<String[]>> callback) {
 		return new MesonProjectSettingsStep(projectGenerator, callback);
 	}
 
@@ -62,14 +61,12 @@ public class MesonProjectGenerator extends CLionProjectGenerator<Ref<String[]>> 
 	}
 
 	@Override
-	public void generateProject(@NotNull Project project,
-	                            @NotNull VirtualFile baseDir,
-	                            @NotNull Ref<String[]> settings,
-	                            @NotNull Module module) {
+	public void generateProject(@NotNull Project project, @NotNull VirtualFile baseDir, @NotNull Ref<String[]> settings, @NotNull Module module) {
 		StringBuilder pioCmdLineTail = new StringBuilder();
 		for (String s : settings.get()) {
 			pioCmdLineTail.append(' ').append(s);
 		}
+//		throw new RuntimeException(".dasasd");
 //		doGenerateProject(project, baseDir, pioCmdLineTail, true);
 	}
 

@@ -39,10 +39,9 @@ public class MesonProjectSettingsStep extends ProjectSettingsStepBase<Ref<String
 		jPanel.add(standardCombobox, new GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0));
 
 		// create the spacer to push the items to the top left corner
-		jPanel.add(Box.createGlue(), new GridBagConstraints(2, 2, 1, 2, 1, 1, GridBagConstraints.CENTER, 0, JBUI.emptyInsets(), 0, 0));
+		jPanel.add(Box.createGlue(), new GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, 0, JBUI.emptyInsets(), 0, 0));
 
-		// listeners
-		// see: https://stackoverflow.com/questions/58939/jcombobox-selection-change-listener
+		// listeners - see: https://stackoverflow.com/questions/58939/jcombobox-selection-change-listener
 		languageCombobox.addActionListener (e -> {
 			DefaultComboBoxModel<String> model;
 			switch(languageCombobox.getSelectedIndex()) {
@@ -65,9 +64,8 @@ public class MesonProjectSettingsStep extends ProjectSettingsStepBase<Ref<String
 			standardCombobox.setSelectedIndex(standardCombobox.getModel().getSize() - 1);
 		});
 
-		// emit the signal update the standardCombobox and select the last standard
+		// emit the signal update the standardCombobox
 		languageCombobox.actionPerformed(null);
-		standardCombobox.setSelectedIndex(standardCombobox.getModel().getSize() - 1);
 
 		return jPanel;
 	}
