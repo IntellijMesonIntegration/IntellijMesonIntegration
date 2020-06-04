@@ -28,8 +28,32 @@ public class MesonBuildSimpleBoolExpressionImpl extends ASTWrapperPsiElement imp
 
   @Override
   @Nullable
+  public MesonBuildBoolLiteral getBoolLiteral() {
+    return findChildByClass(MesonBuildBoolLiteral.class);
+  }
+
+  @Override
+  @Nullable
   public MesonBuildExpression getExpression() {
     return findChildByClass(MesonBuildExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public MesonBuildFuncCallExpression getFuncCallExpression() {
+    return findChildByClass(MesonBuildFuncCallExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public MesonBuildMethodCallChain getMethodCallChain() {
+    return findChildByClass(MesonBuildMethodCallChain.class);
+  }
+
+  @Override
+  @Nullable
+  public MesonBuildParExpression getParExpression() {
+    return findChildByClass(MesonBuildParExpression.class);
   }
 
   @Override
@@ -42,6 +66,12 @@ public class MesonBuildSimpleBoolExpressionImpl extends ASTWrapperPsiElement imp
   @Nullable
   public MesonBuildSimpleBoolExpression getSimpleBoolExpression() {
     return findChildByClass(MesonBuildSimpleBoolExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
 }

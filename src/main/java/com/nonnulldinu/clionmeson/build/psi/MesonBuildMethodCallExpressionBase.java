@@ -5,10 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildExpression extends PsiElement {
-
-  @Nullable
-  MesonBuildAddExpr getAddExpr();
+public interface MesonBuildMethodCallExpressionBase extends PsiElement {
 
   @Nullable
   MesonBuildArray getArray();
@@ -17,7 +14,7 @@ public interface MesonBuildExpression extends PsiElement {
   MesonBuildDict getDict();
 
   @Nullable
-  MesonBuildNumLiteralUnary getNumLiteralUnary();
+  MesonBuildFuncCallExpression getFuncCallExpression();
 
   @Nullable
   MesonBuildParExpression getParExpression();
@@ -30,6 +27,9 @@ public interface MesonBuildExpression extends PsiElement {
 
   @Nullable
   PsiElement getHexnum();
+
+  @Nullable
+  PsiElement getId();
 
   @Nullable
   PsiElement getOctnum();

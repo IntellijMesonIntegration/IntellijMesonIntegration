@@ -5,10 +5,13 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildStatement extends PsiElement {
+public interface MesonBuildForStatement extends PsiElement {
 
   @Nullable
   MesonBuildAssignmentStatement getAssignmentStatement();
+
+  @Nullable
+  MesonBuildControlStatement getControlStatement();
 
   @Nullable
   MesonBuildFuncCallStatement getFuncCallStatement();

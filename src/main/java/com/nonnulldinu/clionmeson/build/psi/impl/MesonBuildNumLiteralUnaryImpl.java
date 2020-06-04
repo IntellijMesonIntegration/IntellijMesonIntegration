@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildSubscriptRootImpl extends ASTWrapperPsiElement implements MesonBuildSubscriptRoot {
+public class MesonBuildNumLiteralUnaryImpl extends ASTWrapperPsiElement implements MesonBuildNumLiteralUnary {
 
-  public MesonBuildSubscriptRootImpl(@NotNull ASTNode node) {
+  public MesonBuildNumLiteralUnaryImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitSubscriptRoot(this);
+    visitor.visitNumLiteralUnary(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +27,33 @@ public class MesonBuildSubscriptRootImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @Nullable
-  public MesonBuildMethodCallChain getMethodCallChain() {
-    return findChildByClass(MesonBuildMethodCallChain.class);
+  @NotNull
+  public MesonBuildUnaryNumOp getUnaryNumOp() {
+    return findNotNullChildByClass(MesonBuildUnaryNumOp.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getId() {
-    return findChildByType(ID);
+  public PsiElement getBinnum() {
+    return findChildByType(BINNUM);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDecnum() {
+    return findChildByType(DECNUM);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getHexnum() {
+    return findChildByType(HEXNUM);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getOctnum() {
+    return findChildByType(OCTNUM);
   }
 
 }

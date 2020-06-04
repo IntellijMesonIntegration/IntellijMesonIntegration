@@ -11,14 +11,14 @@ import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.nonnulldinu.clionmeson.build.psi.*;
 
-public class MesonBuildFactorImpl extends ASTWrapperPsiElement implements MesonBuildFactor {
+public class MesonBuildMethodCallExpressionBaseImpl extends ASTWrapperPsiElement implements MesonBuildMethodCallExpressionBase {
 
-  public MesonBuildFactorImpl(@NotNull ASTNode node) {
+  public MesonBuildMethodCallExpressionBaseImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull MesonBuildVisitor visitor) {
-    visitor.visitFactor(this);
+    visitor.visitMethodCallExpressionBase(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -46,18 +46,6 @@ public class MesonBuildFactorImpl extends ASTWrapperPsiElement implements MesonB
 
   @Override
   @Nullable
-  public MesonBuildIdExpression getIdExpression() {
-    return findChildByClass(MesonBuildIdExpression.class);
-  }
-
-  @Override
-  @Nullable
-  public MesonBuildMethodCallChain getMethodCallChain() {
-    return findChildByClass(MesonBuildMethodCallChain.class);
-  }
-
-  @Override
-  @Nullable
   public MesonBuildParExpression getParExpression() {
     return findChildByClass(MesonBuildParExpression.class);
   }
@@ -78,6 +66,12 @@ public class MesonBuildFactorImpl extends ASTWrapperPsiElement implements MesonB
   @Nullable
   public PsiElement getHexnum() {
     return findChildByType(HEXNUM);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
   @Override

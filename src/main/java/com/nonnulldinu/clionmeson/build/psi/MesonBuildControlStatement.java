@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface MesonBuildSubscriptExpr extends PsiElement {
+public interface MesonBuildControlStatement extends PsiElement {
 
   @NotNull
-  List<MesonBuildIndexExpr> getIndexExprList();
-
-  @NotNull
-  MesonBuildSubscriptRoot getSubscriptRoot();
+  PsiElement getNewline();
 
 }

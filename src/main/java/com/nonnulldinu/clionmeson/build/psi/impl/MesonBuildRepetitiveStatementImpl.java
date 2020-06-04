@@ -34,14 +34,14 @@ public class MesonBuildRepetitiveStatementImpl extends ASTWrapperPsiElement impl
 
   @Override
   @Nullable
-  public MesonBuildIdList getIdList() {
-    return findChildByClass(MesonBuildIdList.class);
+  public MesonBuildForStatementList getForStatementList() {
+    return findChildByClass(MesonBuildForStatementList.class);
   }
 
   @Override
   @Nullable
-  public MesonBuildStatementList getStatementList() {
-    return findChildByClass(MesonBuildStatementList.class);
+  public MesonBuildIdList getIdList() {
+    return findChildByClass(MesonBuildIdList.class);
   }
 
 }

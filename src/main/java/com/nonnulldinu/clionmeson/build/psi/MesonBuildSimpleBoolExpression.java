@@ -8,12 +8,27 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildSimpleBoolExpression extends PsiElement {
 
   @Nullable
+  MesonBuildBoolLiteral getBoolLiteral();
+
+  @Nullable
   MesonBuildExpression getExpression();
+
+  @Nullable
+  MesonBuildFuncCallExpression getFuncCallExpression();
+
+  @Nullable
+  MesonBuildMethodCallChain getMethodCallChain();
+
+  @Nullable
+  MesonBuildParExpression getParExpression();
 
   @Nullable
   MesonBuildRelCheckExpr getRelCheckExpr();
 
   @Nullable
   MesonBuildSimpleBoolExpression getSimpleBoolExpression();
+
+  @Nullable
+  PsiElement getId();
 
 }

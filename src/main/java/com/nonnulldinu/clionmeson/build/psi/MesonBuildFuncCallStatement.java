@@ -7,13 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface MesonBuildFuncCallStatement extends PsiElement {
 
-  @Nullable
-  MesonBuildFuncArgs getFuncArgs();
+  @NotNull
+  MesonBuildFuncCallExpression getFuncCallExpression();
 
   @NotNull
-  MesonBuildFuncName getFuncName();
-
-  @Nullable
   PsiElement getNewline();
 
 }

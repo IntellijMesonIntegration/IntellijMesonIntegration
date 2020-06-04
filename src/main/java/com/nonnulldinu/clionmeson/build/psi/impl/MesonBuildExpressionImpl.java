@@ -46,8 +46,8 @@ public class MesonBuildExpressionImpl extends ASTWrapperPsiElement implements Me
 
   @Override
   @Nullable
-  public MesonBuildIdExpression getIdExpression() {
-    return findChildByClass(MesonBuildIdExpression.class);
+  public MesonBuildNumLiteralUnary getNumLiteralUnary() {
+    return findChildByClass(MesonBuildNumLiteralUnary.class);
   }
 
   @Override
@@ -78,6 +78,12 @@ public class MesonBuildExpressionImpl extends ASTWrapperPsiElement implements Me
   @Nullable
   public PsiElement getOctnum() {
     return findChildByType(OCTNUM);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getStrmultiline() {
+    return findChildByType(STRMULTILINE);
   }
 
   @Override
