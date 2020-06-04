@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildSubscriptMethodChainExpr extends PsiElement {
 
   @NotNull
-  List<MesonBuildAtom> getAtomList();
+  List<MesonBuildAddExpr> getAddExprList();
 
   @NotNull
   List<MesonBuildFuncCallExpression> getFuncCallExpressionList();

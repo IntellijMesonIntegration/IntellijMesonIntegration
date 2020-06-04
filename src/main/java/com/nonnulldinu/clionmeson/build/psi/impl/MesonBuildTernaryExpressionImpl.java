@@ -27,9 +27,15 @@ public class MesonBuildTernaryExpressionImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
-  @NotNull
+  @Nullable
+  public MesonBuildAddExpr getAddExpr() {
+    return findChildByClass(MesonBuildAddExpr.class);
+  }
+
+  @Override
+  @Nullable
   public MesonBuildConditionalOrExpression getConditionalOrExpression() {
-    return findNotNullChildByClass(MesonBuildConditionalOrExpression.class);
+    return findChildByClass(MesonBuildConditionalOrExpression.class);
   }
 
   @Override

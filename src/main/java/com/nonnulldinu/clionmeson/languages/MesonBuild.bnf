@@ -104,6 +104,8 @@ func_name ::= id
 
 // if "selection" statement
 selection_statement ::= "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif" newline {pin=1; recoverWhile=selection_statement_recover}
+// this one is supposed to be in a foreach structure, so it should allow jump and break
+selection_statement_for ::= "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif" newline {pin=1; recoverWhile=selection_statement_recover}
 private selection_statement_recover ::= !"endif" newline
 
 repetitive_statement ::= "foreach" id_list ":" full_expression newline for_statement_list "endforeach" newline {pin=1; recoverWhile=repetitive_statement_recover}
@@ -115,37 +117,37 @@ positional_func_arg ::= full_expression
 keyword_elem ::= id ":" full_expression
 
 id_expression ::= id
-id_list ::= id ("," id)*
+id_list ::= id (newline? "," newline? id)*
 
-method_call_expression_base ::= id | literal
-subscript_method_chain_expr ::= method_call_expression_base ("." func_call_expression | index_expr)+
+method_call_expression_base ::= func_call_expression | id | literal
+subscript_method_chain_expr ::= method_call_expression_base (newline? "." newline? func_call_expression | index_expr)+
 method_call_statement ::= subscript_method_chain_expr newline
 
-private index_expr ::= "[" add_expr "]"
+private index_expr ::= newline? "[" newline? add_expr newline?"]" {pin=2}
 
 array_literal ::= "[" [newline? full_expression (newline? "," newline? full_expression)*] (","? newline?) "]"
 dict_literal ::= "{" [newline? keyword_elem (newline? "," newline? keyword_elem)*] (","? newline?) "}"
 
 mul_op ::= '*' | '/' | '%'
-mul_expr ::= atom (mul_op atom)*
+mul_expr ::= atom (newline? mul_op newline? atom)*
 
 private add_op ::= '+' | '-'
-add_expr ::= mul_expr (add_op mul_expr)*
+add_expr ::= mul_expr (newline? add_op newline? mul_expr)*
 
 private eq_op ::= '==' | '!='
 relation_check_op ::= '>=' | '>' | '<=' | '<' | eq_op
-relation_check ::= add_expr relation_check_op add_expr {pin=2}
+relation_check ::= add_expr newline? relation_check_op newline? add_expr {pin=3}
 
-private bool_atom ::= bool_literal | relation_check | par_expression | "not" bool_atom
-conditional_and_expression ::= bool_atom ("and" bool_atom)*
-conditional_or_expression ::= conditional_and_expression ("or" conditional_and_expression)*
+private bool_atom ::= bool_literal | relation_check | add_expr | par_expression | "not" bool_atom
+conditional_and_expression ::= bool_atom (newline? "and" newline? bool_atom)*
+conditional_or_expression ::= conditional_and_expression (newline? "or" newline? conditional_and_expression)*
 
-atom ::= literal | subscript_method_chain_expr | func_call_expression (index_expr)* | par_expression | id
+atom ::= subscript_method_chain_expr | func_call_expression | par_expression | id | literal
 
-ternary_expression ::= (conditional_or_expression | add_expr) "?" full_expression ":" full_expression {pin=2}
+ternary_expression ::= (conditional_or_expression | add_expr) newline? "?" newline? full_expression newline? ":" newline? full_expression {pin=3}
 
 full_expression ::= ternary_expression | conditional_or_expression | add_expr
-private par_expression ::= "(" full_expression ")"
+private par_expression ::= "(" newline? full_expression newline? ")"
 private full_bool_expression ::= full_expression
 
 // literals

@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface MesonBuildTernaryExpression extends PsiElement {
 
-  @NotNull
+  @Nullable
+  MesonBuildAddExpr getAddExpr();
+
+  @Nullable
   MesonBuildConditionalOrExpression getConditionalOrExpression();
 
   @NotNull

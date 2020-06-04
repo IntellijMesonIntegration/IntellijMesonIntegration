@@ -28,6 +28,12 @@ public class MesonBuildConditionalAndExpressionImpl extends ASTWrapperPsiElement
 
   @Override
   @NotNull
+  public List<MesonBuildAddExpr> getAddExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildAddExpr.class);
+  }
+
+  @Override
+  @NotNull
   public List<MesonBuildFullExpression> getFullExpressionList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildFullExpression.class);
   }

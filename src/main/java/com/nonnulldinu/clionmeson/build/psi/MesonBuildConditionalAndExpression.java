@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface MesonBuildConditionalAndExpression extends PsiElement {
 
   @NotNull
+  List<MesonBuildAddExpr> getAddExprList();
+
+  @NotNull
   List<MesonBuildFullExpression> getFullExpressionList();
 
   @NotNull

@@ -14,6 +14,9 @@ public interface MesonBuildMethodCallExpressionBase extends PsiElement {
   MesonBuildDictLiteral getDictLiteral();
 
   @Nullable
+  MesonBuildFuncCallExpression getFuncCallExpression();
+
+  @Nullable
   MesonBuildNumLiteralUnary getNumLiteralUnary();
 
   @Nullable

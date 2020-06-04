@@ -46,6 +46,12 @@ public class MesonBuildAtomImpl extends ASTWrapperPsiElement implements MesonBui
 
   @Override
   @Nullable
+  public MesonBuildFuncCallExpression getFuncCallExpression() {
+    return findChildByClass(MesonBuildFuncCallExpression.class);
+  }
+
+  @Override
+  @Nullable
   public MesonBuildNumLiteralUnary getNumLiteralUnary() {
     return findChildByClass(MesonBuildNumLiteralUnary.class);
   }
@@ -72,6 +78,12 @@ public class MesonBuildAtomImpl extends ASTWrapperPsiElement implements MesonBui
   @Nullable
   public PsiElement getHexnum() {
     return findChildByType(HEXNUM);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getId() {
+    return findChildByType(ID);
   }
 
   @Override

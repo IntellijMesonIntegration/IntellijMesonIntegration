@@ -17,6 +17,9 @@ public interface MesonBuildAtom extends PsiElement {
   MesonBuildFullExpression getFullExpression();
 
   @Nullable
+  MesonBuildFuncCallExpression getFuncCallExpression();
+
+  @Nullable
   MesonBuildNumLiteralUnary getNumLiteralUnary();
 
   @Nullable
@@ -30,6 +33,9 @@ public interface MesonBuildAtom extends PsiElement {
 
   @Nullable
   PsiElement getHexnum();
+
+  @Nullable
+  PsiElement getId();
 
   @Nullable
   PsiElement getOctnum();

@@ -28,8 +28,8 @@ public class MesonBuildSubscriptMethodChainExprImpl extends ASTWrapperPsiElement
 
   @Override
   @NotNull
-  public List<MesonBuildAtom> getAtomList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildAtom.class);
+  public List<MesonBuildAddExpr> getAddExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, MesonBuildAddExpr.class);
   }
 
   @Override
