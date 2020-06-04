@@ -40,6 +40,7 @@ public interface MesonBuildTypes {
   IElementType RELATION_CHECK_OP = new MesonBuildElement("RELATION_CHECK_OP");
   IElementType REPETITIVE_STATEMENT = new MesonBuildElement("REPETITIVE_STATEMENT");
   IElementType SELECTION_STATEMENT = new MesonBuildElement("SELECTION_STATEMENT");
+  IElementType SELECTION_STATEMENT_FOR = new MesonBuildElement("SELECTION_STATEMENT_FOR");
   IElementType STATEMENT = new MesonBuildElement("STATEMENT");
   IElementType STATEMENT_LIST = new MesonBuildElement("STATEMENT_LIST");
   IElementType SUBSCRIPT_METHOD_CHAIN_EXPR = new MesonBuildElement("SUBSCRIPT_METHOD_CHAIN_EXPR");
@@ -189,6 +190,9 @@ public interface MesonBuildTypes {
       }
       else if (type == SELECTION_STATEMENT) {
         return new MesonBuildSelectionStatementImpl(node);
+      }
+      else if (type == SELECTION_STATEMENT_FOR) {
+        return new MesonBuildSelectionStatementForImpl(node);
       }
       else if (type == STATEMENT) {
         return new MesonBuildStatementImpl(node);

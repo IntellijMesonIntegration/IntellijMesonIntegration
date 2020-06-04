@@ -1090,7 +1090,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // '>=' | '>' | '<=' | '<' | eq_op
+  // '>=' | '>' | '<=' | '<' | eq_op | "in" | "not" "in"
   public static boolean relation_check_op(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "relation_check_op")) return false;
     boolean r;
@@ -1100,6 +1100,8 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, COMP_OP2);
     if (!r) r = consumeToken(b, COMP_OP4);
     if (!r) r = eq_op(b, l + 1);
+    if (!r) r = consumeToken(b, IN_OP);
+    if (!r) r = parseTokens(b, 0, LANG_TOKEN_NOT, IN_OP);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -1197,6 +1199,66 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   // "else" newline statement_list
   private static boolean selection_statement_5_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "selection_statement_5_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, LANG_TOKEN_ELSE, NEWLINE);
+    r = r && statement_list(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif" newline
+  public static boolean selection_statement_for(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selection_statement_for")) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, SELECTION_STATEMENT_FOR, "<selection statement for>");
+    r = consumeToken(b, LANG_TOKEN_IF);
+    p = r; // pin = 1
+    r = r && report_error_(b, full_bool_expression(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, NEWLINE)) && r;
+    r = p && report_error_(b, statement_list(b, l + 1)) && r;
+    r = p && report_error_(b, selection_statement_for_4(b, l + 1)) && r;
+    r = p && report_error_(b, selection_statement_for_5(b, l + 1)) && r;
+    r = p && report_error_(b, consumeTokens(b, -1, LANG_TOKEN_ENDIF, NEWLINE)) && r;
+    exit_section_(b, l, m, r, p, selection_statement_recover_parser_);
+    return r || p;
+  }
+
+  // ("elif" full_bool_expression newline statement_list)*
+  private static boolean selection_statement_for_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selection_statement_for_4")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!selection_statement_for_4_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "selection_statement_for_4", c)) break;
+    }
+    return true;
+  }
+
+  // "elif" full_bool_expression newline statement_list
+  private static boolean selection_statement_for_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selection_statement_for_4_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LANG_TOKEN_ELSE_IF);
+    r = r && full_bool_expression(b, l + 1);
+    r = r && consumeToken(b, NEWLINE);
+    r = r && statement_list(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // ["else" newline statement_list]
+  private static boolean selection_statement_for_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selection_statement_for_5")) return false;
+    selection_statement_for_5_0(b, l + 1);
+    return true;
+  }
+
+  // "else" newline statement_list
+  private static boolean selection_statement_for_5_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selection_statement_for_5_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, LANG_TOKEN_ELSE, NEWLINE);

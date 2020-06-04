@@ -127,6 +127,10 @@ public class MesonBuildVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitSelectionStatementFor(@NotNull MesonBuildSelectionStatementFor o) {
+    visitPsiElement(o);
+  }
+
   public void visitStatement(@NotNull MesonBuildStatement o) {
     visitPsiElement(o);
   }

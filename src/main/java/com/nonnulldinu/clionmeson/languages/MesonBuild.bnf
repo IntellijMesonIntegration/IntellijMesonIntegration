@@ -135,7 +135,7 @@ private add_op ::= '+' | '-'
 add_expr ::= mul_expr (newline? add_op newline? mul_expr)*
 
 private eq_op ::= '==' | '!='
-relation_check_op ::= '>=' | '>' | '<=' | '<' | eq_op
+relation_check_op ::= '>=' | '>' | '<=' | '<' | eq_op | "in" | "not" "in"
 relation_check ::= add_expr newline? relation_check_op newline? add_expr {pin=3}
 
 private bool_atom ::= bool_literal | relation_check | add_expr | par_expression | "not" bool_atom
