@@ -18,14 +18,10 @@
     <depends>com.intellij.modules.clion</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
-        <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
-                  fieldName="INSTANCE" language="MesonBuildLang" extensions="build"/>
+        <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType" fieldName="INSTANCE" language="MesonBuildLang" extensions="build"/>
 
-        <lang.parserDefinition language="MesonBuildLang"
-                               implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="MesonBuildLang"
-                                       implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
+        <lang.parserDefinition language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
 
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGenerator"/>
