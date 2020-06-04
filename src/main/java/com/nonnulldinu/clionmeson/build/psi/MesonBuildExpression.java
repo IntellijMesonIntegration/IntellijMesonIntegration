@@ -17,9 +17,6 @@ public interface MesonBuildExpression extends PsiElement {
   MesonBuildDict getDict();
 
   @Nullable
-  MesonBuildIdExpression getIdExpression();
-
-  @Nullable
   MesonBuildNumLiteralUnary getNumLiteralUnary();
 
   @Nullable

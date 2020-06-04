@@ -85,7 +85,7 @@ public class MesonBuildSyntaxHighlighter extends SyntaxHighlighterBase {
                         || tokenType.equals(MesonBuildTypes.LANG_TOKEN_JUMP_CONTINUE) || tokenType.equals(MesonBuildTypes.LANG_TOKEN_JUMP_BREAK)
         ) {
             return KEYWORD_KEYS;
-        } else if (tokenType.equals(MesonBuildTypes.STRSIMPLE) /*|| tokenType.equals(MesonBuildTypes.STRMULTILINE)*/
+        } else if (tokenType.equals(MesonBuildTypes.STRSIMPLE) || tokenType.equals(MesonBuildTypes.STRMULTILINE)
         ) {
             return STR_VALUE_KEYS;
         } else if (tokenType.equals(MesonBuildTypes.BOOL_LITERAL_FALSE) || tokenType.equals(MesonBuildTypes.BOOL_LITERAL_TRUE)

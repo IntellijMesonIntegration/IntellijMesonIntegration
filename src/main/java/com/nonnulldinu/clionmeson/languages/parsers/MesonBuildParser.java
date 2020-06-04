@@ -456,7 +456,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // dict | array | add_expr | id_expression | string_literal | num_literal_unary | num_literal | par_expression
+  // dict | array | add_expr | string_literal | num_literal_unary | num_literal | par_expression
   public static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
@@ -464,7 +464,6 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     r = dict(b, l + 1);
     if (!r) r = array(b, l + 1);
     if (!r) r = add_expr(b, l + 1);
-    if (!r) r = id_expression(b, l + 1);
     if (!r) r = string_literal(b, l + 1);
     if (!r) r = num_literal_unary(b, l + 1);
     if (!r) r = num_literal(b, l + 1);
@@ -1146,22 +1145,26 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // bool_literal | rel_check_expr | expression | "not" simple_bool_expression
+  // rel_check_expr | method_call_chain | func_call_expression | expression | par_expression | id | bool_literal | "not" simple_bool_expression
   public static boolean simple_bool_expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "simple_bool_expression")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, SIMPLE_BOOL_EXPRESSION, "<simple bool expression>");
-    r = bool_literal(b, l + 1);
-    if (!r) r = rel_check_expr(b, l + 1);
+    r = rel_check_expr(b, l + 1);
+    if (!r) r = method_call_chain(b, l + 1);
+    if (!r) r = func_call_expression(b, l + 1);
     if (!r) r = expression(b, l + 1);
-    if (!r) r = simple_bool_expression_3(b, l + 1);
+    if (!r) r = par_expression(b, l + 1);
+    if (!r) r = consumeToken(b, ID);
+    if (!r) r = bool_literal(b, l + 1);
+    if (!r) r = simple_bool_expression_7(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   // "not" simple_bool_expression
-  private static boolean simple_bool_expression_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "simple_bool_expression_3")) return false;
+  private static boolean simple_bool_expression_7(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "simple_bool_expression_7")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LANG_TOKEN_NOT);

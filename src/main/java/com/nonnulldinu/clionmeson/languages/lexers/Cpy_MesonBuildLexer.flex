@@ -96,13 +96,7 @@ LINE_COMMENT=#.*\R+
 
 <MULTILINE_STRING> {
 "'''"                          {yybegin(YYINITIAL); return STRMULTILINE;}
-[^\n\r\"\\]+                   { /*ignore*/ }
-\\t                            { /*ignore*/ }
-\\n                            { /*ignore*/ }
-
-\\r                            { /*ignore*/ }
-\"                             { /*ignore*/ }
-\\                             { /*ignore*/ }
+[^]                            { /*ignore*/ }
 }
 
 [^] { return BAD_CHARACTER; }
