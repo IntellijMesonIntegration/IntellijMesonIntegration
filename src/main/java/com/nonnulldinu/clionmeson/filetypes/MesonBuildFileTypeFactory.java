@@ -14,12 +14,12 @@ public class MesonBuildFileTypeFactory extends FileTypeFactory {
 					@Override
 					@NotNull
 					public String getPresentableString() {
-						return "Meson Build File";
+						return "Meson meson.build file";
 					}
 
 					@Override
 					public boolean acceptsCharSequence(@NotNull CharSequence fileName) {
-						return fileName.toString().equals("meson.build");
+						return fileName.toString().equals(MesonBuildFileType.FILE_NAME);
 
 					}
 

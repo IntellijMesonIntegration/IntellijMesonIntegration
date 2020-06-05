@@ -13,7 +13,6 @@ public class MesonBuildFileType extends LanguageFileType {
     public static final MesonBuildFileType INSTANCE = new MesonBuildFileType();
     public static final String EXTENSION = "build";
     public static final String FILE_NAME = "meson.build";
-    // todo: don't match the files by extension, but rather by exact file name (meson.build)
 
     protected MesonBuildFileType() {
         super(MesonBuildLang.INSTANCE);
