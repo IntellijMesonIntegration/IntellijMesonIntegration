@@ -19,6 +19,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType" fieldName="INSTANCE" language="MesonBuildLang" extensions="build"/>
+        <fileTypeFactory implementation="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileTypeFactory"/>
 
         <lang.parserDefinition language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
         <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
