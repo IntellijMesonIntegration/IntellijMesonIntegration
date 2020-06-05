@@ -1,6 +1,8 @@
 package com.nonnulldinu.clionmeson.filetypes;
 
-import com.intellij.openapi.fileTypes.*;
+import com.intellij.openapi.fileTypes.FileNameMatcher;
+import com.intellij.openapi.fileTypes.FileTypeConsumer;
+import com.intellij.openapi.fileTypes.FileTypeFactory;
 import org.jetbrains.annotations.NotNull;
 
 public class MesonBuildFileTypeFactory extends FileTypeFactory {
@@ -8,7 +10,7 @@ public class MesonBuildFileTypeFactory extends FileTypeFactory {
 	public void createFileTypes(@NotNull FileTypeConsumer fileTypeConsumer) {
 		fileTypeConsumer.consume(
 				MesonBuildFileType.INSTANCE,
-				new FileNameMatcherEx() {
+				new FileNameMatcher() {
 					@Override
 					@NotNull
 					public String getPresentableString() {
@@ -16,8 +18,9 @@ public class MesonBuildFileTypeFactory extends FileTypeFactory {
 					}
 
 					@Override
-					public boolean acceptsCharSequence(CharSequence fileName) {
-						return fileName.toString().matches("(meson[.]build)");
+					public boolean acceptsCharSequence(@NotNull CharSequence fileName) {
+						return fileName.toString().equals("meson.build");
+
 					}
 
 				}
