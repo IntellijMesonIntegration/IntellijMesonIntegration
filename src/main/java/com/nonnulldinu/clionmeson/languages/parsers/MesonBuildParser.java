@@ -540,14 +540,14 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement | repetitive_statement | control_statement)
+  // !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement_for | repetitive_statement | control_statement)
   public static boolean for_statement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, FOR_STATEMENT, "<for statement>");
     r = for_statement_0(b, l + 1);
     r = r && for_statement_1(b, l + 1);
-    exit_section_(b, l, m, r, false, statement_recover_parser_);
+    exit_section_(b, l, m, r, false, statement_for_recover_parser_);
     return r;
   }
 
@@ -561,7 +561,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // method_call_statement | func_call_statement | assignment_statement | selection_statement | repetitive_statement | control_statement
+  // method_call_statement | func_call_statement | assignment_statement | selection_statement_for | repetitive_statement | control_statement
   private static boolean for_statement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "for_statement_1")) return false;
     boolean r;
@@ -569,7 +569,7 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
     r = method_call_statement(b, l + 1);
     if (!r) r = func_call_statement(b, l + 1);
     if (!r) r = assignment_statement(b, l + 1);
-    if (!r) r = selection_statement(b, l + 1);
+    if (!r) r = selection_statement_for(b, l + 1);
     if (!r) r = repetitive_statement(b, l + 1);
     if (!r) r = control_statement(b, l + 1);
     exit_section_(b, m, null, r);
@@ -1327,6 +1327,12 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // newline
+  static boolean statement_for_recover(PsiBuilder b, int l) {
+    return consumeToken(b, NEWLINE);
+  }
+
+  /* ********************************************************** */
   // (statement | newline)*
   public static boolean statement_list(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statement_list")) return false;
@@ -1509,6 +1515,11 @@ public class MesonBuildParser implements PsiParser, LightPsiParser {
   static final Parser selection_statement_recover_parser_ = new Parser() {
     public boolean parse(PsiBuilder b, int l) {
       return selection_statement_recover(b, l + 1);
+    }
+  };
+  static final Parser statement_for_recover_parser_ = new Parser() {
+    public boolean parse(PsiBuilder b, int l) {
+      return statement_for_recover(b, l + 1);
     }
   };
   static final Parser statement_recover_parser_ = new Parser() {

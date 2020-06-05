@@ -4,8 +4,8 @@ package com.nonnulldinu.clionmeson.build.psi;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
-import com.nonnulldinu.clionmeson.build.elements.MesonBuildElement;
-import com.nonnulldinu.clionmeson.build.elements.MesonBuildToken;
+import com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildElement;
+import com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildToken;
 import com.nonnulldinu.clionmeson.build.psi.impl.*;
 
 public interface MesonBuildTypes {

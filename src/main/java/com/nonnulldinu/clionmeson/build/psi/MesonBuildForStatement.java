@@ -23,6 +23,6 @@ public interface MesonBuildForStatement extends PsiElement {
   MesonBuildRepetitiveStatement getRepetitiveStatement();
 
   @Nullable
-  MesonBuildSelectionStatement getSelectionStatement();
+  MesonBuildSelectionStatementFor getSelectionStatementFor();
 
 }

@@ -58,8 +58,8 @@ public class MesonBuildForStatementImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @Nullable
-  public MesonBuildSelectionStatement getSelectionStatement() {
-    return findChildByClass(MesonBuildSelectionStatement.class);
+  public MesonBuildSelectionStatementFor getSelectionStatementFor() {
+    return findChildByClass(MesonBuildSelectionStatementFor.class);
   }
 
 }

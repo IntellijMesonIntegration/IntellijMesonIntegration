@@ -10,8 +10,8 @@
   psiImplPackage="com.nonnulldinu.clionmeson.build.psi.impl"
 
   elementTypeHolderClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes"
-  elementTypeClass="com.nonnulldinu.clionmeson.build.elements.MesonBuildElement"
-  tokenTypeClass="com.nonnulldinu.clionmeson.build.elements.MesonBuildToken"
+  elementTypeClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildElement"
+  tokenTypeClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildToken"
 
 //  psiImplUtilClass="com.nonnulldinu.clionmeson.build.psi.impl.PsiImplUtil"
   tokens=[
@@ -90,7 +90,8 @@ statement_list ::= (statement | newline)*
 for_statement_list ::= (for_statement | newline)*
 statement ::= !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement | repetitive_statement) {pin=2; recoverWhile=statement_recover}
 private statement_recover ::= newline
-for_statement ::= !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement | repetitive_statement | control_statement) {pin=2; recoverWhile=statement_recover}
+for_statement ::= !<<eof>> (method_call_statement | func_call_statement | assignment_statement | selection_statement_for | repetitive_statement | control_statement) {pin=2; recoverWhile=statement_for_recover}
+private statement_for_recover ::= newline
 control_statement ::= ("continue" | "break") newline
 
 // assignment statement
@@ -100,7 +101,7 @@ atrop ::= "=" | "+=" | "-=" | "/=" | "*=" | "%="
 // function call statement
 func_call_expression ::= func_name "(" [func_args] ")" {pin=2}
 func_call_statement ::= func_call_expression newline
-func_name ::= id
+func_name ::= id_expression
 
 // if "selection" statement
 selection_statement ::= "if" full_bool_expression newline statement_list ("elif" full_bool_expression newline statement_list)* ["else" newline statement_list] "endif" newline {pin=1; recoverWhile=selection_statement_recover}

@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson.build.elements;
+package com.nonnulldinu.clionmeson.build.elementsandutils;
 
 import com.intellij.psi.tree.IElementType;
 import com.nonnulldinu.clionmeson.languages.MesonBuildLang;
