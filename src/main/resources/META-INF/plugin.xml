@@ -1,5 +1,5 @@
 <idea-plugin>
-    <idea-version since-build="201" until-build="201.*"/>
+    <idea-version since-build="202" until-build="202.*"/>
     <id>com.non.null.dinu.MesonIntegration</id>
     <name>CLion Meson Integration</name>
     <vendor email="dinu.blanovschi@criptext.com" url="http://www.github.com/NonNullDinu/CLionMesonIntegration">NonNullDinu</vendor>
@@ -22,6 +22,9 @@
 
         <lang.parserDefinition language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
         <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
+
+        <!-- Completions -->
+        <completion.contributor language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>
 
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGenerator"/>

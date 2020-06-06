@@ -13,7 +13,7 @@
   elementTypeClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildElement"
   tokenTypeClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildToken"
 
-//  psiImplUtilClass="com.nonnulldinu.clionmeson.build.psi.impl.PsiImplUtil"
+  psiImplUtilClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildPsiImplUtil"
   tokens=[
     newline="regexp:\s*\R\s*"
     SPACES="regexp:[ \t]+"
