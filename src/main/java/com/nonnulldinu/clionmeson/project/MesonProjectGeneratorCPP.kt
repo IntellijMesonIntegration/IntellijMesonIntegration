@@ -2,6 +2,9 @@ package com.nonnulldinu.clionmeson.project
 
 import com.intellij.ide.util.projectWizard.AbstractNewProjectStep.AbstractCallback
 import com.intellij.openapi.module.Module
+import com.intellij.openapi.progress.PerformInBackgroundOption
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Ref
 import com.intellij.openapi.vfs.VirtualFile
@@ -9,13 +12,14 @@ import com.intellij.openapi.wm.impl.welcomeScreen.AbstractActionWithPanel
 import com.intellij.platform.DirectoryProjectGenerator
 import com.intellij.platform.GeneratorPeerImpl
 import com.intellij.platform.ProjectGeneratorPeer
-import com.nonnulldinu.clionmeson.module.MesonProjectSettingsStep
-import org.jetbrains.annotations.NotNull
+import com.nonnulldinu.clionmeson.module.MesonProjectSettingsStepCPP
+import java.io.File
+import java.io.FileOutputStream
 import javax.swing.JPanel
 
-class MesonProjectGenerator : MesonBasedProjectGenerator() {
+class MesonProjectGeneratorCPP : MesonBasedProjectGenerator() {
     override fun createStep(projectGenerator: DirectoryProjectGenerator<Ref<Array<String?>?>?>, callback: AbstractCallback<Ref<Array<String?>?>?>): AbstractActionWithPanel {
-        return MesonProjectSettingsStep(projectGenerator, callback)
+        return MesonProjectSettingsStepCPP(projectGenerator, callback)
     }
 
     override fun getName(): String {
@@ -26,17 +30,42 @@ class MesonProjectGenerator : MesonBasedProjectGenerator() {
         return "Meson-based C++ project"
     }
 
-    override fun createPeer(): @NotNull ProjectGeneratorPeer<Ref<Array<String?>?>?> {
+    override fun createPeer(): ProjectGeneratorPeer<Ref<Array<String?>?>?> {
         return GeneratorPeerImpl(Ref<Array<String?>?>(null), JPanel())
     }
 
     override fun generateProject(project: Project, baseDir: VirtualFile, settings: Ref<Array<String?>?>, module: Module) {
-        doGenerateProject(project, baseDir, true)
+        doGenerateProject(project, baseDir)
     }
 
-    fun doGenerateProject(project: Project,
-                          baseDir: VirtualFile,
-                          generateMain: Boolean) {
+    private fun doGenerateProject(project: Project,
+                                  baseDir: VirtualFile) {
+        val projRoot : String? = project.basePath
+        val mesonBuildFile : String = projRoot!! + "/meson.build"
+        val main_file : String = "$projRoot/main.cpp"
+        ProgressManager.getInstance().executeNonCancelableSection {
+            val f = File(mesonBuildFile)
+            f.createNewFile()
+            val fs = FileOutputStream(f)
+            fs.write(("project ('" + project.name + "', 'cpp', version: '1.0', default_options: [\n" +
+                    "                'cpp_std=2a'\n" +
+                    "])\n" +
+                    "\n" +
+                    "executable('"+project.name+"', files('main.cpp'))\n").toByteArray())
+            fs.close()
+        }.also {
+            val f = File(main_file)
+            f.createNewFile()
+            val fs = FileOutputStream(f)
+            fs.write(("#include <iostream>\n" +
+                    "\n" +
+                    "int main()\n" +
+                    "{\n" +
+                    "\tstd::cout << \"Hello World!\\n\";\n" +
+                    "\treturn 0;\n" +
+                    "}").toByteArray())
+            fs.close()
+        }
     } //	private void finishFileStructure(@NotNull Project project,
     //	                                 @NotNull VirtualFile baseDir, boolean generateMain) {
     //		baseDir.refresh(false, true);

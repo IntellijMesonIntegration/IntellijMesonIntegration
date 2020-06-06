@@ -27,7 +27,8 @@
         <completion.contributor language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>
 
         <!-- Project Creation -->
-        <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGenerator"/>
+        <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorC"/>
+        <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorCPP"/>
     </extensions>
 
     <actions>
