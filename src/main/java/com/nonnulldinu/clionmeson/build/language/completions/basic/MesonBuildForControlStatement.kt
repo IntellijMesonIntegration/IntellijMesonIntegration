@@ -11,7 +11,7 @@ import com.nonnulldinu.clionmeson.languages.MesonBuildLang
 
 class MesonBuildForControlStatement : MesonBuildCompletionBasicObject() {
     override val pattern: PsiElementPattern.Capture<PsiElement?>
-        get() = PlatformPatterns.psiElement().withLanguage(MesonBuildLang.INSTANCE) /*.withAncestor(2, PlatformPatterns.psiElement(MesonBuildTypes.FOR_STATEMENT_LIST))*/
+        get() = PlatformPatterns.psiElement().withLanguage(MesonBuildLang) /*.withAncestor(2, PlatformPatterns.psiElement(MesonBuildTypes.FOR_STATEMENT_LIST))*/
 
     override fun addCompletions(parameters: CompletionParameters, context: ProcessingContext, result: CompletionResultSet) {
         result.addElement(LookupElementBuilder.create("continue"))

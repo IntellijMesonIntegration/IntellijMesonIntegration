@@ -11,7 +11,8 @@ import java.awt.GridBagLayout
 import java.awt.event.ActionEvent
 import javax.swing.*
 
-class MesonProjectSettingsStep(projectGenerator: DirectoryProjectGenerator<Ref<Array<String?>?>>?, callback: AbstractCallback<Ref<Array<String?>?>>?) : ProjectSettingsStepBase<Ref<Array<String?>?>?>(projectGenerator, callback) {
+class MesonProjectSettingsStep(projectGenerator: DirectoryProjectGenerator<Ref<Array<String?>?>?>, callback: AbstractCallback<Ref<Array<String?>?>?>)
+    : ProjectSettingsStepBase<Ref<Array<String?>?>?>(projectGenerator, callback) {
     override fun createAdvancedSettings(): JPanel? {
         val jPanel = JPanel(GridBagLayout())
         jPanel.border = BorderFactory.createEmptyBorder(0, 0, 0, 0)
@@ -20,29 +21,28 @@ class MesonProjectSettingsStep(projectGenerator: DirectoryProjectGenerator<Ref<A
         val languageLabel = JLabel("Language:")
         val languageCombobox = ComboBox(arrayOf("C", "C++", "Rust", "Java"))
         languageCombobox.selectedItem = "C++"
-        jPanel.add(languageLabel, GridBagConstraints(0, 0, 1, 1, 0, 0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
-        jPanel.add(languageCombobox, GridBagConstraints(1, 0, 1, 1, 0, 0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
+        jPanel.add(languageLabel, GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
+        jPanel.add(languageCombobox, GridBagConstraints(1, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
 
         // standard label and combobox
         val standardLabel = JLabel("Language standard:")
         val standardCombobox = ComboBox<String>()
-        jPanel.add(standardLabel, GridBagConstraints(0, 1, 1, 1, 0, 0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
-        jPanel.add(standardCombobox, GridBagConstraints(1, 1, 1, 1, 0, 0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
+        jPanel.add(standardLabel, GridBagConstraints(0, 1, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
+        jPanel.add(standardCombobox, GridBagConstraints(1, 1, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
 
         // create the spacer to push the items to the top left corner
-        jPanel.add(Box.createGlue(), GridBagConstraints(2, 2, 1, 1, 1, 1, GridBagConstraints.CENTER, 0, JBUI.emptyInsets(), 0, 0))
+        jPanel.add(Box.createGlue(), GridBagConstraints(2, 2, 1, 1, 1.0, 1.0, GridBagConstraints.CENTER, 0, JBUI.emptyInsets(), 0, 0))
 
         // listeners - see: https://stackoverflow.com/questions/58939/jcombobox-selection-change-listener
         languageCombobox.addActionListener { e: ActionEvent? ->
-            val model: DefaultComboBoxModel<String>
-            model = when (languageCombobox.selectedIndex) {
+            val model: DefaultComboBoxModel<String> = when (languageCombobox.selectedIndex) {
                 0 -> DefaultComboBoxModel(arrayOf("C90", "C99", "C11"))
                 1 -> DefaultComboBoxModel(arrayOf("C++98", "C++11", "C++14", "C++17", "C++20"))
                 2 -> DefaultComboBoxModel(arrayOf("Rust v1.38.0"))
                 3 -> DefaultComboBoxModel(arrayOf("Java 8", "Java 11", "Java 14"))
                 else -> DefaultComboBoxModel()
             }
-            standardCombobox.setModel(model)
+            standardCombobox.model = model
             standardCombobox.setSelectedIndex(standardCombobox.model.size - 1)
         }
 

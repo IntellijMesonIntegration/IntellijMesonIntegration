@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull
 import javax.swing.JPanel
 
 class MesonProjectGenerator : MesonBasedProjectGenerator() {
-    override fun createStep(projectGenerator: DirectoryProjectGenerator<Ref<Array<String?>?>>, callback: AbstractCallback<Ref<Array<String?>?>>): AbstractActionWithPanel {
+    override fun createStep(projectGenerator: DirectoryProjectGenerator<Ref<Array<String?>?>?>, callback: AbstractCallback<Ref<Array<String?>?>?>): AbstractActionWithPanel {
         return MesonProjectSettingsStep(projectGenerator, callback)
     }
 
@@ -26,8 +26,8 @@ class MesonProjectGenerator : MesonBasedProjectGenerator() {
         return "Meson-based C++ project"
     }
 
-    override fun createPeer(): @NotNull ProjectGeneratorPeer<Ref<Array<String>>> {
-        return GeneratorPeerImpl(Ref(null), JPanel())
+    override fun createPeer(): @NotNull ProjectGeneratorPeer<Ref<Array<String?>?>?> {
+        return GeneratorPeerImpl(Ref<Array<String?>?>(null), JPanel())
     }
 
     override fun generateProject(project: Project, baseDir: VirtualFile, settings: Ref<Array<String?>?>, module: Module) {

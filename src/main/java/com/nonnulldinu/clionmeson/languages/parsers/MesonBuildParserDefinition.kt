@@ -61,7 +61,7 @@ class MesonBuildParserDefinition : ParserDefinition {
 
     companion object {
         val WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE)
-        val COMMENTS = TokenSet.create(MesonBuildTypes.Companion.LINE_COMMENT, MesonBuildTypes.Companion.BLOCK_COMMENT)
-        val FILE = IFileElementType(MesonBuildLang.INSTANCE)
+        val COMMENTS = TokenSet.create(MesonBuildTypes.LINE_COMMENT, MesonBuildTypes.BLOCK_COMMENT)
+        val FILE = IFileElementType(MesonBuildLang)
     }
 }

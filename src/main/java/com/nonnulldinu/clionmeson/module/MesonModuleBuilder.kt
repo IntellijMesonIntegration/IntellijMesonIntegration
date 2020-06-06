@@ -10,7 +10,7 @@ import com.intellij.openapi.roots.ModifiableRootModel
 class MesonModuleBuilder : ModuleBuilder() {
     override fun setupRootModel(model: ModifiableRootModel) {}
     override fun getModuleType(): ModuleType<*> {
-        return MesonModuleType.Companion.getInstance()
+        return MesonModuleType.instance
     } //	@Nullable
     //	@Override
     //	public ModuleWizardStep getCustomOptionsStep(WizardContext context, Disposable parentDisposable) {

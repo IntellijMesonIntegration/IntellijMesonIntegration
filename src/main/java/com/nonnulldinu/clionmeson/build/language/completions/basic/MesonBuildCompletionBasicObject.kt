@@ -4,6 +4,6 @@ import com.intellij.codeInsight.completion.CompletionType
 import com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionCoreObject
 
 abstract class MesonBuildCompletionBasicObject : MesonBuildCompletionCoreObject() {
-    protected override val type: CompletionType
-        protected get() = CompletionType.BASIC
+    override val type: CompletionType
+        get() = CompletionType.BASIC
 }

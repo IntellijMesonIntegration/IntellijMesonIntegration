@@ -6,7 +6,7 @@ import com.intellij.psi.FileViewProvider
 import com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType
 import com.nonnulldinu.clionmeson.languages.MesonBuildLang
 
-class MesonBuildFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, MesonBuildLang.INSTANCE) {
+class MesonBuildFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, MesonBuildLang) {
     /**
      * Returns the file type for the file.
      *

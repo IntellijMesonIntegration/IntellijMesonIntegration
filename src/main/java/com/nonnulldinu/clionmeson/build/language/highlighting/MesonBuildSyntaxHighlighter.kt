@@ -23,18 +23,39 @@ class MesonBuildSyntaxHighlighter : SyntaxHighlighterBase() {
      * @return The array of text attribute keys.
      */
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
-        return if (tokenType == MesonBuildTypes.Companion.PLUS_OP || tokenType == MesonBuildTypes.Companion.MINUS_OP || tokenType == MesonBuildTypes.Companion.MULT_OP || tokenType == MesonBuildTypes.Companion.DIV_OP || tokenType == MesonBuildTypes.Companion.MOD_OP || tokenType == MesonBuildTypes.Companion.COMP_ATR_OP1 || tokenType == MesonBuildTypes.Companion.COMP_ATR_OP2 || tokenType == MesonBuildTypes.Companion.COMP_ATR_OP3 || tokenType == MesonBuildTypes.Companion.COMP_ATR_OP4 || tokenType == MesonBuildTypes.Companion.COMP_ATR_OP5 || tokenType == MesonBuildTypes.Companion.ATR_OP || tokenType == MesonBuildTypes.Companion.BRACE_BEGIN || tokenType == MesonBuildTypes.Companion.BRACE_END || tokenType == MesonBuildTypes.Companion.CURLY_BRACE_BEGIN || tokenType == MesonBuildTypes.Companion.CURLY_BRACE_END || tokenType == MesonBuildTypes.Companion.PAREN_BEGIN || tokenType == MesonBuildTypes.Companion.PAREN_END || tokenType == MesonBuildTypes.Companion.COMMA || tokenType == MesonBuildTypes.Companion.COMP_OP1 || tokenType == MesonBuildTypes.Companion.COMP_OP2 || tokenType == MesonBuildTypes.Companion.COMP_OP3 || tokenType == MesonBuildTypes.Companion.COMP_OP4 || tokenType == MesonBuildTypes.Companion.COMP_OP5 || tokenType == MesonBuildTypes.Companion.COMP_OP6 || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_QMARK || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_COLON || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_DOT) {
+        return if (tokenType == MesonBuildTypes.PLUS_OP || tokenType == MesonBuildTypes.MINUS_OP
+                || tokenType == MesonBuildTypes.MULT_OP || tokenType == MesonBuildTypes.DIV_OP
+                || tokenType == MesonBuildTypes.MOD_OP || tokenType == MesonBuildTypes.COMP_ATR_OP1
+                || tokenType == MesonBuildTypes.COMP_ATR_OP2 || tokenType == MesonBuildTypes.COMP_ATR_OP3
+                || tokenType == MesonBuildTypes.COMP_ATR_OP4 || tokenType == MesonBuildTypes.COMP_ATR_OP5
+                || tokenType == MesonBuildTypes.ATR_OP || tokenType == MesonBuildTypes.BRACE_BEGIN
+                || tokenType == MesonBuildTypes.BRACE_END || tokenType == MesonBuildTypes.CURLY_BRACE_BEGIN
+                || tokenType == MesonBuildTypes.CURLY_BRACE_END || tokenType == MesonBuildTypes.PAREN_BEGIN
+                || tokenType == MesonBuildTypes.PAREN_END || tokenType == MesonBuildTypes.COMMA
+                || tokenType == MesonBuildTypes.COMP_OP1 || tokenType == MesonBuildTypes.COMP_OP2
+                || tokenType == MesonBuildTypes.COMP_OP3 || tokenType == MesonBuildTypes.COMP_OP4
+                || tokenType == MesonBuildTypes.COMP_OP5 || tokenType == MesonBuildTypes.COMP_OP6
+                || tokenType == MesonBuildTypes.LANG_TOKEN_QMARK || tokenType == MesonBuildTypes.LANG_TOKEN_COLON
+                || tokenType == MesonBuildTypes.LANG_TOKEN_DOT) {
             OPERATOR_KEYS
         } else if ( // conditional
-                tokenType == MesonBuildTypes.Companion.IN_OP || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_AND || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_OR || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_NOT || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_IF || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_ELSE_IF || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_ELSE || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_ENDIF || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_FOREACH || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_FOREACH_END || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_JUMP_CONTINUE || tokenType == MesonBuildTypes.Companion.LANG_TOKEN_JUMP_BREAK) {
+                tokenType == MesonBuildTypes.IN_OP || tokenType == MesonBuildTypes.LANG_TOKEN_AND
+                || tokenType == MesonBuildTypes.LANG_TOKEN_OR || tokenType == MesonBuildTypes.LANG_TOKEN_NOT
+                || tokenType == MesonBuildTypes.LANG_TOKEN_IF || tokenType == MesonBuildTypes.LANG_TOKEN_ELSE_IF
+                || tokenType == MesonBuildTypes.LANG_TOKEN_ELSE || tokenType == MesonBuildTypes.LANG_TOKEN_ENDIF
+
+                || tokenType == MesonBuildTypes.LANG_TOKEN_FOREACH || tokenType == MesonBuildTypes.LANG_TOKEN_FOREACH_END
+                || tokenType == MesonBuildTypes.LANG_TOKEN_JUMP_CONTINUE || tokenType == MesonBuildTypes.LANG_TOKEN_JUMP_BREAK) {
             KEYWORD_KEYS
-        } else if (tokenType == MesonBuildTypes.Companion.STRSIMPLE || tokenType == MesonBuildTypes.Companion.STRMULTILINE) {
+        } else if (tokenType == MesonBuildTypes.STRSIMPLE || tokenType == MesonBuildTypes.STRMULTILINE) {
             STR_VALUE_KEYS
-        } else if (tokenType == MesonBuildTypes.Companion.BOOL_LITERAL_FALSE || tokenType == MesonBuildTypes.Companion.BOOL_LITERAL_TRUE || tokenType == MesonBuildTypes.Companion.BINNUM || tokenType == MesonBuildTypes.Companion.OCTNUM || tokenType == MesonBuildTypes.Companion.DECNUM || tokenType == MesonBuildTypes.Companion.HEXNUM) {
+        } else if (tokenType == MesonBuildTypes.BOOL_LITERAL_FALSE || tokenType == MesonBuildTypes.BOOL_LITERAL_TRUE
+                || tokenType == MesonBuildTypes.BINNUM || tokenType == MesonBuildTypes.OCTNUM
+                || tokenType == MesonBuildTypes.DECNUM || tokenType == MesonBuildTypes.HEXNUM) {
             NUM_VALUE_KEYS
-        } else if (tokenType == MesonBuildTypes.Companion.LINE_COMMENT) {
+        } else if (tokenType == MesonBuildTypes.LINE_COMMENT) {
             LINE_COMMENT_KEYS
-        } else if (tokenType == MesonBuildTypes.Companion.BLOCK_COMMENT) {
+        } else if (tokenType == MesonBuildTypes.BLOCK_COMMENT) {
             BLOCK_COMMENT_KEYS
         } else if (tokenType == TokenType.BAD_CHARACTER) {
             BAD_CHAR_KEYS
@@ -51,13 +72,13 @@ class MesonBuildSyntaxHighlighter : SyntaxHighlighterBase() {
         val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("MESON_BUILD_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
         val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("MESON_BUILD_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
         val BAD_CHARACTER = TextAttributesKey.createTextAttributesKey("MESON_BUILD_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
-        private val BAD_CHAR_KEYS = arrayOf(BAD_CHARACTER)
-        private val OPERATOR_KEYS = arrayOf(OPERATOR)
-        private val KEYWORD_KEYS = arrayOf(KEYWORD)
-        private val STR_VALUE_KEYS = arrayOf(STR_VALUE)
-        private val NUM_VALUE_KEYS = arrayOf(NUM_VALUE)
-        private val LINE_COMMENT_KEYS = arrayOf(LINE_COMMENT)
-        private val BLOCK_COMMENT_KEYS = arrayOf(BLOCK_COMMENT)
-        private val EMPTY_KEYS = arrayOfNulls<TextAttributesKey>(0)
+        private val BAD_CHAR_KEYS : Array<TextAttributesKey> = arrayOf(BAD_CHARACTER)
+        private val OPERATOR_KEYS : Array<TextAttributesKey> = arrayOf(OPERATOR)
+        private val KEYWORD_KEYS : Array<TextAttributesKey> = arrayOf(KEYWORD)
+        private val STR_VALUE_KEYS : Array<TextAttributesKey> = arrayOf(STR_VALUE)
+        private val NUM_VALUE_KEYS : Array<TextAttributesKey> = arrayOf(NUM_VALUE)
+        private val LINE_COMMENT_KEYS : Array<TextAttributesKey> = arrayOf(LINE_COMMENT)
+        private val BLOCK_COMMENT_KEYS : Array<TextAttributesKey> = arrayOf(BLOCK_COMMENT)
+        private val EMPTY_KEYS : Array<TextAttributesKey> = arrayOf()
     }
 }
