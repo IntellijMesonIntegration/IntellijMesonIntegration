@@ -29,9 +29,13 @@
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorC"/>
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorCPP"/>
+<<<<<<< HEAD
 
         <!-- Run Configurations -->
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
+=======
+        <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorRust"/>
+>>>>>>> f817908a4bb7f80af3c53dfccdbf4b98fc6f7420
     </extensions>
 
     <actions>
