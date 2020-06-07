@@ -6,7 +6,7 @@ import com.jetbrains.cidr.cpp.cmake.projectWizard.generators.CLionProjectGenerat
 import com.nonnulldinu.clionmeson.icons.PluginIcons
 import javax.swing.Icon
 
-abstract class MesonBasedProjectGenerator : CLionProjectGenerator<Ref<Array<String?>?>?>(), CustomStepProjectGenerator<Ref<Array<String?>?>?> {
+abstract class MesonBasedProjectGenerator : CLionProjectGenerator<Ref<Array<SettingsProperty>>>(), CustomStepProjectGenerator<Ref<Array<SettingsProperty>>> {
     override fun getLogo(): Icon? {
         return PluginIcons.MESON_BUILD_ICON
     }

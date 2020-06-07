@@ -12,6 +12,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation(group = "com.google.code.gson", name = "gson", version = "2.8.6")
 
     testImplementation(group = "junit", name = "junit", version = "4.12")
 }
@@ -26,7 +27,8 @@ tasks {
     patchPluginXml {
         changeNotes("""
         0.0.1 - To be released:
-        - Meson syntax highlight
+        - Meson syntax highlighting (and basic parsing, but with cryptic errors)
+        - Run configurations
         """.trimMargin())
     }
 }

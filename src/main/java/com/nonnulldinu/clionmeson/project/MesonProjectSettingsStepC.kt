@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson.module
+package com.nonnulldinu.clionmeson.project
 
 import com.intellij.ide.util.projectWizard.AbstractNewProjectStep
 import com.intellij.openapi.ui.ComboBox
@@ -7,12 +7,23 @@ import com.intellij.platform.DirectoryProjectGenerator
 import com.intellij.util.ui.JBUI
 import java.awt.GridBagConstraints
 import java.awt.GridBagLayout
+import java.awt.event.ActionEvent
 import javax.swing.*
 
 class MesonProjectSettingsStepC(
-        projectGenerator: DirectoryProjectGenerator<Ref<Array<String?>?>?>,
-        callback: AbstractNewProjectStep.AbstractCallback<Ref<Array<String?>?>?>
+        projectGenerator: DirectoryProjectGenerator<Ref<Array<SettingsProperty>>>,
+        callback: AbstractNewProjectStep.AbstractCallback<Ref<Array<SettingsProperty>>>
 ) : MesonProjectSettingsStep(projectGenerator, callback) {
+    companion object {
+        const val LANG_STD_INDEX = 0
+    }
+
+    private var properties: Array<SettingsProperty> = arrayOf(SettingsProperty("LANG_STD", "C11"))
+
+    override fun getSettings(): Ref<Array<SettingsProperty>> {
+        return Ref<Array<SettingsProperty>>(properties)
+    }
+
     override fun createAdvancedSettings(): JPanel? {
         val jPanel = JPanel(GridBagLayout())
         jPanel.border = BorderFactory.createEmptyBorder(0, 0, 0, 0)
@@ -35,21 +46,11 @@ class MesonProjectSettingsStepC(
         standardCombobox.model = DefaultComboBoxModel(arrayOf("C90", "C98", "C11"))
         standardCombobox.selectedIndex = standardCombobox.model.size - 1
 
-//      // listeners - see: https://stackoverflow.com/questions/58939/jcombobox-selection-change-listener
-//        languageCombobox.addActionListener { e: ActionEvent? ->
-//            val model: DefaultComboBoxModel<String> = when (languageCombobox.selectedIndex) {
-//                0 -> DefaultComboBoxModel(arrayOf("C90", "C99", "C11"))
-//                1 -> DefaultComboBoxModel(arrayOf("C++98", "C++11", "C++14", "C++17", "C++20"))
-//                2 -> DefaultComboBoxModel(arrayOf("Rust v1.38.0"))
-//                3 -> DefaultComboBoxModel(arrayOf("Java 8", "Java 11", "Java 14"))
-//                else -> DefaultComboBoxModel()
-//            }
-//            standardCombobox.model = model
-//            standardCombobox.setSelectedIndex(standardCombobox.model.size - 1)
-//        }
-//
-//        // emit the signal update the standardCombobox
-//        languageCombobox.actionPerformed(null)
+        // listeners - see: https://stackoverflow.com/questions/58939/jcombobox-selection-change-listener
+        standardCombobox.addActionListener { e: ActionEvent? ->
+            properties[LANG_STD_INDEX].set(standardCombobox.model.selectedItem as String)
+        }
+
         return jPanel
     }
 }
