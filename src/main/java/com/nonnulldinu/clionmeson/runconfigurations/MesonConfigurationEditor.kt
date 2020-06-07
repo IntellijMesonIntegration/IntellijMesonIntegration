@@ -4,7 +4,7 @@ import com.intellij.openapi.options.ConfigurationException
 import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.ui.ComboBoxWithWidePopup
 import com.intellij.openapi.ui.LabeledComponent
-import com.nonnulldinu.clionmeson.buildsystem.MesonBuildTarget
+import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTarget
 import javax.swing.JComponent
 import javax.swing.JPanel
 

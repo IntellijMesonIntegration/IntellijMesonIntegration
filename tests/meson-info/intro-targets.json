@@ -1,0 +1,38 @@
+[
+  {
+    "name": "MPT",
+    "id": "MPT@exe",
+    "type": "executable",
+    "defined_in": "/home/dinu/CLionProjects/MPT/meson.build",
+    "filename": [
+      "/home/dinu/CLionProjects/MPT/build/MPT"
+    ],
+    "build_by_default": true,
+    "target_sources": [
+      {
+        "language": "c",
+        "compiler": [
+          "cc"
+        ],
+        "parameters": [
+          "-I/home/dinu/CLionProjects/MPT/build/MPT@exe",
+          "-I/home/dinu/CLionProjects/MPT/build",
+          "-I/home/dinu/CLionProjects/MPT",
+          "-fdiagnostics-color=always",
+          "-pipe",
+          "-D_FILE_OFFSET_BITS=64",
+          "-Wall",
+          "-Winvalid-pch",
+          "-std=c11",
+          "-g"
+        ],
+        "sources": [
+          "/home/dinu/CLionProjects/MPT/main.c"
+        ],
+        "generated_sources": []
+      }
+    ],
+    "subproject": null,
+    "installed": false
+  }
+]

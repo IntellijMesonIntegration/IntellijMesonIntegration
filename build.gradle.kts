@@ -20,7 +20,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type = "CL"
-    version = "2020.1.1"
+    version = "2020.1.2"
 }
 
 tasks {
