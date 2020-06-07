@@ -6,9 +6,6 @@ import com.intellij.openapi.util.Ref
 import com.intellij.platform.DirectoryProjectGenerator
 import com.nonnulldinu.clionmeson.project.SettingsProperty
 
-abstract class MesonProjectSettingsStep(
-        projectGenerator: DirectoryProjectGenerator<Ref<Array<SettingsProperty>>>,
-        callback: AbstractNewProjectStep.AbstractCallback<Ref<Array<SettingsProperty>>>
-) : ProjectSettingsStepBase<Ref<Array<SettingsProperty>>>(projectGenerator, callback) {
+abstract class MesonProjectSettingsStep(projectGenerator: DirectoryProjectGenerator<Ref<Array<SettingsProperty>>>, callback: AbstractNewProjectStep.AbstractCallback<Ref<Array<SettingsProperty>>>) : ProjectSettingsStepBase<Ref<Array<SettingsProperty>>>(projectGenerator, callback) {
     abstract fun getSettings(): Ref<Array<SettingsProperty>>
 }
