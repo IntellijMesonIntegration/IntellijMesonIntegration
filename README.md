@@ -11,5 +11,5 @@ you are interested in the plugin.
 
 # Building from source
 ## Configuration
-* Make sure gradle can download clion and jbr without going out of heap size; a simple fix if you encounter this: add/increase MaxHeapSize to about 1 GiB(`org.gradle.jvmargs=-XX:MaxHeapSize=1024m`) in `~/.gradle/gradle.properties`.
+* Make sure gradle can download clion and jbr without going out of heap space; a simple fix if you encounter this: add/increase MaxHeapSize to about 1 GiB(`org.gradle.jvmargs=-XX:MaxHeapSize=1024m`) in `~/.gradle/gradle.properties`.
 * Load the project
