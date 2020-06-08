@@ -6,8 +6,10 @@ This plugin is very early in development, and is not anywhere close to
 production ready. You can check the progress
 [here](https://github.com/NonNullDinu/CLionMesonIntegration/projects/1).
 
+Also, feel free to join [our discord](https://discord.gg/ZFFANpR) if
+you are interested in the plugin.
+
 # Building from source
 ## Configuration
-* Create a file `gradle.properties` in `~/.gradle/` with the content: `org.gradle.jvmargs=-XX:MaxHeapSize=1024m`
-* Make sure gradle user home is set to `~/.gradle/` in File > Settings > Build, Execution, Deployement > Build tools > gradle
+* Make sure gradle can download clion and jbr without going out of heap size; a simple fix if you encounter this: add/increase MaxHeapSize to about 1 GiB(`org.gradle.jvmargs=-XX:MaxHeapSize=1024m`) in `~/.gradle/gradle.properties`.
 * Load the project
