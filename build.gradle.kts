@@ -21,6 +21,7 @@ dependencies {
 intellij {
     type = "CL"
     version = "2020.1.2"
+//    setPlugins("org.rust.lang") todo: find how to add the dependency correctly
 }
 
 tasks {

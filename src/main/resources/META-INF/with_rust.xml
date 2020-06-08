@@ -1,0 +1,5 @@
+<idea-plugin>
+    <extensions defaultExtensionNs="com.intellij">
+        <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorRust"/>
+    </extensions>
+</idea-plugin>

@@ -14,6 +14,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
+    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType" language="MesonBuildLang" fileNames="meson.build"/>
@@ -27,7 +28,6 @@
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorC"/>
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorCPP"/>
-        <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorRust"/>
 
         <!-- Run Configurations -->
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
