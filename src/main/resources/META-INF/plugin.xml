@@ -35,6 +35,5 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action class="com.nonnulldinu.clionmeson.buildsystem.actions.OpenMesonLog" id="com.nonnulldinu.clionmeson.buildsystem.actions.OpenMesonLog" text="Open Meson Log" description="Open the Meson log"/>
     </actions>
 </idea-plugin>
