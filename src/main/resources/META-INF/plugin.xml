@@ -31,6 +31,8 @@
 
         <!-- Run Configurations -->
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
+        <projectService serviceInterface="com.nonnulldinu.clionmeson.services.MesonBuildStoreService"
+                        serviceImplementation="com.nonnulldinu.clionmeson.services.impl.MesonBuildStoreServiceImpl"/>
     </extensions>
 
     <actions>

@@ -1,24 +1,24 @@
 package com.nonnulldinu.clionmeson.buildsystem
 
 import com.google.gson.Gson
+import com.intellij.ide.util.PropertiesComponent
 import com.intellij.notification.Notifications
+import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.Key
-import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.project.stateStore
 import com.nonnulldinu.clionmeson.buildsystem.actions.OpenMesonLog
 import com.nonnulldinu.clionmeson.buildsystem.meta.MesonBuildMeta
 import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTarget
-import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTargets
 import com.nonnulldinu.clionmeson.buildsystem.utils.MesonBuildUtilCached
 import com.nonnulldinu.clionmeson.notifications.MesonBuildNotifications
 import java.io.File
 import java.io.FileInputStream
 
-class MesonBuildSystem(var mesonBuildRoot: VirtualFile) {
+class MesonBuildSystem(var mesonBuildRoot: String) {
     private var cachedMeta: MesonBuildUtilCached<MesonBuildMeta>? = null
     private var cachedTargets: MesonBuildUtilCached<Array<MesonBuildTarget>>? = null
 
@@ -29,15 +29,14 @@ class MesonBuildSystem(var mesonBuildRoot: VirtualFile) {
                 override fun run(indicator: ProgressIndicator) {
                     val p: Process = ProcessBuilder().command("/usr/bin/meson", "build").directory(File(project.basePath!!)).start()
                     p.waitFor()
-                    if (p.exitValue() == 0)
-                        Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Successfully created the build system", OpenMesonLog()))
-                    else {
-                        Notifications.Bus.notify(MesonBuildNotifications.errNotify("Meson Build Failed", OpenMesonLog()))
-                    }
+                    Notifications.Bus.notify(when (p.exitValue()) {
+                        0 -> MesonBuildNotifications.infoNotify("Successfully created the build system")
+                        else -> MesonBuildNotifications.errNotify("Meson Build failed with exit code " + p.exitValue(), OpenMesonLog())
+                    })
                 }
 
                 override fun onFinished() {
-                    project.putUserData(mesonBuildSystemInstanceKey, MesonBuildSystem(project.guessProjectDir()!!.findChild("build")!!))
+                    project.putUserData(mesonBuildSystemInstanceKey, MesonBuildSystem(project.basePath + "/build"))
                 }
             }.queue()
         }
@@ -58,8 +57,9 @@ class MesonBuildSystem(var mesonBuildRoot: VirtualFile) {
         if (!forced && cachedTargets != null && !cachedTargets!!.shouldReload()) return
         if (cachedMeta == null) return
 
-        val virtTargetsFile = mesonBuildRoot.findFileByRelativePath("/meson-info/" + (cachedMeta?.value?.introspection?.information?.targets?.file ?: throw IllegalStateException("Cannot find the targets.json file from meson-info.json"))) ?: return
-        val targetsFile = File(virtTargetsFile.canonicalPath!!)
+        val targetsFilePath = "$mesonBuildRoot/meson-info/" + (cachedMeta?.value?.introspection?.information?.targets?.file)
+        val targetsFile = File(targetsFilePath)
+        if (!targetsFile.exists()) throw IllegalStateException("Cannot find the targets json file \"$targetsFilePath\" from meson-info.json")
         var targetsFileContent: String
         run {
             val targetsFileReader = FileInputStream(targetsFile)
@@ -70,9 +70,10 @@ class MesonBuildSystem(var mesonBuildRoot: VirtualFile) {
 
     private fun reCacheMeta(forced: Boolean) {
         if (!forced && cachedMeta != null && !cachedMeta!!.shouldReload()) return
-        val virtMetaFile = mesonBuildRoot.findFileByRelativePath("/meson-info/meson-info.json") ?: return
-        val metaFile = File(virtMetaFile.canonicalPath!!)
+        val metaFilePath = "$mesonBuildRoot/meson-info/meson-info.json"
+        val metaFile = File(metaFilePath)
         var metaFileContent: String
+        if (!metaFile.exists()) throw IllegalStateException("Cannot find meson-info.json at \"$metaFilePath\"")
         run {
             val metaFileReader = FileInputStream(metaFile)
             metaFileContent = String(metaFileReader.readAllBytes())

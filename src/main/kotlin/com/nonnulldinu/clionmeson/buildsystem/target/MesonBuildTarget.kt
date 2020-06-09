@@ -9,7 +9,7 @@ data class MesonBuildTarget(
         @SerializedName("defined_in") val defined_in: String,
         @SerializedName("filename") val filename: Array<String>,
         @SerializedName("build_by_default") val buildByDefault: Boolean,
-        @SerializedName("target_sources") val targetSources: MesonBuildSourceCompilationDetails,
+        @SerializedName("target_sources") val targetSources: Array<MesonBuildSourceCompilationDetails>,
         @SerializedName("subproject") val subproject: MesonBuildSubproject,
         @SerializedName("installed") val installed: Boolean
 ) {
@@ -25,7 +25,7 @@ data class MesonBuildTarget(
         if (defined_in != other.defined_in) return false
         if (!filename.contentEquals(other.filename)) return false
         if (buildByDefault != other.buildByDefault) return false
-        if (targetSources != other.targetSources) return false
+        if (!targetSources.contentEquals(other.targetSources)) return false
         if (subproject != other.subproject) return false
         if (installed != other.installed) return false
 
