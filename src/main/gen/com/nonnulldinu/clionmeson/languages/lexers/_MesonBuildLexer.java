@@ -7,7 +7,7 @@ import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
+import static com.nonnulldinu.clionmeson.mesonbuildlang.psi.MesonBuildTypes.*;
 
 
 /**

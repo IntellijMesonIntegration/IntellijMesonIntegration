@@ -40,7 +40,7 @@ class MesonProjectSettingsStepCPP(
         standardCombobox.selectedIndex = standardCombobox.model.size - 1
 
         // listeners - see: https://stackoverflow.com/questions/58939/jcombobox-selection-change-listener
-        standardCombobox.addActionListener { e: ActionEvent? ->
+        standardCombobox.addActionListener {
             properties[MesonProjectSettingsStepC.LANG_STD_INDEX].set(standardCombobox.model.selectedItem as String)
         }
 

@@ -1,13 +1,15 @@
 package com.nonnulldinu.clionmeson.runconfigurations
 
 import com.intellij.execution.Executor
-import com.intellij.execution.configurations.RunConfiguration
 import com.intellij.execution.configurations.RunConfigurationBase
 import com.intellij.execution.configurations.RunProfileState
 import com.intellij.execution.configurations.RuntimeConfigurationException
 import com.intellij.execution.runners.ExecutionEnvironment
-import com.intellij.openapi.options.SettingsEditor
 import com.intellij.openapi.project.Project
+import com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationData
+import com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationEditor
+import com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationFactory
+import com.nonnulldinu.clionmeson.runconfigurations.MesonRunProfileState
 
 
 class MesonConfiguration(
@@ -15,8 +17,9 @@ class MesonConfiguration(
         configurationFactory: MesonConfigurationFactory,
         name: String
 ) : RunConfigurationBase<MesonConfigurationData>(project, configurationFactory, name) {
-    override fun getConfigurationEditor(): SettingsEditor<out RunConfiguration> {
-        return MesonConfigurationEditor()
+
+    override fun getConfigurationEditor(): MesonConfigurationEditor {
+        return MesonConfigurationEditor(project)
     }
 
     @Throws(RuntimeConfigurationException::class)
@@ -24,7 +27,7 @@ class MesonConfiguration(
     }
 
     override fun getState(executor: Executor, environment: ExecutionEnvironment): RunProfileState? {
-        return null
+        return MesonRunProfileState(state!!, environment)
     }
 
 }
