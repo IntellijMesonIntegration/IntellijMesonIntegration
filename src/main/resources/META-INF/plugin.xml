@@ -20,10 +20,10 @@
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType" language="MesonBuildLang" fileNames="meson.build"/>
 
         <lang.parserDefinition language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.mesonbuildlang.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
 
         <!-- Completions -->
-        <completion.contributor language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>
+        <completion.contributor language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.mesonbuildlang.language.completions.MesonBuildCompletionContributor"/>
 
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorC"/>
