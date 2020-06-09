@@ -14,7 +14,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
-    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>
+<!--    <depends optional="true" config-file="with_rust.xml">org.rust.lang</depends>-->
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType" language="MesonBuildLang" fileNames="meson.build"/>
@@ -33,6 +33,9 @@
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
         <projectService serviceInterface="com.nonnulldinu.clionmeson.services.MesonBuildStoreService"
                         serviceImplementation="com.nonnulldinu.clionmeson.services.impl.MesonBuildStoreServiceImpl"/>
+
+        <!-- Error Handling -->
+        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.GitHubErrorReporter"/>
     </extensions>
 
     <actions>
