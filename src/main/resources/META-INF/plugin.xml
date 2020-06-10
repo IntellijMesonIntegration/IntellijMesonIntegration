@@ -39,7 +39,6 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
-        <action id="com.nonnulldinu.clionmeson.errorHandler.TriggerErrorAction" class="com.nonnulldinu.clionmeson.errorHandler.TriggerErrorAction" text="Crash"/>
+        <action class="com.nonnulldinu.clionmeson.errorHandler.TriggerErrorAction"/>
     </actions>
 </idea-plugin>

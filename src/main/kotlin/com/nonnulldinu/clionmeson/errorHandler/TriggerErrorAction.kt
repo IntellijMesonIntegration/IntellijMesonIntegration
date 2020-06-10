@@ -1,16 +1,10 @@
-package com.nonnulldinu.clionmeson.errorHandler;
+package com.nonnulldinu.clionmeson.errorHandler
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.actionSystem.AnAction
+import com.intellij.openapi.actionSystem.AnActionEvent
 
-public class TriggerErrorAction extends AnAction {
-	public TriggerErrorAction() {
-		super("Error Reporting: Trigger Exception");
-	}
-
-	@Override
-	public void actionPerformed(@NotNull AnActionEvent e) {
-		throw new IllegalStateException("this is a bug!");
-	}
+class TriggerErrorAction : AnAction("Error Reporting: Trigger Exception") {
+    override fun actionPerformed(e: AnActionEvent) {
+        throw IllegalStateException("this is a bug!")
+    }
 }
