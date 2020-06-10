@@ -13,6 +13,7 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation(group = "com.google.code.gson", name = "gson", version = "2.8.6")
+    implementation(group = "org.eclipse.mylyn.github", name = "org.eclipse.egit.github.core", version = "2.1.5")
 
     testImplementation(group = "junit", name = "junit", version = "4.12")
 }
