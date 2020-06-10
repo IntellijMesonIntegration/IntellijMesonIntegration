@@ -8,7 +8,6 @@ import com.intellij.openapi.ui.ComboBoxWithWidePopup
 import com.intellij.openapi.ui.LabeledComponent
 import com.intellij.openapi.ui.TextBrowseFolderListener
 import com.intellij.openapi.ui.TextFieldWithBrowseButton
-import com.intellij.uiDesigner.core.GridLayoutManager
 import com.intellij.util.ui.JBUI
 import com.nonnulldinu.clionmeson.buildsystem.MesonBuildSystem
 import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTarget
@@ -21,19 +20,25 @@ import javax.swing.JPanel
 class MesonConfigurationEditor(val project: Project) : SettingsEditor<MesonConfiguration>() {
     private var panel: JPanel? = null
     private var target: LabeledComponent<ComboBoxWithWidePopup<*>>? = null
-    private var targetsArray: Array<MesonBuildTarget>? = null
 
     private var workingDirectory: LabeledComponent<TextFieldWithBrowseButton>? = null
 
     override fun resetEditorFrom(config: MesonConfiguration) {
-        target!!.component.selectedIndex = targetsArray!!.indexOf(config.state!!.target)
-        workingDirectory!!.component.text = config.state!!.workingDirectory
+        val targets = MesonBuildSystem.getBuildSystem(config.project).getTargets()
+        target!!.component.model = DefaultComboBoxModel(targets)
+        target!!.component.selectedIndex = targets.indexOf(config.target)
+        workingDirectory!!.component.text = config.state!!.getWorkingDirectory() ?: ""
     }
 
     @Throws(ConfigurationException::class)
     override fun applyEditorTo(config: MesonConfiguration) {
-        config.state!!.target = targetsArray!![if (target!!.component.selectedIndex == -1) throw ConfigurationException("No target selected") else target!!.component.selectedIndex]
-        config.state!!.workingDirectory = workingDirectory!!.component.text
+        config.target = target!!.component.selectedItem as MesonBuildTarget?
+        if (config.target != null) {
+            config.state!!.setTargetId(config.target!!.id)
+        } else {
+            throw ConfigurationException("Target cannot be null")
+        }
+        config.state!!.setWorkingDirectory(workingDirectory!!.component.text)
     }
 
     override fun createEditor(): JComponent {
@@ -45,12 +50,11 @@ class MesonConfigurationEditor(val project: Project) : SettingsEditor<MesonConfi
     private fun createUIComponents() {
         target = LabeledComponent<ComboBoxWithWidePopup<*>>()
         target!!.text = "Target"
-        target!!.component = ComboBoxWithWidePopup<String>()
-        targetsArray = MesonBuildSystem.getBuildSystem(project).getTargets()
-        val mesonTargetNames = Array(targetsArray!!.size) { i: Int -> targetsArray!![i].name + "(" + targetsArray!![i].id + ")" }
-        target!!.component!!.model = DefaultComboBoxModel(mesonTargetNames)
+        target!!.component = ComboBoxWithWidePopup<MesonBuildTarget>()
+        val targetsArray = MesonBuildSystem.getBuildSystem(project).getTargets()
+        target!!.component!!.model = DefaultComboBoxModel(targetsArray)
         target!!.component.selectedIndex = 0
-        target!!.component.selectedItem = targetsArray!![0]
+        target!!.component.selectedItem = targetsArray[0]
         panel!!.add(target!!, GridBagConstraints(0, 0, 1, 1, 0.0, 0.0, GridBagConstraints.LINE_START, 0, JBUI.emptyInsets(), 0, 0))
 
         workingDirectory = LabeledComponent()

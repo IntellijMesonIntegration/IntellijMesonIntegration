@@ -25,6 +25,6 @@ open class MesonConfigurationFactory(configurationType: ConfigurationType) : Con
     }
 
     override fun getOptionsClass(): Class<out BaseState>? {
-        return MesonConfigurationData::class.java
+        return MesonConfigurationOptions::class.java
     }
 }

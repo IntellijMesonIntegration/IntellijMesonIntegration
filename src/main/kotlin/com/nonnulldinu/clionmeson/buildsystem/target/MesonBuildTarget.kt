@@ -44,4 +44,8 @@ data class MesonBuildTarget(
         result = 31 * result + installed.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "$name($id)"
+    }
 }

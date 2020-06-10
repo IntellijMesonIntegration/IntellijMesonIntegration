@@ -43,6 +43,11 @@
                         serviceImplementation="com.nonnulldinu.clionmeson.services.impl.MesonBuildStoreServiceImpl"/>
     </extensions>
 
+    <!-- Project listeners -->
+    <projectListeners>
+        <listener class="com.nonnulldinu.clionmeson.project.MesonProjectListener" topic="com.intellij.openapi.project.ProjectManagerListener"/>
+    </projectListeners>
+
     <actions>
         <!-- Add your actions here -->
     </actions>

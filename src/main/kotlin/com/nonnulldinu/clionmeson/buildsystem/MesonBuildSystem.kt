@@ -1,15 +1,12 @@
 package com.nonnulldinu.clionmeson.buildsystem
 
 import com.google.gson.Gson
-import com.intellij.ide.util.PropertiesComponent
 import com.intellij.notification.Notifications
-import com.intellij.openapi.components.PersistentStateComponent
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
-import com.intellij.project.stateStore
 import com.nonnulldinu.clionmeson.buildsystem.actions.OpenMesonLog
 import com.nonnulldinu.clionmeson.buildsystem.meta.MesonBuildMeta
 import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTarget
@@ -36,7 +33,7 @@ class MesonBuildSystem(var mesonBuildRoot: String) {
                 }
 
                 override fun onFinished() {
-                    project.putUserData(mesonBuildSystemInstanceKey, MesonBuildSystem(project.basePath + "/build"))
+                    openOn(project)
                 }
             }.queue()
         }
@@ -44,6 +41,12 @@ class MesonBuildSystem(var mesonBuildRoot: String) {
         fun getBuildSystem(project: Project): MesonBuildSystem {
             return project.getUserData(mesonBuildSystemInstanceKey)
                     ?: throw IllegalStateException("no meson build system found in the project")
+        }
+
+        fun openOn(project: Project): MesonBuildSystem {
+            val buildSystem = MesonBuildSystem(project.basePath + "/build")
+            project.putUserData(mesonBuildSystemInstanceKey, buildSystem)
+            return buildSystem
         }
     }
 
