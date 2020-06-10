@@ -2,7 +2,9 @@
     <idea-version since-build="201" until-build="201.*"/>
     <id>com.non.null.dinu.MesonIntegration</id>
     <name>CLion Meson Integration</name>
-    <vendor email="dinu.blanovschi@criptext.com" url="http://www.github.com/NonNullDinu/CLionMesonIntegration">NonNullDinu</vendor>
+    <vendor email="dinu.blanovschi@criptext.com" url="http://www.github.com/NonNullDinu/CLionMesonIntegration">
+        NonNullDinu
+    </vendor>
 
     <description>
         <![CDATA[
@@ -17,19 +19,25 @@
     <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType" language="MesonBuildLang" fileNames="meson.build"/>
+        <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
+                  language="MesonBuildLang" fileNames="meson.build"/>
 
-        <lang.parserDefinition language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
+        <lang.parserDefinition language="MesonBuildLang"
+                               implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="MesonBuildLang"
+                                       implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
 
         <!-- Completions -->
-        <completion.contributor language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>
+        <completion.contributor language="MesonBuildLang"
+                                implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>
 
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorC"/>
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorCPP"/>
 
         <!-- Run Configurations -->
+        <stepsBeforeRunProvider implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonCompileTaskProvider"
+                                id="MesonCompileTaskProviderId"/>
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
         <projectService serviceInterface="com.nonnulldinu.clionmeson.services.MesonBuildStoreService"
                         serviceImplementation="com.nonnulldinu.clionmeson.services.impl.MesonBuildStoreServiceImpl"/>

@@ -7,6 +7,10 @@ import org.jetbrains.annotations.Nls
 import javax.swing.Icon
 
 class MesonConfigurationType : ConfigurationType {
+    companion object {
+        const val ID = "MesonBuildRunConfig"
+    }
+
     override fun getDisplayName(): @Nls(capitalization = Nls.Capitalization.Title) String {
         return "Meson configuration"
     }
@@ -20,7 +24,7 @@ class MesonConfigurationType : ConfigurationType {
     }
 
     override fun getId(): String {
-        return "MesonBuildRunConfig"
+        return ID
     }
 
     override fun getConfigurationFactories(): Array<ConfigurationFactory> {

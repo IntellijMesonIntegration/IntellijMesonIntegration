@@ -7,6 +7,7 @@ import org.jdom.Element
 
 class MesonConfigurationData : RunnerSettings, RunConfigurationOptions() {
     var target: MesonBuildTarget? = null
+    var workingDirectory: String = ""
     override fun readExternal(element: Element?) {
         TODO("Implement")
     }
