@@ -6,14 +6,14 @@
 
   psiClassPrefix="MesonBuild"
   psiImplClassSuffix="Impl"
-  psiPackage="com.nonnulldinu.clionmeson.build.psi"
-  psiImplPackage="com.nonnulldinu.clionmeson.build.psi.impl"
+  psiPackage="com.nonnulldinu.clionmeson.mesonbuildlang.psi"
+  psiImplPackage="com.nonnulldinu.clionmeson.mesonbuildlang.psi.impl"
 
-  elementTypeHolderClass="com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes"
-  elementTypeClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildElement"
-  tokenTypeClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildToken"
+  elementTypeHolderClass="com.nonnulldinu.clionmeson.mesonbuildlang.psi.MesonBuildTypes"
+  elementTypeClass="com.nonnulldinu.clionmeson.mesonbuildlang.elementsandutils.MesonBuildElement"
+  tokenTypeClass="com.nonnulldinu.clionmeson.mesonbuildlang.elementsandutils.MesonBuildToken"
 
-  psiImplUtilClass="com.nonnulldinu.clionmeson.build.elementsandutils.MesonBuildPsiImplUtil"
+  psiImplUtilClass="com.nonnulldinu.clionmeson.mesonbuildlang.elementsandutils.MesonBuildPsiImplUtil"
   tokens=[
     newline="regexp:\s*\R\s*"
     SPACES="regexp:[ \t]+"

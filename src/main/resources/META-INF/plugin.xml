@@ -41,6 +41,9 @@
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
         <projectService serviceInterface="com.nonnulldinu.clionmeson.services.MesonBuildStoreService"
                         serviceImplementation="com.nonnulldinu.clionmeson.services.impl.MesonBuildStoreServiceImpl"/>
+
+        <!-- Error Handling -->
+        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.GitHubErrorReporter"/>
     </extensions>
 
     <!-- Project listeners -->
@@ -50,5 +53,6 @@
 
     <actions>
         <!-- Add your actions here -->
+        <action id="com.nonnulldinu.clionmeson.errorHandler.TriggerErrorAction" class="com.nonnulldinu.clionmeson.errorHandler.TriggerErrorAction" text="Crash"/>
     </actions>
 </idea-plugin>

@@ -3,11 +3,10 @@ package com.nonnulldinu.clionmeson.languages.parsers;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import static com.nonnulldinu.clionmeson.build.psi.MesonBuildTypes.*;
+import static com.nonnulldinu.clionmeson.mesonbuildlang.psi.MesonBuildTypes.*;
 import static com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserUtil.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.tree.TokenSet;
 import com.intellij.lang.PsiParser;
 import com.intellij.lang.LightPsiParser;
 
