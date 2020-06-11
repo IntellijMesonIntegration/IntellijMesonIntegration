@@ -55,18 +55,11 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         val event = events.firstOrNull { it.throwable != null } ?: return false // nothing to report if null
         val context = DataManager.getInstance().getDataContext(parentComponent)
         val project = CommonDataKeys.PROJECT.getData(context)
-        val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, generateErrorSummary(event, additionalInfo ?: "<No description>"), event.message ?: event.throwable.message.toString())
+        val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, generateErrorSummary(event, additionalInfo ?: "No description provided by user"), event.message ?: event.throwable.javaClass.name)
         val reportValues = getKeyValuePairs(project, bean, ApplicationInfoEx.getInstanceEx(), ApplicationNamesInfo.getInstance())
-
-//        val body = event.throwableText
-//        println(generateErrorSummary(event, additionalInfo))
-//        println("a")
-//        println(event.throwable.message)
-//        println(body)
 
         object : Backgroundable(project, ErrorReportBundle.message("report.error.progress.dialog.text")) {
             override fun run(indicator: ProgressIndicator) {
-                println(createNewGitHubIssue(reportValues))
                 val client = HttpClient.newHttpClient()
                 val request = HttpRequest.newBuilder()
                         .uri(URI.create("https://clionmesonintegration.herokuapp.com/"))
@@ -75,9 +68,9 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .POST(HttpRequest.BodyPublishers.ofString(createNewGitHubIssue(reportValues)))
                         .build()
 
-//                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-//                println(response.statusCode())
-//                println(response.body())
+                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+                println(response.statusCode())
+                println(response.body())
 
                 // show thank you message after report submitted
                 ApplicationManager.getApplication().invokeLater {
