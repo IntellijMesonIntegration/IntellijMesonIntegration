@@ -38,7 +38,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
      * Changes the text on the report button
      */
     override fun getReportActionText(): String {
-        return "Report to Author"
+        return ErrorReportBundle.message("report.error.to.plugin.vendor")
     }
 
     /**
@@ -57,6 +57,16 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         val project = CommonDataKeys.PROJECT.getData(context)
         val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, additionalInfo ?: "<No description>", event.message ?: event.throwable.message.toString())
         val reportValues = getKeyValuePairs(project, bean, ApplicationInfoEx.getInstanceEx(), ApplicationNamesInfo.getInstance())
+        val title = event.message ?: event.throwable.javaClass.name + (
+                        if (event.throwable.message != null)
+                            ("(" + event.throwable.message + ")")
+                        else ""
+                        ) + " in " + event.throwable.stackTrace[0].className + ":" + event.throwable.stackTrace[0].lineNumber
+        val body = event.throwableText
+//        println(title)
+//        println("a")
+//        println(body)
+
 
         object : Backgroundable(project, ErrorReportBundle.message("report.error.progress.dialog.text")) {
             override fun run(indicator: ProgressIndicator) {
@@ -68,7 +78,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .POST(HttpRequest.BodyPublishers.ofString(createNewGitHubIssue(reportValues)))
                         .build()
 
-                println(createNewGitHubIssue(reportValues))
+//                println(createNewGitHubIssue(reportValues))
                 val response = client.send(request, BodyHandlers.ofString())
                 println(response.statusCode())
                 println(response.body())
@@ -92,24 +102,12 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         }
      */
     private fun createNewGitHubIssue(details: MutableMap<String, String>) : String {
-        return Gson().toJson(Issue(generateGitHubIssueTitle(details), generateGitHubIssueBody(details, false), generateGitHubIssueLabel()))
+        return Gson().toJson(Issue(generateGitHubIssueTitle(details), generateGitHubIssueBody(details, true), generateGitHubIssueLabel()))
     }
 
-//    private fun getNewGibHubIssue(details: MutableMap<String, String>) = Issue().apply {
-//        val errorMessage = details.remove("error.message")?.takeIf(String::isNotBlank) ?: "Unspecified error"
-//        title = ErrorReportBundle.message("git.issue.title", details.remove("error.hash").orEmpty(), errorMessage)
-//        details["title"] = title
-//        body = generateGitHubIssueBody(details, true)
-//        labels = listOf(Label().apply { name = issueLabel })
-//    }
-
-//    private fun getIssueTitle(details: MutableMap<String, String>) : String {
-//        val errorMessage = details.remove("error.message")?.takeIf(String::isNotBlank) ?: "Unspecified error"
-//        return ErrorReportBundle.message("git.issue.title", details.remove("error.hash").orEmpty(), errorMessage)
-//    }
-
     private fun generateGitHubIssueTitle(details: MutableMap<String, String>) : String {
-        return "Test issue Title"
+        val errorMessage = details.remove("error.message")?.takeIf(String::isNotBlank) ?: "Unspecified error"
+        return ErrorReportBundle.message("git.issue.title", details.remove("error.hash").orEmpty(), errorMessage)
     }
 
     private fun generateGitHubIssueBody(details: MutableMap<String, String>, includeStacktrace: Boolean) =
