@@ -63,7 +63,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         else ""
                         ) + " in " + event.throwable.stackTrace[0].className + ":" + event.throwable.stackTrace[0].lineNumber
         val body = event.throwableText
-//        println(title)
+        println(title)
 //        println("a")
 //        println(body)
 
