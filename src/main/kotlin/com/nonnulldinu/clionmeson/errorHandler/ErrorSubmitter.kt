@@ -1,5 +1,6 @@
 package com.nonnulldinu.clionmeson.errorHandler
 
+import com.google.gson.Gson
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
@@ -39,6 +40,16 @@ class ErrorSubmitter : ErrorReportSubmitter() {
     override fun submit(events: Array<IdeaLoggingEvent>, additionalInfo: String?, parentComponent: Component, consumer: com.intellij.util.Consumer<SubmittedReportInfo>): Boolean {
         val context = DataManager.getInstance().getDataContext(parentComponent)
         val project = CommonDataKeys.PROJECT.getData(context)
+        val event = events.firstOrNull { it.throwable != null } ?: return false /// nothing to report if null
+        val title = event.message
+                ?: event.throwable.javaClass.name +
+                (
+                        if (event.throwable.message != null)
+                            ("(" + event.throwable.message + ")")
+                        else ""
+                        ) + " in " + event.throwable.stackTrace[0].className + ":" + event.throwable.stackTrace[0].lineNumber
+        val body = event.throwableText
+        val json = Gson().toJson(Issue(title, body))
         object : Backgroundable(project, "Sending Error Report") {
             override fun run(indicator: ProgressIndicator) {
                 val client = HttpClient.newHttpClient()
@@ -46,7 +57,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .uri(URI.create("https://clionmesonintegration.herokuapp.com/"))
                         .timeout(Duration.ofSeconds(10))
                         .header("Content-Type", "application/json")
-                        .POST(HttpRequest.BodyPublishers.ofString("{\"issue-title\":\"test issue from heroku\", \"issue-body\":\"test issue from heroku\"}"))
+                        .POST(HttpRequest.BodyPublishers.ofString(json))
                         .build()
                 client.sendAsync(request, BodyHandlers.ofString())
                         .thenApply { obj: HttpResponse<String?> -> obj.body() }
