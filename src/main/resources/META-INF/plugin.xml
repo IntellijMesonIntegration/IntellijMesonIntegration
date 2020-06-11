@@ -16,7 +16,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
-    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>
+<!--    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>-->
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
@@ -24,12 +24,10 @@
 
         <lang.parserDefinition language="MesonBuildLang"
                                implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
-        <lang.syntaxHighlighterFactory language="MesonBuildLang"
-                                       implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
+<!--        <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>-->
 
         <!-- Completions -->
-        <completion.contributor language="MesonBuildLang"
-                                implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>
+<!--        <completion.contributor language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>-->
 
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorC"/>
