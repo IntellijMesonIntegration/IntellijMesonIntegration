@@ -41,7 +41,7 @@
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
 
         <!-- Error Handling -->
-        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.GitHubErrorReporter"/>
+        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.ErrorSubmitter"/>
     </extensions>
 
     <!-- Project listeners -->
