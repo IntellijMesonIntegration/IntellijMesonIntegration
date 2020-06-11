@@ -5,10 +5,12 @@ package com.nonnulldinu.clionmeson.errorHandler
 import com.google.gson.Gson
 import com.intellij.CommonBundle
 import com.intellij.diagnostic.ReportMessages
+import com.intellij.ide.BrowserUtil
 import com.intellij.ide.DataManager
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.idea.IdeaLogger
 import com.intellij.notification.*
+import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ApplicationNamesInfo
@@ -84,7 +86,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
 
                 ApplicationManager.getApplication().invokeLater {
                     val projects: Array<Project> = ProjectManager.getInstance().openProjects
-                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report! You can check it out <a href=\"" + response.body() + "\">here</a>"), projects[0])
+                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report!", CheckItOutAction(response.body())), projects[0])
                     consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
                 }
             }
@@ -140,6 +142,13 @@ class ErrorSubmitter : ErrorReportSubmitter() {
 
     private fun generateGitHubIssueLabel() : Array<String> {
         return arrayOf("test-issue")
+    }
+}
+
+class CheckItOutAction(private val link : String) : NotificationAction("Check it out") {
+    override fun actionPerformed(e: AnActionEvent, notification: Notification) {
+        notification.expire()
+        BrowserUtil.browse(link)
     }
 }
 
