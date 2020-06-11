@@ -34,6 +34,7 @@ import java.io.StringWriter
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 import java.time.Duration
 import java.util.*
 
@@ -72,28 +73,23 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .POST(HttpRequest.BodyPublishers.ofString(createNewGitHubIssue(reportValues)))
                         .build()
 
-//                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-//                println(response.statusCode())
-//                println(response.body())
+                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+                println(response.statusCode())
+                println(response.body())
+
+                // heroku returns code 500 if something went wrong
+                if (response.statusCode() == 500) {
+
+                }
 
                 ApplicationManager.getApplication().invokeLater {
                     val projects: Array<Project> = ProjectManager.getInstance().openProjects
-                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report!"), projects[0])
+                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report! You can check it out <a href=\"" + response.body() + "\">here</a>"), projects[0])
                     consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
                 }
             }
         }.queue()
         return true
-    }
-
-    internal class CallbackWithNotification(private val consumer: Consumer<SubmittedReportInfo>, private val project: Project?) : Consumer<SubmittedReportInfo> {
-        override fun consume(reportInfo: SubmittedReportInfo) {
-            consumer.consume(reportInfo)
-            if (reportInfo.status == SubmittedReportInfo.SubmissionStatus.FAILED) ReportMessages.GROUP.createNotification(ReportMessages.ERROR_REPORT,
-                    reportInfo.linkText, NotificationType.ERROR, null).setImportant(false).notify(project)
-            else ReportMessages.GROUP.createNotification(ReportMessages.ERROR_REPORT, reportInfo.linkText,
-                    NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER).setImportant(false).notify(project)
-        }
     }
 
     /**
