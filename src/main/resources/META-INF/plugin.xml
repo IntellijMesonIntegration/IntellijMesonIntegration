@@ -16,7 +16,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
-<!--    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>-->
+    <!--    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>-->
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
@@ -24,10 +24,14 @@
 
         <lang.parserDefinition language="MesonBuildLang"
                                implementationClass="com.nonnulldinu.clionmeson.languages.parsers.MesonBuildParserDefinition"/>
-<!--        <lang.syntaxHighlighterFactory language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>-->
+        <lang.syntaxHighlighterFactory language="MesonBuildLang"
+                                       implementationClass="com.nonnulldinu.clionmeson.mesonbuildlang.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
 
-        <!-- Completions -->
-<!--        <completion.contributor language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.build.language.completions.MesonBuildCompletionContributor"/>-->
+        <!-- Completions
+        Disabled because they don't work as expected
+        -->
+        <completion.contributor language="MesonBuildLang"
+                                implementationClass="com.nonnulldinu.clionmeson.mesonbuildlang.language.completions.MesonBuildCompletionContributor"/>
 
         <!-- Project Creation -->
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorC"/>
@@ -40,11 +44,19 @@
 
         <!-- Error Handling -->
         <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.ErrorSubmitter"/>
+
+        <!-- Settings -->
+        <applicationService serviceImplementation="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsState"/>
+        <applicationConfigurable parentId="tools"
+                                 instance="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
+                                 id="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
+                                 displayName="Meson Integration"/>
     </extensions>
 
     <!-- Project listeners -->
     <projectListeners>
-        <listener class="com.nonnulldinu.clionmeson.project.MesonProjectListener" topic="com.intellij.openapi.project.ProjectManagerListener"/>
+        <listener class="com.nonnulldinu.clionmeson.project.MesonProjectListener"
+                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
     </projectListeners>
 
     <actions>
