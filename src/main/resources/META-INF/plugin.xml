@@ -39,8 +39,6 @@
         <stepsBeforeRunProvider implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonCompileTaskProvider"
                                 id="MesonCompileTaskProviderId"/>
         <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
-        <projectService serviceInterface="com.nonnulldinu.clionmeson.services.MesonBuildStoreService"
-                        serviceImplementation="com.nonnulldinu.clionmeson.services.impl.MesonBuildStoreServiceImpl"/>
 
         <!-- Error Handling -->
 <!--        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.GitHubErrorReporter"/>-->
