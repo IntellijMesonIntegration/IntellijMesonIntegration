@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * An issue that we can send to the bot to report
  */
-data class Issue(@SerializedName("issue-title") val title: String, @SerializedName("issue-body") val body: String, @SerializedName("issue-labels") val label: Array<String>) {
+data class Issue(@SerializedName("issue-title") val title: String, @SerializedName("issue-body") val body: String, @SerializedName("issue-labels") val labels: Array<String>) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -15,7 +15,7 @@ data class Issue(@SerializedName("issue-title") val title: String, @SerializedNa
 
         if (title != other.title) return false
         if (body != other.body) return false
-        if (!label.contentEquals(other.label)) return false
+        if (!labels.contentEquals(other.labels)) return false
 
         return true
     }
@@ -23,7 +23,7 @@ data class Issue(@SerializedName("issue-title") val title: String, @SerializedNa
     override fun hashCode(): Int {
         var result = title.hashCode()
         result = 31 * result + body.hashCode()
-        result = 31 * result + label.contentHashCode()
+        result = 31 * result + labels.contentHashCode()
         return result
     }
 }
