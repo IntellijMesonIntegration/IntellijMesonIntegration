@@ -48,6 +48,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
     }
 
     /**
+     * see: https://www.plugin-dev.com/intellij/general/error-reporting/
      * The boolean return value tells the IDE if the report can be send at all.
      * If you can’t send the report, then return false and you’re done.
      * Otherwise, return true and send the report asynchronously — that’s important.
