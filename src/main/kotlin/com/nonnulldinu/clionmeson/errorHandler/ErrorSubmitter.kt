@@ -1,15 +1,16 @@
-// Source: https://github.com/JuliaEditorSupport/julia-intellij/blob/master/src/org/ice1000/julia/lang/error/error-report.kt
+// Credit for a couple of methods: https://github.com/JuliaEditorSupport/julia-intellij/blob/master/src/org/ice1000/julia/lang/error/error-report.kt
 
 package com.nonnulldinu.clionmeson.errorHandler
 
 import com.google.gson.Gson
 import com.intellij.CommonBundle
-import com.intellij.diagnostic.ReportMessages
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.DataManager
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.idea.IdeaLogger
-import com.intellij.notification.*
+import com.intellij.notification.Notification
+import com.intellij.notification.NotificationAction
+import com.intellij.notification.Notifications
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
@@ -23,10 +24,7 @@ import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task.Backgroundable
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.ProjectManager
-import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.util.SystemInfo
-import com.intellij.util.Consumer
 import com.nonnulldinu.clionmeson.notifications.MesonBuildNotifications
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
@@ -62,7 +60,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         val event = events.firstOrNull { it.throwable != null } ?: return false // nothing to report if null
         val context = DataManager.getInstance().getDataContext(parentComponent)
         val project = CommonDataKeys.PROJECT.getData(context)
-        val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, generateErrorSummary(event, additionalInfo ?: "No description provided by user"), event.message ?: event.throwableText.split("\n")[0])
+        val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, generateErrorSummary(event, additionalInfo ?: ErrorReportBundle.message("report.warning.no.description")), event.message ?: event.throwableText.split("\n")[0])
         val reportValues = getKeyValuePairs(project, bean, ApplicationInfoEx.getInstanceEx(), ApplicationNamesInfo.getInstance())
 
         object : Backgroundable(project, ErrorReportBundle.message("report.error.progress.dialog.text")) {
@@ -76,17 +74,15 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .build()
 
                 val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-                println(response.statusCode())
-                println(response.body())
-
-                // heroku returns code 500 if something went wrong
-                if (response.statusCode() == 500) {
-
-                }
 
                 ApplicationManager.getApplication().invokeLater {
-                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report!", CheckItOutAction(response.body())), project)
-                    consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
+                    if (response.statusCode() == 500) { // heroku returns code 500 if something went wrong
+                        Notifications.Bus.notify(MesonBuildNotifications.errNotify(ErrorReportBundle.message("report.error.connection.failure")), project)
+                        consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.FAILED))
+                    } else {
+                        Notifications.Bus.notify(MesonBuildNotifications.infoNotify(ErrorReportBundle.message("git.issue.text"), CheckItOutAction(response.body())), project)
+                        consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
+                    }
                 }
             }
         }.queue()
@@ -96,10 +92,9 @@ class ErrorSubmitter : ErrorReportSubmitter() {
     /**
      * This generates the text above the line in the issue body.
      * This text contains the user description, if given and the
-     * error summary event.throwableText.split("\n")[0]
+     * error summary
      */
     private fun generateErrorSummary(event: IdeaLoggingEvent, additionalInfo: String) : String {
-        event.throwableText.split("\n")
         val summary = event.message ?: event.throwable.javaClass.name + (
                 if (event.throwable.message != null)
                     ("(" + event.throwable.message + ")")
@@ -140,11 +135,11 @@ class ErrorSubmitter : ErrorReportSubmitter() {
             }
 
     private fun generateGitHubIssueLabel() : Array<String> {
-        return arrayOf("test-issue")
+        return arrayOf(ErrorReportBundle.message("git.issue.label"), "test-issue")
     }
 }
 
-class CheckItOutAction(private val link : String) : NotificationAction("Check it out") {
+class CheckItOutAction(private val link : String) : NotificationAction("Check it out!") {
     override fun actionPerformed(e: AnActionEvent, notification: Notification) {
         notification.expire()
         BrowserUtil.browse(link)
@@ -204,7 +199,7 @@ private fun getKeyValuePairs(project: Project?, error: GitHubErrorBean, appInfo:
  */
 private object ErrorReportBundle {
     @NonNls
-    private const val BUNDLE = "properties.report-bundle"
+    private const val BUNDLE = "properties.error-submitter"
     private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
 
     @JvmStatic
