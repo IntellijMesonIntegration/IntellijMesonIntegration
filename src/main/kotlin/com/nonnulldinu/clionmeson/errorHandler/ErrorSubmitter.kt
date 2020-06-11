@@ -85,19 +85,23 @@ class ErrorSubmitter : ErrorReportSubmitter() {
 
     /**
      * Builds a string that contains the post request such as:
-     * "{\"issue-title\":\"test issue title\", \"issue-body\":\"test issue body\"}"
+     * {
+        "issue-title": "test issue title",
+        "issue-body": "test issue body",
+        "issue-labels": ["test-issue"]
+        }
      */
     private fun createNewGitHubIssue(details: MutableMap<String, String>) : String {
-        return Gson().toJson(Issue(generateGitHubIssueTitle(details), generateGitHubIssueBody(details, false)))
+        return Gson().toJson(Issue(generateGitHubIssueTitle(details), generateGitHubIssueBody(details, false), generateGitHubIssueLabel()))
     }
 
-    private fun getNewGibHubIssue(details: MutableMap<String, String>) = Issue().apply {
-        val errorMessage = details.remove("error.message")?.takeIf(String::isNotBlank) ?: "Unspecified error"
-        title = ErrorReportBundle.message("git.issue.title", details.remove("error.hash").orEmpty(), errorMessage)
-        details["title"] = title
-        body = generateGitHubIssueBody(details, true)
-        labels = listOf(Label().apply { name = issueLabel })
-    }
+//    private fun getNewGibHubIssue(details: MutableMap<String, String>) = Issue().apply {
+//        val errorMessage = details.remove("error.message")?.takeIf(String::isNotBlank) ?: "Unspecified error"
+//        title = ErrorReportBundle.message("git.issue.title", details.remove("error.hash").orEmpty(), errorMessage)
+//        details["title"] = title
+//        body = generateGitHubIssueBody(details, true)
+//        labels = listOf(Label().apply { name = issueLabel })
+//    }
 
 //    private fun getIssueTitle(details: MutableMap<String, String>) : String {
 //        val errorMessage = details.remove("error.message")?.takeIf(String::isNotBlank) ?: "Unspecified error"
@@ -120,6 +124,10 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                             .appendln(stackTrace)
                             .appendln("</code></pre>\n</details>")
             }
+
+    private fun generateGitHubIssueLabel() : Array<String> {
+        return arrayOf("test-issue")
+    }
 }
 
 /**
@@ -172,6 +180,7 @@ private fun getKeyValuePairs(project: Project?, error: GitHubErrorBean, appInfo:
 
 /**
  * Messages and strings used by the error reporter
+ * Source: https://github.com/JuliaEditorSupport/julia-intellij/blob/master/src/org/ice1000/julia/lang/error/error-report.kt
  */
 private object ErrorReportBundle {
     @NonNls
