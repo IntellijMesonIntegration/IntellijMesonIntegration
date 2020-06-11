@@ -66,6 +66,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
 
         object : Backgroundable(project, ErrorReportBundle.message("report.error.progress.dialog.text")) {
             override fun run(indicator: ProgressIndicator) {
+                println(createNewGitHubIssue(reportValues))
                 val client = HttpClient.newHttpClient()
                 val request = HttpRequest.newBuilder()
                         .uri(URI.create("https://clionmesonintegration.herokuapp.com/"))
@@ -74,10 +75,9 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .POST(HttpRequest.BodyPublishers.ofString(createNewGitHubIssue(reportValues)))
                         .build()
 
-//                println(createNewGitHubIssue(reportValues))
-                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-                println(response.statusCode())
-                println(response.body())
+//                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+//                println(response.statusCode())
+//                println(response.body())
 
                 // show thank you message after report submitted
                 ApplicationManager.getApplication().invokeLater {
@@ -101,11 +101,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                 else ""
                 ) + " in " + event.throwable.stackTrace[0].className + ":" + event.throwable.stackTrace[0].lineNumber
 
-        if (additionalInfo.isNullOrBlank()) {
-
-        }
         return "$summary\n\n$additionalInfo"
-
     }
 
     /**
