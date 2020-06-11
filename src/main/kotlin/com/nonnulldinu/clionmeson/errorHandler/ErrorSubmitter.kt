@@ -1,10 +1,14 @@
+// Source: https://github.com/JuliaEditorSupport/julia-intellij/blob/master/src/org/ice1000/julia/lang/error/error-report.kt
+
 package com.nonnulldinu.clionmeson.errorHandler
 
 import com.google.gson.Gson
 import com.intellij.CommonBundle
+import com.intellij.diagnostic.ReportMessages
 import com.intellij.ide.DataManager
 import com.intellij.ide.plugins.PluginManager
 import com.intellij.idea.IdeaLogger
+import com.intellij.notification.*
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.application.ApplicationNamesInfo
@@ -17,8 +21,11 @@ import com.intellij.openapi.extensions.PluginId
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task.Backgroundable
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.ProjectManager
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.util.SystemInfo
+import com.intellij.util.Consumer
+import com.nonnulldinu.clionmeson.notifications.MesonBuildNotifications
 import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 import java.awt.Component
@@ -29,9 +36,6 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.time.Duration
 import java.util.*
-import com.nonnulldinu.clionmeson.notifications.MesonBuildNotifications
-import java.net.http.HttpResponse
-
 
 class ErrorSubmitter : ErrorReportSubmitter() {
     /*
@@ -68,13 +72,13 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .POST(HttpRequest.BodyPublishers.ofString(createNewGitHubIssue(reportValues)))
                         .build()
 
-                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-                println(response.statusCode())
-                println(response.body())
+//                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
+//                println(response.statusCode())
+//                println(response.body())
 
-                // show thank you message after report submitted
                 ApplicationManager.getApplication().invokeLater {
-                    Messages.showInfoMessage(parentComponent, "Thank you for submitting your report!", "Error Report")
+                    val projects: Array<Project> = ProjectManager.getInstance().openProjects
+                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report!"), projects[0])
                     consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
                 }
             }
@@ -82,12 +86,23 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         return true
     }
 
+    internal class CallbackWithNotification(private val consumer: Consumer<SubmittedReportInfo>, private val project: Project?) : Consumer<SubmittedReportInfo> {
+        override fun consume(reportInfo: SubmittedReportInfo) {
+            consumer.consume(reportInfo)
+            if (reportInfo.status == SubmittedReportInfo.SubmissionStatus.FAILED) ReportMessages.GROUP.createNotification(ReportMessages.ERROR_REPORT,
+                    reportInfo.linkText, NotificationType.ERROR, null).setImportant(false).notify(project)
+            else ReportMessages.GROUP.createNotification(ReportMessages.ERROR_REPORT, reportInfo.linkText,
+                    NotificationType.INFORMATION, NotificationListener.URL_OPENING_LISTENER).setImportant(false).notify(project)
+        }
+    }
+
     /**
      * This generates the text above the line in the issue body.
      * This text contains the user description, if given and the
-     * error summary
+     * error summary event.throwableText.split("\n")[0]
      */
-    private fun generateErrorSummary(event: IdeaLoggingEvent, additionalInfo: String?): String {
+    private fun generateErrorSummary(event: IdeaLoggingEvent, additionalInfo: String) : String {
+        event.throwableText.split("\n")
         val summary = event.message ?: event.throwable.javaClass.name + (
                 if (event.throwable.message != null)
                     ("(" + event.throwable.message + ")")
@@ -182,7 +197,6 @@ private fun getKeyValuePairs(project: Project?, error: GitHubErrorBean, appInfo:
 
 /**
  * Messages and strings used by the error reporter
- * Source: https://github.com/JuliaEditorSupport/julia-intellij/blob/master/src/org/ice1000/julia/lang/error/error-report.kt
  */
 private object ErrorReportBundle {
     @NonNls
