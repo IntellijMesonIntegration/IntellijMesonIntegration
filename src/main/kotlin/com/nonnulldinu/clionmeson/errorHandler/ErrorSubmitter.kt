@@ -2,17 +2,21 @@ package com.nonnulldinu.clionmeson.errorHandler
 
 import com.intellij.ide.DataManager
 import com.intellij.openapi.actionSystem.CommonDataKeys
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.diagnostic.ErrorReportSubmitter
 import com.intellij.openapi.diagnostic.IdeaLoggingEvent
 import com.intellij.openapi.diagnostic.SubmittedReportInfo
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task.Backgroundable
+import com.intellij.openapi.ui.Messages
 import java.awt.Component
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import java.net.http.HttpResponse.BodyHandlers
 import java.time.Duration
+
 
 class ErrorSubmitter : ErrorReportSubmitter() {
     /*
@@ -40,14 +44,20 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                 val client = HttpClient.newHttpClient()
                 val request = HttpRequest.newBuilder()
                         .uri(URI.create("https://clionmesonintegration.herokuapp.com/"))
-                        .timeout(Duration.ofMinutes(1))
+                        .timeout(Duration.ofSeconds(10))
                         .header("Content-Type", "application/json")
                         .POST(HttpRequest.BodyPublishers.ofString("{\"issue-title\":\"test issue from heroku\", \"issue-body\":\"test issue from heroku\"}"))
                         .build()
-                client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                client.sendAsync(request, BodyHandlers.ofString())
                         .thenApply { obj: HttpResponse<String?> -> obj.body() }
                         .thenAccept { x: String? -> println(x) }
                         .join()
+
+                // show thank you message after report submitted
+                ApplicationManager.getApplication().invokeLater {
+                    Messages.showInfoMessage(parentComponent, "Thank you for submitting your report!", "Error Report")
+                    consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
+                }
             }
         }.queue()
         return true
