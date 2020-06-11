@@ -4,6 +4,7 @@ package com.nonnulldinu.clionmeson.errorHandler
 
 import com.google.gson.Gson
 import com.intellij.CommonBundle
+import com.intellij.diagnostic.AbstractMessage
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.DataManager
 import com.intellij.ide.plugins.PluginManager
@@ -95,11 +96,12 @@ class ErrorSubmitter : ErrorReportSubmitter() {
      * error summary
      */
     private fun generateErrorSummary(event: IdeaLoggingEvent, additionalInfo: String) : String {
-        val summary = event.message ?: event.throwable.javaClass.name + (
-                if (event.throwable.message != null)
-                    ("(" + event.throwable.message + ")")
+        val eventThrowable = (event.data as AbstractMessage?)!!.throwable
+        val summary = event.message ?: eventThrowable.javaClass.name + (
+                if (eventThrowable.message != null)
+                    ("(" + eventThrowable.message + ")")
                 else ""
-                ) + " in " + event.throwable.stackTrace[0].className + ":" + event.throwable.stackTrace[0].lineNumber
+                ) + " in " + eventThrowable.stackTrace[0].className + ":" + eventThrowable.stackTrace[0].lineNumber
 
         return "$summary\n\n$additionalInfo"
     }
