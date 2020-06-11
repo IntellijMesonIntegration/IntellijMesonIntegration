@@ -34,7 +34,7 @@ import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
 private object AnonymousFeedback {
-    private const val tokenFile = "org/ice1000/julia/lang/error-report/token.bin"
+    private const val tokenFile = "properties/token.bin"
     private const val gitRepoUser = "NonNullDinu"
     private const val gitRepo = "CLionMesonIntegration"
     private const val issueLabel = "test-issue"
@@ -134,21 +134,13 @@ private fun encrypt(value: String): String {
 
 class GitHubErrorReporter : ErrorReportSubmitter() {
     override fun getReportActionText() = ErrorReportBundle.message("report.error.to.plugin.vendor")
-    override fun submit(
-            events: Array<IdeaLoggingEvent>,
-            info: String?,
-            parent: Component,
-            consumer: Consumer<SubmittedReportInfo>): Boolean {
+    override fun submit(events: Array<IdeaLoggingEvent>, info: String?, parent: Component, consumer: Consumer<SubmittedReportInfo>): Boolean {
         // TODO improve
         val event = events.firstOrNull { it.throwable != null } ?: return false
         return doSubmit(event, parent, consumer, info)
     }
 
-    private fun doSubmit(
-            event: IdeaLoggingEvent,
-            parent: Component,
-            callback: Consumer<SubmittedReportInfo>,
-            description: String?): Boolean {
+    private fun doSubmit(event: IdeaLoggingEvent, parent: Component, callback: Consumer<SubmittedReportInfo>, description: String?): Boolean {
         val dataContext = DataManager.getInstance().getDataContext(parent)
         val bean = GitHubErrorBean(
                 event.throwable,
@@ -158,19 +150,15 @@ class GitHubErrorReporter : ErrorReportSubmitter() {
         IdeErrorsDialog.findPluginId(event.throwable)?.let { pluginId ->
             PluginManager.getPlugin(pluginId)?.let { ideaPluginDescriptor ->
                 if (!ideaPluginDescriptor.isBundled) {
-                    bean.pluginName = ideaPluginDescriptor.name
-                    bean.pluginVersion = ideaPluginDescriptor.version
+                    bean.pluginName = ideaPluginDescriptor.getName()
+                    bean.pluginVersion = ideaPluginDescriptor.getVersion()
                 }
             }
         }
 
         (event.data as? AbstractMessage)?.let { bean.attachments = it.includedAttachments }
         val project = CommonDataKeys.PROJECT.getData(dataContext)
-        val reportValues = getKeyValuePairs(
-                project,
-                bean,
-                ApplicationInfoEx.getInstanceEx(),
-                ApplicationNamesInfo.getInstance())
+        val reportValues = getKeyValuePairs(project, bean, ApplicationInfoEx.getInstanceEx(), ApplicationNamesInfo.getInstance())
         val notifyingCallback = CallbackWithNotification(callback, project)
         val task = AnonymousFeedbackTask(project, ErrorReportBundle.message(
                 "report.error.progress.dialog.text"), true, reportValues, notifyingCallback)
@@ -178,9 +166,7 @@ class GitHubErrorReporter : ErrorReportSubmitter() {
         return true
     }
 
-    internal class CallbackWithNotification(
-            private val consumer: Consumer<SubmittedReportInfo>,
-            private val project: Project?) : Consumer<SubmittedReportInfo> {
+    internal class CallbackWithNotification(private val consumer: Consumer<SubmittedReportInfo>, private val project: Project?) : Consumer<SubmittedReportInfo> {
         override fun consume(reportInfo: SubmittedReportInfo) {
             consumer.consume(reportInfo)
             if (reportInfo.status == SubmissionStatus.FAILED) ReportMessages.GROUP.createNotification(ReportMessages.ERROR_REPORT,
@@ -196,11 +182,7 @@ class GitHubErrorReporter : ErrorReportSubmitter() {
  *
  * @author patrick (17.06.17).
  */
-class GitHubErrorBean(
-        throwable: Throwable,
-        val lastAction: String?,
-        val description: String,
-        val message: String) {
+class GitHubErrorBean(throwable: Throwable, val lastAction: String?, val description: String, val message: String) {
     val exceptionHash: String
     val stackTrace: String
     init {
@@ -220,7 +202,6 @@ class GitHubErrorBean(
  * Messages and strings used by the error reporter
  */
 private object ErrorReportBundle {
-//    @NonNls private const val BUNDLE = "org.ice1000.julia.lang.error-report.report-bundle"
     @NonNls private const val BUNDLE = "properties.report-bundle"
     private val bundle: ResourceBundle by lazy { ResourceBundle.getBundle(BUNDLE) }
 
@@ -242,14 +223,10 @@ private class AnonymousFeedbackTask(
 /**
  * Collects information about the running IDEA and the error
  */
-private fun getKeyValuePairs(
-        project: Project?,
-        error: GitHubErrorBean,
-        appInfo: ApplicationInfoEx,
-        namesInfo: ApplicationNamesInfo): MutableMap<String, String> {
+private fun getKeyValuePairs(project: Project?, error: GitHubErrorBean, appInfo: ApplicationInfoEx, namesInfo: ApplicationNamesInfo): MutableMap<String, String> {
     PluginManager.getPlugin(PluginId.findId("org.ice1000.julia"))?.run {
-        if (error.pluginName.isBlank()) error.pluginName = name
-        if (error.pluginVersion.isBlank()) error.pluginVersion = version
+        if (error.pluginName.isBlank()) error.pluginName = getName()
+        if (error.pluginVersion.isBlank()) error.pluginVersion = getVersion()
     }
     val params = mutableMapOf(
             "error.description" to error.description,
