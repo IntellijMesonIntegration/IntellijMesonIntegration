@@ -27,10 +27,10 @@ import java.io.StringWriter
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-import java.net.http.HttpResponse.BodyHandlers
 import java.time.Duration
 import java.util.*
+import com.nonnulldinu.clionmeson.notifications.MesonBuildNotifications
+import java.net.http.HttpResponse
 
 
 class ErrorSubmitter : ErrorReportSubmitter() {
@@ -55,18 +55,14 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         val event = events.firstOrNull { it.throwable != null } ?: return false // nothing to report if null
         val context = DataManager.getInstance().getDataContext(parentComponent)
         val project = CommonDataKeys.PROJECT.getData(context)
-        val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, additionalInfo ?: "<No description>", event.message ?: event.throwable.message.toString())
+        val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, generateErrorSummary(event, additionalInfo ?: "<No description>"), event.message ?: event.throwable.message.toString())
         val reportValues = getKeyValuePairs(project, bean, ApplicationInfoEx.getInstanceEx(), ApplicationNamesInfo.getInstance())
-        val title = event.message ?: event.throwable.javaClass.name + (
-                        if (event.throwable.message != null)
-                            ("(" + event.throwable.message + ")")
-                        else ""
-                        ) + " in " + event.throwable.stackTrace[0].className + ":" + event.throwable.stackTrace[0].lineNumber
-        val body = event.throwableText
-        println(title)
-        println("a")
-//        println(body)
 
+//        val body = event.throwableText
+//        println(generateErrorSummary(event, additionalInfo))
+//        println("a")
+//        println(event.throwable.message)
+//        println(body)
 
         object : Backgroundable(project, ErrorReportBundle.message("report.error.progress.dialog.text")) {
             override fun run(indicator: ProgressIndicator) {
@@ -79,7 +75,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                         .build()
 
 //                println(createNewGitHubIssue(reportValues))
-                val response = client.send(request, BodyHandlers.ofString())
+                val response = client.send(request, HttpResponse.BodyHandlers.ofString())
                 println(response.statusCode())
                 println(response.body())
 
@@ -91,6 +87,25 @@ class ErrorSubmitter : ErrorReportSubmitter() {
             }
         }.queue()
         return true
+    }
+
+    /**
+     * This generates the text above the line in the issue body.
+     * This text contains the user description, if given and the
+     * error summary
+     */
+    private fun generateErrorSummary(event: IdeaLoggingEvent, additionalInfo: String?): String {
+        val summary = event.message ?: event.throwable.javaClass.name + (
+                if (event.throwable.message != null)
+                    ("(" + event.throwable.message + ")")
+                else ""
+                ) + " in " + event.throwable.stackTrace[0].className + ":" + event.throwable.stackTrace[0].lineNumber
+
+        if (additionalInfo.isNullOrBlank()) {
+
+        }
+        return "$summary\n\n$additionalInfo"
+
     }
 
     /**

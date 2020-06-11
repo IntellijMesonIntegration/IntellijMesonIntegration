@@ -16,7 +16,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
-    <!--    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>-->
+<!--    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>-->
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
