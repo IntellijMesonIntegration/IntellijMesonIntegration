@@ -43,7 +43,8 @@
                         serviceImplementation="com.nonnulldinu.clionmeson.services.impl.MesonBuildStoreServiceImpl"/>
 
         <!-- Error Handling -->
-        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.GitHubErrorReporter"/>
+<!--        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.GitHubErrorReporter"/>-->
+        <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.ErrorSubmitter"/>
     </extensions>
 
     <!-- Project listeners -->

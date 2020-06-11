@@ -50,12 +50,12 @@ private object AnonymousFeedback {
     internal fun sendFeedback(environmentDetails: MutableMap<String, String>): SubmittedReportInfo {
         val logger = Logger.getInstance(javaClass.name)
         try {
-            val resource: URL? = javaClass.classLoader.getResource(tokenFile)
-            if (resource == null) {
-                logger.info("Could not find token file")
-                throw IOException("Could not decrypt access token")
-            }
-            val gitAccessToken = decrypt(resource)
+//            val resource: URL? = javaClass.classLoader.getResource(tokenFile)
+//            if (resource == null) {
+//                logger.info("Could not find token file")
+//                throw IOException("Could not decrypt access token")
+//            }
+            val gitAccessToken = "d85d2f03f29f351cf331a61b949d906425115409"//decrypt(resource)
             val client = GitHubClient()
             client.setOAuth2Token(gitAccessToken)
             val repoID = RepositoryId(gitRepoUser, gitRepo)
