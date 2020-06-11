@@ -85,8 +85,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
                 }
 
                 ApplicationManager.getApplication().invokeLater {
-                    val projects: Array<Project> = ProjectManager.getInstance().openProjects
-                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report!", CheckItOutAction(response.body())), projects[0])
+                    Notifications.Bus.notify(MesonBuildNotifications.infoNotify("Thank you for submitting your report!", CheckItOutAction(response.body())), project)
                     consumer.consume(SubmittedReportInfo(SubmittedReportInfo.SubmissionStatus.NEW_ISSUE))
                 }
             }
