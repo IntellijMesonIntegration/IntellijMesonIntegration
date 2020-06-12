@@ -3,52 +3,57 @@ package com.nonnulldinu.clionmeson.settings
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.options.ConfigurationException
 import org.jetbrains.annotations.Nls
+import java.io.File
 import javax.swing.JComponent
 
 
 class MesonPluginSettingsConfigurable : Configurable {
-    private var mySettingsComponent: MesonPluginSettingsComponent? = null
+    private var mesonPluginSettingsComponent: MesonPluginSettingsComponent? = null
 
-    // A default constructor with no arguments is required because this implementation
-    // is registered as an applicationConfigurable EP
-
-    // A default constructor with no arguments is required because this implementation
-    // is registered as an applicationConfigurable EP
     @Nls(capitalization = Nls.Capitalization.Title)
     override fun getDisplayName(): String? {
-        return "SDK: Application Settings Example"
+        return "Meson Integration"
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
-        return mySettingsComponent?.getPreferredFocusedComponent()
+        return mesonPluginSettingsComponent?.getPreferredFocusedComponent()
     }
 
     override fun createComponent(): JComponent? {
-        mySettingsComponent = MesonPluginSettingsComponent()
-        return mySettingsComponent?.getPanel()
+        mesonPluginSettingsComponent = MesonPluginSettingsComponent()
+        return mesonPluginSettingsComponent?.getPanel()
     }
 
     override fun isModified(): Boolean {
-//        val settings: MesonPluginSettingsState = MesonPluginSettingsState.getInstance()
-//        var modified: Boolean = mySettingsComponent?.getUserNameText() != settings.userId
-//        modified = modified or (mySettingsComponent?.getIdeaUserStatus() !== settings.ideaStatus)
-        return false // modified
+        val settings: MesonPluginSettingsState = MesonPluginSettingsState.getInstance()
+        return mesonPluginSettingsComponent?.getMesonPathText() != settings.getValue(MesonPluginSettingsState.MesonPath)
     }
 
     @Throws(ConfigurationException::class)
     override fun apply() {
-//        val settings: MesonPluginSettingsState = MesonPluginSettingsState.getInstance()
-//        settings.userId = mySettingsComponent.getUserNameText()
-//        settings.ideaStatus = mySettingsComponent.getIdeaUserStatus()
+        val settings: MesonPluginSettingsState = MesonPluginSettingsState.getInstance()
+        val mesonExecPath = mesonPluginSettingsComponent!!.getMesonPathText()
+        val mesonExecFile = File(mesonExecPath)
+        if (!mesonExecFile.exists()) {
+            throw ConfigurationException("Meson executable not found at given path")
+        }
+        if (!mesonExecFile.canExecute()) {
+            throw ConfigurationException("Given Meson binary is not executable")
+        }
+        settings.setValue(MesonPluginSettingsState.MesonPath, mesonExecPath)
     }
 
     override fun reset() {
-//        val settings: MesonPluginSettingsState = MesonPluginSettingsState.getInstance()
-//        mySettingsComponent.setUserNameText(settings.userId)
-//        mySettingsComponent.setIdeaUserStatus(settings.ideaStatus)
+        val settings: MesonPluginSettingsState = MesonPluginSettingsState.getInstance()
+        val mesonPath = settings.getValue(MesonPluginSettingsState.MesonPath)
+        if (mesonPath == null) {
+            mesonPluginSettingsComponent!!.mesonPathNotInSettings()
+        } else {
+            mesonPluginSettingsComponent!!.setMesonPathText(mesonPath)
+        }
     }
 
     override fun disposeUIResources() {
-        mySettingsComponent = null
+        mesonPluginSettingsComponent = null
     }
 }

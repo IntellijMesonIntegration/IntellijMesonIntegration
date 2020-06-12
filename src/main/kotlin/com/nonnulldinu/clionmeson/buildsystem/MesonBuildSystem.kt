@@ -7,15 +7,18 @@ import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
+import com.jetbrains.cidr.execution.build.CidrBuildResult
 import com.nonnulldinu.clionmeson.buildsystem.actions.OpenMesonLog
 import com.nonnulldinu.clionmeson.buildsystem.meta.MesonBuildMeta
 import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTarget
 import com.nonnulldinu.clionmeson.buildsystem.utils.MesonBuildUtilCached
 import com.nonnulldinu.clionmeson.notifications.MesonBuildNotifications
+import com.nonnulldinu.clionmeson.settings.MesonPluginSettingsState
+import io.netty.util.internal.UnstableApi
 import java.io.File
 import java.io.FileInputStream
 
-class MesonBuildSystem(var mesonBuildRoot: String) {
+class MesonBuildSystem(var basePath: String, var mesonBuildRoot: String) {
     private var cachedMeta: MesonBuildUtilCached<MesonBuildMeta>? = null
     private var cachedTargets: MesonBuildUtilCached<Array<MesonBuildTarget>>? = null
 
@@ -44,7 +47,7 @@ class MesonBuildSystem(var mesonBuildRoot: String) {
         }
 
         fun openOn(project: Project): MesonBuildSystem {
-            val buildSystem = MesonBuildSystem(project.basePath + "/build")
+            val buildSystem = MesonBuildSystem(project.basePath!!, project.basePath + "/build")
             project.putUserData(mesonBuildSystemInstanceKey, buildSystem)
             return buildSystem
         }
@@ -95,5 +98,28 @@ class MesonBuildSystem(var mesonBuildRoot: String) {
     fun dropCaches() {
         dropCachedTargets()
         dropCachedMeta()
+    }
+
+    /**
+     * Compile all targets in the project
+     */
+    fun compile(): CidrBuildResult {
+        val started = System.nanoTime()
+        val p: Process = ProcessBuilder().directory(File("")).command(
+                MesonPluginSettingsState.getInstance().getValue(MesonPluginSettingsState.MesonPath), // meson
+                "compile",                                                                           // compile
+                "-C", "build"                                                                        // -C build
+        ).start()
+        p.waitFor()
+        return CidrBuildResult(p.exitValue() == 0, false, started, message = String(p.inputStream.readAllBytes()))
+    }
+
+    @UnstableApi
+    fun compile(target: MesonBuildTarget) : CidrBuildResult {
+        /// this is supposed to compile only the target given parameter
+        /// will be rewritten and stable when https://github.com/mesonbuild/meson/pull/7181
+        /// makes it into upstream meson
+        /// for now it just compiles everything
+        return compile()
     }
 }

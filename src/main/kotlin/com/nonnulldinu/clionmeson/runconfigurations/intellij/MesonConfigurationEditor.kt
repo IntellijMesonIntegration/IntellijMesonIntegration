@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson.runconfigurations
+package com.nonnulldinu.clionmeson.runconfigurations.intellij
 
 import com.intellij.openapi.fileChooser.FileChooserDescriptor
 import com.intellij.openapi.options.ConfigurationException

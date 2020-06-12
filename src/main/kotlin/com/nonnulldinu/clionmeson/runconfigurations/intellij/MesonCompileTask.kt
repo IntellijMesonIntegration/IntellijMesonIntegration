@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson.runconfigurations
+package com.nonnulldinu.clionmeson.runconfigurations.intellij
 
 import com.intellij.execution.BeforeRunTask
 import com.intellij.openapi.util.Key

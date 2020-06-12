@@ -16,7 +16,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
-<!--    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>-->
+    <!--    <depends optional="true" config-file="with_rust.xml">org.jetbrains.rust</depends>-->
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
@@ -38,9 +38,18 @@
         <directoryProjectGenerator implementation="com.nonnulldinu.clionmeson.project.MesonProjectGeneratorCPP"/>
 
         <!-- Run Configurations -->
-        <stepsBeforeRunProvider implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonCompileTaskProvider"
-                                id="MesonCompileTaskProviderId"/>
-        <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.MesonConfigurationType"/>
+        <!-- Old intellij -->
+<!--        <stepsBeforeRunProvider-->
+<!--                        implementation="com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonCompileTaskProvider"-->
+<!--                        id="MesonCompileTaskProviderId"/>-->
+<!--        <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonConfigurationType"/>-->
+
+        <!-- CLion -->
+        <stepsBeforeRunProvider
+                implementation="com.nonnulldinu.clionmeson.runconfigurations.clion.CLionMesonCompileTaskProvider"
+                id="MesonCompileTaskProviderId"/>
+        <configurationType
+                implementation="com.nonnulldinu.clionmeson.runconfigurations.clion.CLionMesonConfigurationType"/>
 
         <!-- Error Handling -->
         <errorHandler implementation="com.nonnulldinu.clionmeson.errorHandler.ErrorSubmitter"/>

@@ -1,6 +1,6 @@
 package com.nonnulldinu.clionmeson.settings
 
-import com.intellij.ui.components.JBCheckBox
+import com.intellij.openapi.ui.TextFieldWithBrowseButton
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBTextField
 import com.intellij.util.ui.FormBuilder
@@ -9,39 +9,32 @@ import javax.swing.JPanel
 
 
 class MesonPluginSettingsComponent {
-    private var myMainPanel: JPanel? = null
-    private val myUserNameText = JBTextField()
-    private val myIdeaUserStatus = JBCheckBox("Do You Use IntelliJ IDEA? ")
+    private var mainPanel: JPanel? = null
+    private val mesonPath = TextFieldWithBrowseButton()
 
-    fun AppSettingsComponent() {
-        myMainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(JBLabel("Enter User Name: "), myUserNameText, 1, false)
-                .addComponent(myIdeaUserStatus, 1)
+    init {
+        mainPanel = FormBuilder.createFormBuilder()
+                .addLabeledComponent(JBLabel("Meson path: "), mesonPath, 1, false)
                 .addComponentFillVertically(JPanel(), 0)
                 .panel
     }
 
     fun getPanel(): JPanel? {
-        return myMainPanel
+        return mainPanel
     }
 
     fun getPreferredFocusedComponent(): JComponent? {
-        return myUserNameText
+        return mesonPath
     }
 
-    fun getUserNameText(): String {
-        return myUserNameText.text
+    fun getMesonPathText(): String {
+        return mesonPath.text
     }
 
-    fun setUserNameText(newText: String) {
-        myUserNameText.text = newText
+    fun setMesonPathText(newText: String) {
+        mesonPath.text = newText
     }
 
-    fun getIdeaUserStatus(): Boolean {
-        return myIdeaUserStatus.isSelected
-    }
-
-    fun setIdeaUserStatus(newStatus: Boolean) {
-        myIdeaUserStatus.isSelected = newStatus
+    fun mesonPathNotInSettings() {
     }
 }

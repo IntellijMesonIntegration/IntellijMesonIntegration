@@ -1,4 +1,4 @@
-package com.nonnulldinu.clionmeson.runconfigurations
+package com.nonnulldinu.clionmeson.runconfigurations.intellij
 
 import com.intellij.execution.BeforeRunTaskProvider
 import com.intellij.execution.configurations.RunConfiguration
@@ -8,6 +8,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.actionSystem.DataContext
 import com.intellij.openapi.project.guessProjectDir
 import com.intellij.openapi.util.Key
+import com.nonnulldinu.clionmeson.settings.MesonPluginSettingsState
 import java.io.File
 import javax.swing.Icon
 
@@ -31,7 +32,7 @@ class MesonCompileTaskProvider : BeforeRunTaskProvider<MesonCompileTask>() {
     }
 
     override fun executeTask(context: DataContext, configuration: RunConfiguration, environment: ExecutionEnvironment, task: MesonCompileTask): Boolean {
-        val p: Process = ProcessBuilder("/usr/bin/ninja", "-C", "build").directory(File(context.getData(CommonDataKeys.PROJECT)!!.guessProjectDir()!!.canonicalPath!!)).start()
+        val p: Process = ProcessBuilder(MesonPluginSettingsState.getInstance().getValue(MesonPluginSettingsState.MesonPath), "compile", "-C", "build").directory(File(context.getData(CommonDataKeys.PROJECT)!!.guessProjectDir()!!.canonicalPath!!)).start()
         p.waitFor()
         return p.exitValue() == 0
     }

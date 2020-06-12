@@ -5,9 +5,8 @@ import com.intellij.openapi.project.Project
 import com.intellij.openapi.project.ProjectManagerListener
 import com.intellij.openapi.project.guessProjectDir
 import com.nonnulldinu.clionmeson.buildsystem.MesonBuildSystem
-import com.nonnulldinu.clionmeson.runconfigurations.MesonConfiguration
-import java.util.logging.Level
-import java.util.logging.Logger
+import com.nonnulldinu.clionmeson.runconfigurations.clion.CLionMesonRunConfiguration
+import com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonConfiguration
 
 class MesonProjectListener : ProjectManagerListener {
     override fun projectOpened(project: Project) {
@@ -18,10 +17,8 @@ class MesonProjectListener : ProjectManagerListener {
 
         val buildSystem: MesonBuildSystem = MesonBuildSystem.openOn(project)
         for (runConfig in RunManager.getInstance(project).allConfigurationsList) {
-            Logger.getLogger("MesonProjectListener").log(Level.WARNING, "Found runconfig $runConfig")
             if (runConfig is MesonConfiguration) {
                 runConfig.loadTargetFromBuildSystem(buildSystem)
-                Logger.getLogger("MesonProjectListener").log(Level.WARNING, "Loaded runconfig $runConfig")
             }
         }
     }
