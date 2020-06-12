@@ -62,7 +62,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         val event = events.firstOrNull { it.throwable != null } ?: return false // nothing to report if null
         val context = DataManager.getInstance().getDataContext(parentComponent)
         val project = CommonDataKeys.PROJECT.getData(context)
-        val bean = GitHubErrorBean(event.throwable, IdeaLogger.ourLastActionId, generateErrorSummary(event, additionalInfo ?: ErrorReportBundle.message("report.warning.no.description")), event.message ?: event.throwableText.split("\n")[0])
+        val bean = GitHubErrorBean((event.data as AbstractMessage?)!!.throwable, IdeaLogger.ourLastActionId, generateErrorSummary(event, additionalInfo ?: ErrorReportBundle.message("report.warning.no.description")), event.message ?: event.throwableText.split("\n")[0])
         val reportValues = getKeyValuePairs(project, bean, ApplicationInfoEx.getInstanceEx(), ApplicationNamesInfo.getInstance())
 
         object : Backgroundable(project, ErrorReportBundle.message("report.error.progress.dialog.text")) {
