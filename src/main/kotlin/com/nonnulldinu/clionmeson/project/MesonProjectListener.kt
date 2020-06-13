@@ -19,6 +19,8 @@ class MesonProjectListener : ProjectManagerListener {
         for (runConfig in RunManager.getInstance(project).allConfigurationsList) {
             if (runConfig is MesonConfiguration) {
                 runConfig.loadTargetFromBuildSystem(buildSystem)
+            } else if (runConfig is CLionMesonRunConfiguration) {
+                runConfig.loadTargetFromBuildSystem(buildSystem)
             }
         }
     }

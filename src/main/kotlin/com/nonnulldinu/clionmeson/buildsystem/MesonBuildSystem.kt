@@ -105,7 +105,7 @@ class MesonBuildSystem(var basePath: String, var mesonBuildRoot: String) {
      */
     fun compile(): CidrBuildResult {
         val started = System.nanoTime()
-        val p: Process = ProcessBuilder().directory(File("")).command(
+        val p: Process = ProcessBuilder().directory(File(basePath)).command(
                 MesonPluginSettingsState.getInstance().getValue(MesonPluginSettingsState.MesonPath), // meson
                 "compile",                                                                           // compile
                 "-C", "build"                                                                        // -C build

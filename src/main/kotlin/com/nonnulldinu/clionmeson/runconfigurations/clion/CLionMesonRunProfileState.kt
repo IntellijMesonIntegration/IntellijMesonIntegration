@@ -8,14 +8,14 @@ import com.intellij.execution.process.ProcessHandlerFactory
 import com.intellij.execution.process.ProcessTerminatedListener
 import com.intellij.execution.runners.ExecutionEnvironment
 import com.nonnulldinu.clionmeson.buildsystem.MesonBuildSystem
+import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTarget
 import java.io.File
 
-class CLionMesonRunProfileState(val target: String, environment: ExecutionEnvironment, val runConfig: CLionMesonRunConfiguration) : CommandLineState(environment) {
+class CLionMesonRunProfileState(val target: MesonBuildTarget, environment: ExecutionEnvironment, val runConfig: CLionMesonRunConfiguration) : CommandLineState(environment) {
     @Throws(ExecutionException::class)
     override fun startProcess(): ProcessHandler {
-        val buildTarget = MesonBuildSystem.getBuildSystem(runConfig.project).getTargets().find { it.id == target }!!
-        val commandLine = GeneralCommandLine(buildTarget.filename[0])
-        commandLine.workDirectory = if (runConfig.workingDirectory == null) File(buildTarget.filename[0]).parentFile else File(runConfig.workingDirectory!!)
+        val commandLine = GeneralCommandLine(target.filename[0])
+        commandLine.workDirectory = if (runConfig.workingDirectory == null) File(target.filename[0]).parentFile else File(runConfig.workingDirectory!!)
         val processHandler = ProcessHandlerFactory.getInstance().createColoredProcessHandler(commandLine)
         ProcessTerminatedListener.attach(processHandler)
         return processHandler

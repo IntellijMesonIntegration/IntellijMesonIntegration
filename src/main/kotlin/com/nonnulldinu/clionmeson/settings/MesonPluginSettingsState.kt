@@ -21,17 +21,13 @@ class MesonPluginSettingsState : PersistentStateComponent<MesonPluginSettingsSta
 
     var _state = State()
 
-    override fun getState(): State? {
-        return _state
-    }
+    override fun getState(): State? = _state
 
     override fun loadState(state: State) {
         _state = state
     }
 
-    fun getValue(key: String): String? {
-        return _state.data[key]
-    }
+    fun getValue(key: String): String? = _state.data[key]
 
     fun setValue(key: String, value: String) {
         _state.data[key] = value

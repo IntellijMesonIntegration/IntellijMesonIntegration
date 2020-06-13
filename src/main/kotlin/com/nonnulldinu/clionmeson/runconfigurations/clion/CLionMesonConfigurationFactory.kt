@@ -2,6 +2,7 @@ package com.nonnulldinu.clionmeson.runconfigurations.clion
 
 import com.intellij.execution.configurations.ConfigurationFactory
 import com.intellij.execution.configurations.RunConfiguration
+import com.intellij.execution.configurations.RunConfigurationOptions
 import com.intellij.openapi.project.Project
 
 class CLionMesonConfigurationFactory(configurationType: CLionMesonConfigurationType) : ConfigurationFactory(configurationType) {
@@ -14,5 +15,9 @@ class CLionMesonConfigurationFactory(configurationType: CLionMesonConfigurationT
 
     override fun getId(): String {
         return FACTORY_ID
+    }
+
+    override fun getOptionsClass(): Class<out RunConfigurationOptions> {
+        return CLionMesonRunConfigurationOptions::class.java
     }
 }

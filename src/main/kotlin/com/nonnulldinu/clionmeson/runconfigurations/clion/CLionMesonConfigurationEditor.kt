@@ -28,8 +28,7 @@ class CLionMesonConfigurationEditor(val project: Project) : SettingsEditor<CLion
     override fun resetEditorFrom(config: CLionMesonRunConfiguration) {
         val targets = MesonBuildSystem.getBuildSystem(config.project).getTargets()
         target!!.component.model = DefaultComboBoxModel(targets)
-        println(config.data?.target?.targetName)
-        target!!.component.selectedIndex = targets.indexOfFirst { it.id == config.data?.target?.targetName }
+        target!!.component.selectedIndex = targets.indexOfFirst { it.id == config.getTargetId() }
         workingDirectory!!.component.text = config.workingDirectory ?: ""
     }
 
@@ -44,6 +43,8 @@ class CLionMesonConfigurationEditor(val project: Project) : SettingsEditor<CLion
         if (target!!.component.selectedItem == null) throw ConfigurationException("No target selected")
         config.executableData = ExecutableData(BuildTargetData(CLionMesonBuildTarget(config.project.name, (target!!.component.selectedItem as MesonBuildTarget).id)))
         config.workingDirectory = workingDirectory!!.component.text
+        config.target = target!!.component!!.selectedItem as MesonBuildTarget
+        config.setTargetId(config.target!!.id)
     }
 
     private fun createUIComponents() {
