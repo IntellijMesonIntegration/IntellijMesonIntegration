@@ -9,15 +9,10 @@ class CLionMesonConfigurationFactory(configurationType: CLionMesonConfigurationT
     companion object {
         const val FACTORY_ID = "CLionMesonBuildRunConfigurationFactory"
     }
-    override fun createTemplateConfiguration(project: Project): RunConfiguration {
-        return CLionMesonRunConfiguration(project, CLionMesonConfigurationFactory(CLionMesonConfigurationType), "Meson Run Configuration Template")
-    }
+    override fun createTemplateConfiguration(project: Project): RunConfiguration =
+            CLionMesonRunConfiguration(project, CLionMesonConfigurationFactory(CLionMesonConfigurationType), "Meson Run Configuration Template")
 
-    override fun getId(): String {
-        return FACTORY_ID
-    }
+    override fun getId(): String = FACTORY_ID
 
-    override fun getOptionsClass(): Class<out RunConfigurationOptions> {
-        return CLionMesonRunConfigurationOptions::class.java
-    }
+    override fun getOptionsClass(): Class<out RunConfigurationOptions> = CLionMesonRunConfigurationOptions::class.java
 }

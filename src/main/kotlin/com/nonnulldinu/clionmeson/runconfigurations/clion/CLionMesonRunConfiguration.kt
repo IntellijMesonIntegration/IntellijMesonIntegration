@@ -28,25 +28,18 @@ class CLionMesonRunConfiguration(project: Project, factory: CLionMesonConfigurat
             throw RuntimeConfigurationException("Target doesn't exist")
     }
 
-    override fun getHelper(): CidrBuildConfigurationHelper<CLionMesonBuildConfiguration, CLionMesonBuildTarget> {
-        return CLionMesonConfigurationHelper()
-    }
+    override fun getHelper(): CidrBuildConfigurationHelper<CLionMesonBuildConfiguration, CLionMesonBuildTarget> =
+            CLionMesonConfigurationHelper()
 
-    override fun getResolveConfiguration(p0: ExecutionTarget): OCResolveConfiguration? {
-        return null
-    }
+    override fun getResolveConfiguration(p0: ExecutionTarget): OCResolveConfiguration? = null
 
-    override fun getConfigurationEditor(): CLionMesonConfigurationEditor {
-        return CLionMesonConfigurationEditor(project)
-    }
+    override fun getConfigurationEditor(): CLionMesonConfigurationEditor = CLionMesonConfigurationEditor(project)
 
     override fun getState(p0: Executor, environment: ExecutionEnvironment): CommandLineState? {
         return CLionMesonRunProfileState(target!!, environment, this)
     }
 
-    override fun getExecutableData(): ExecutableData? {
-        return data
-    }
+    override fun getExecutableData(): ExecutableData? = data
 
     override fun setExecutableData(p0: ExecutableData?) {
         data = p0

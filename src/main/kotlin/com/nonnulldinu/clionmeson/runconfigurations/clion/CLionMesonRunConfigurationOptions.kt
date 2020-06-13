@@ -6,9 +6,7 @@ import com.intellij.openapi.components.StoredProperty
 class CLionMesonRunConfigurationOptions : LocatableRunConfigurationOptions() {
     private val _targetId: StoredProperty<String?> = string("").provideDelegate(this, "targetId")
 
-    fun getTargetId(): String? {
-        return _targetId.getValue(this)
-    }
+    fun getTargetId(): String? = _targetId.getValue(this)
 
     fun setTargetId(value: String) {
         _targetId.setValue(this, value)

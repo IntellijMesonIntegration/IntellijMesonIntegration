@@ -6,24 +6,14 @@ import com.nonnulldinu.clionmeson.icons.PluginIcons
 import javax.swing.Icon
 
 class CLionMesonBuildTarget(private val _projectName: String, private val _name: String) : CidrBuildTarget<CLionMesonBuildConfiguration> {
-    override fun getIcon(): Icon? {
-        return AllIcons.Actions.Compile
-    }
+    override fun getIcon(): Icon? = AllIcons.Actions.Compile
 
-    override fun getName(): String {
-        return _name
-    }
+    override fun getName(): String = _name
 
-    override fun getProjectName(): String {
-        return _projectName
-    }
+    override fun getProjectName(): String = _projectName
 
-    override fun isExecutable(): Boolean {
-        return true
-    }
+    override fun isExecutable(): Boolean = true
 
-    override fun getBuildConfigurations(): MutableList<CLionMesonBuildConfiguration> {
-        return mutableListOf()
-    }
+    override fun getBuildConfigurations(): MutableList<CLionMesonBuildConfiguration> = mutableListOf()
 
 }

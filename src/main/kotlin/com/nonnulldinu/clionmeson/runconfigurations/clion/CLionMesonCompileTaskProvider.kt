@@ -20,9 +20,7 @@ class CLionMesonCompileTaskProvider : BeforeRunTaskProvider<CLionMesonBuildBefor
         val KeyId = Key<CLionMesonBuildBeforeRunTask>("MesonBuildBeforeRunTaskId")
     }
 
-    override fun getIcon(): Icon? {
-        return PluginIcons.MESON_BUILD_ICON
-    }
+    override fun getIcon(): Icon? = PluginIcons.MESON_BUILD_ICON
 
     override fun createTask(runConfiguration: RunConfiguration): CLionMesonBuildBeforeRunTask? {
         if (runConfiguration !is CLionMesonRunConfiguration) return null
