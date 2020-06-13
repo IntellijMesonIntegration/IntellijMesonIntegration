@@ -1,5 +1,12 @@
 * @NonNullDinu
+
+# Error handler
 /src/main/kotlin/com/nonnulldinu/clionmeson/errorHandler/ @jondef
 /src/main/resources/properties/error-submitter.properties @jondef
+
+# Rust
 /src/main/resources/META-INF/with_rust.xml @jondef
+/src/main/kotlin/com/nonnulldinu/clionmeson/project/*Rust.kt @jondef
+
+# plugin.xml
 /src/main/resources/META-INF/plugin.xml @NonNullDinu @jondef
