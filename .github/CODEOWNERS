@@ -1,0 +1,5 @@
+* @NonNullDinu
+/src/main/kotlin/com/nonnulldinu/clionmeson/errorHandler/ @jondef
+/src/main/resources/properties/error-submitter.properties @jondef
+/src/main/resources/META-INF/with_rust.xml @jondef
+/src/main/resources/META-INF/plugin.xml @NonNullDinu @jondef
