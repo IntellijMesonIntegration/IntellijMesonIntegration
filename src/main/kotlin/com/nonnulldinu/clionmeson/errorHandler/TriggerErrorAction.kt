@@ -5,6 +5,6 @@ import com.intellij.openapi.actionSystem.AnActionEvent
 
 class TriggerErrorAction : AnAction("Error Reporting: Trigger Exception") {
     override fun actionPerformed(e: AnActionEvent) {
-        throw IllegalStateException("this is a bug!")
+        throw StackOverflowError("This is an artificial bug!")
     }
 }

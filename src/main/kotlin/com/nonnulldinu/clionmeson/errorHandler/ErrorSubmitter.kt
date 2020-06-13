@@ -100,7 +100,7 @@ class ErrorSubmitter : ErrorReportSubmitter() {
         val eventThrowable = (event.data as AbstractMessage?)!!.throwable
         val summary = event.message ?: eventThrowable.javaClass.name + (
                 if (eventThrowable.message != null)
-                    ("(" + eventThrowable.message + ")")
+                    (": " + eventThrowable.message + "\n")
                 else ""
                 ) + " in " + eventThrowable.stackTrace[0].className + ":" + eventThrowable.stackTrace[0].lineNumber
 
