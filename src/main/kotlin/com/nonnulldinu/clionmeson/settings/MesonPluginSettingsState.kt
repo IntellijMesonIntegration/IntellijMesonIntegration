@@ -15,8 +15,8 @@ class MesonPluginSettingsState : PersistentStateComponent<MesonPluginSettingsSta
         }
     }
 
-    class State : BaseState(){
-        val data : StoredProperty<MutableMap<String, String>> = map<String, String>().provideDelegate(this, "data")
+    class State {
+        var data = HashMap<String, String>()
     }
 
     var _state = State()
@@ -30,10 +30,10 @@ class MesonPluginSettingsState : PersistentStateComponent<MesonPluginSettingsSta
     }
 
     fun getValue(key: String): String? {
-        return _state.data.getValue(_state)[key]
+        return _state.data[key]
     }
 
     fun setValue(key: String, value: String) {
-        _state.data.getValue(_state)[key] = value
+        _state.data[key] = value
     }
 }
