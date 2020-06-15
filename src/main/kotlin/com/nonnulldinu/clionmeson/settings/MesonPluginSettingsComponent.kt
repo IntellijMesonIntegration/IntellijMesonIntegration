@@ -14,7 +14,7 @@ class MesonPluginSettingsComponent {
 
     init {
         mainPanel = FormBuilder.createFormBuilder()
-                .addLabeledComponent(JBLabel("Meson path: "), mesonPath, 1, false)
+                .addLabeledComponent(JBLabel("Meson executable path: "), mesonPath, 1, false)
                 .addComponentFillVertically(JPanel(), 0)
                 .panel
     }

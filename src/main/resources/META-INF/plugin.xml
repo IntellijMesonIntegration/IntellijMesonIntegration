@@ -56,10 +56,10 @@
 
         <!-- Settings -->
         <applicationService serviceImplementation="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsState"/>
-        <applicationConfigurable parentId="tools"
+        <applicationConfigurable parentId="build"
                                  instance="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
                                  id="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
-                                 displayName="Meson Integration"/>
+                                 displayName="Meson"/>
     </extensions>
 
     <!-- Project listeners -->

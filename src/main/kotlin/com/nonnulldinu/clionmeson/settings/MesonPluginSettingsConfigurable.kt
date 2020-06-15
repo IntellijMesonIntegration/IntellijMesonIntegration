@@ -12,7 +12,7 @@ class MesonPluginSettingsConfigurable : Configurable {
 
     @Nls(capitalization = Nls.Capitalization.Title)
     override fun getDisplayName(): String? {
-        return "Meson Integration"
+        return "Meson"
     }
 
     override fun getPreferredFocusedComponent(): JComponent? {
