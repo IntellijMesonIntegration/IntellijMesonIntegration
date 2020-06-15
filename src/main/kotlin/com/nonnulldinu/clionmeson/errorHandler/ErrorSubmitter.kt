@@ -3,11 +3,11 @@
 package com.nonnulldinu.clionmeson.errorHandler
 
 import com.google.gson.Gson
-import com.intellij.CommonBundle
+import com.intellij.AbstractBundle
 import com.intellij.diagnostic.AbstractMessage
 import com.intellij.ide.BrowserUtil
 import com.intellij.ide.DataManager
-import com.intellij.ide.plugins.PluginManager
+import com.intellij.ide.plugins.PluginManagerCore
 import com.intellij.idea.IdeaLogger
 import com.intellij.notification.Notification
 import com.intellij.notification.NotificationAction
@@ -172,7 +172,7 @@ class GitHubErrorBean(throwable: Throwable, val lastAction: String?, val descrip
  * Collects information about the running IDEA and the error
  */
 private fun getKeyValuePairs(project: Project?, error: GitHubErrorBean, appInfo: ApplicationInfoEx, namesInfo: ApplicationNamesInfo): MutableMap<String, String> {
-    PluginManager.getPlugin(PluginId.findId("com.non.null.dinu.MesonIntegration"))?.run {
+    PluginManagerCore.getPlugin(PluginId.findId("com.non.null.dinu.MesonIntegration"))?.run {
         if (error.pluginName.isBlank()) error.pluginName = getName()
         if (error.pluginVersion.isBlank()) error.pluginVersion = getVersion()
     }
@@ -207,5 +207,5 @@ private object ErrorReportBundle {
 
     @JvmStatic
     internal fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =
-            CommonBundle.message(bundle, key, *params)
+            AbstractBundle.message(bundle, key, *params)
 }
