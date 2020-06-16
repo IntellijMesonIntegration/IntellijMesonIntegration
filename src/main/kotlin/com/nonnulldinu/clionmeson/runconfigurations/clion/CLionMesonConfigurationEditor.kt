@@ -41,7 +41,7 @@ class CLionMesonConfigurationEditor(val project: Project) : SettingsEditor<CLion
     @Throws(ConfigurationException::class)
     override fun applyEditorTo(config: CLionMesonRunConfiguration) {
         if (target!!.component.selectedItem == null) throw ConfigurationException("No target selected")
-        config.executableData = ExecutableData(BuildTargetData(CLionMesonBuildTarget(config.project.name, (target!!.component.selectedItem as MesonBuildTarget).id)))
+        config.executableData = ExecutableData(BuildTargetData(CLionMesonBuildTarget(config.project.name, (target!!.component.selectedItem as MesonBuildTarget).id, config.project)))
         config.workingDirectory = workingDirectory!!.component.text
         config.target = target!!.component!!.selectedItem as MesonBuildTarget
         config.setTargetId(config.target!!.id)

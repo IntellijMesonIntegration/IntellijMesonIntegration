@@ -21,7 +21,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type = "CL"
-    version = "2020.1.2"
+    version = "LATEST-EAP-SNAPSHOT"
 //    setPlugins("org.rust.lang")
 }
 
@@ -32,6 +32,10 @@ tasks {
         - Meson syntax highlighting (and basic parsing, but with cryptic errors)
         - Run configurations
         """.trimMargin())
+    }
+
+    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "11"
     }
 }
 

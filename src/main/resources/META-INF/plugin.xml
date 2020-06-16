@@ -39,10 +39,10 @@
 
         <!-- Run Configurations -->
         <!-- Old intellij -->
-<!--        <stepsBeforeRunProvider-->
-<!--                        implementation="com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonCompileTaskProvider"-->
-<!--                        id="MesonCompileTaskProviderId"/>-->
-<!--        <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonConfigurationType"/>-->
+        <!--        <stepsBeforeRunProvider-->
+        <!--                        implementation="com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonCompileTaskProvider"-->
+        <!--                        id="MesonCompileTaskProviderId"/>-->
+        <!--        <configurationType implementation="com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonConfigurationType"/>-->
 
         <!-- CLion -->
         <stepsBeforeRunProvider
@@ -60,6 +60,16 @@
                                  instance="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
                                  id="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
                                  displayName="Meson"/>
+        <projectOpenProcessor implementation="com.nonnulldinu.clionmeson.project.MesonProjectOpenProcessor"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="cidr">
+        <project.workspaceProvider implementation="com.nonnulldinu.clionmeson.project.MesonWorkspaceProvider"/>
+    </extensions>
+
+    <extensions defaultExtensionNs="clion">
+        <buildConfigurationProvider
+                implementation="com.nonnulldinu.clionmeson.runconfigurations.clion.CLionMesonBuildConfigurationProvider"/>
     </extensions>
 
     <!-- Project listeners -->
