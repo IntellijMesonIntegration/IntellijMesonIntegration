@@ -32,6 +32,7 @@
         <lang.syntaxHighlighterFactory language="MesonBuildLang"
                                        implementationClass="com.nonnulldinu.clionmeson.mesonbuildlang.language.highlighting.MesonBuildSyntaxHighlighterFactory"/>
 
+        <lang.braceMatcher language="MesonBuildLang" implementationClass="com.nonnulldinu.clionmeson.mesonbuildlang.language.highlighting.MesonBuildSyntaxBraceMatcher"/>
         <!-- Completions
         Disabled because they don't work as expected
         -->
