@@ -11,7 +11,6 @@ import com.intellij.openapi.vfs.pointers.VirtualFilePointer
 import com.intellij.util.xmlb.XmlSerializerUtil
 import com.jetbrains.cidr.lang.workspace.headerRoots.HeadersSearchPath
 import com.jetbrains.cidr.lang.workspace.headerRoots.HeadersSearchRoot
-import com.jetbrains.cidr.lang.workspace.headerRoots.HeadersSearchRootFactory
 import com.jetbrains.cidr.project.workspace.CidrWorkspace
 import com.jetbrains.cidr.project.workspace.OCRootsSynchronizer
 import com.nonnulldinu.clionmeson.buildsystem.MesonBuildSystem
@@ -61,8 +60,8 @@ class MesonWorkspace(project: Project) : CidrWorkspace(project), PersistentState
     }
 
     private fun rootOf(path: String, project: Project): HeadersSearchRoot {
-        return HeadersSearchRootFactory.createSearchRoot(HeadersSearchPath.includes(path), project) {
-            VfsUtil.findFile(Paths.get(path, it), true) as @org.jetbrains.annotations.NotNull VirtualFilePointer
+        return HeadersSearchPath.includes(path).createSearchRoot(project) {
+            VfsUtil.findFile(Paths.get(path, it), true) as VirtualFilePointer
         }
     }
 
