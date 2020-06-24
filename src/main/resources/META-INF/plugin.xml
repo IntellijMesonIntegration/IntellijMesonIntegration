@@ -17,6 +17,12 @@
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
 
+    <project-components>
+        <component>
+            <implementation-class>com.nonnulldinu.clionmeson.project.MesonWorkspace</implementation-class>
+        </component>
+    </project-components>
+
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
                   language="MesonBuildLang" fileNames="meson.build"/>

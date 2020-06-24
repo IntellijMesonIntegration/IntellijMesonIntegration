@@ -21,7 +21,7 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     type = "CL"
-    version = "LATEST-EAP-SNAPSHOT"
+    version = "2020.1.2"
 }
 
 tasks {
