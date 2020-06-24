@@ -22,7 +22,6 @@ dependencies {
 intellij {
     type = "CL"
     version = "LATEST-EAP-SNAPSHOT"
-//    setPlugins("org.rust.lang")
 }
 
 tasks {

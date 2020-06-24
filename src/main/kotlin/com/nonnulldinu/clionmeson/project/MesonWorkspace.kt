@@ -24,6 +24,7 @@ import java.nio.file.Paths
 class MesonWorkspace(project: Project) : CidrWorkspace(project), PersistentStateComponent<MesonWorkspace> {
     companion object {
         fun getInstance(project: Project): MesonWorkspace {
+            println("Got project " + project.name)
             return project.service()
         }
     }
@@ -111,10 +112,6 @@ class MesonWorkspace(project: Project) : CidrWorkspace(project), PersistentState
 
     override fun initializeAndStart(): Boolean {
         return super.initializeAndStart()
-    }
-
-    override fun getProjectDir(): File {
-        return super.getProjectDir()
     }
 
     override fun reportFilesOutsideContentRoot(message: String, toolWindowId: String?) {
