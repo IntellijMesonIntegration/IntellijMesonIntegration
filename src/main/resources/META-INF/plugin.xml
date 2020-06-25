@@ -16,12 +16,7 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
-
-    <project-components>
-        <component>
-            <implementation-class>com.nonnulldinu.clionmeson.project.MesonWorkspace</implementation-class>
-        </component>
-    </project-components>
+    <depends>com.intellij.clion-compdb</depends> <!-- Relies on compilation databases to power up most of CLion's features -->
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
@@ -87,5 +82,10 @@
 
     <actions>
         <action class="com.nonnulldinu.clionmeson.errorHandler.TriggerErrorAction"/>
+        <action id="com.nonnulldinu.clionmeson.buildsystem.actions.MesonOpenProject"
+                class="com.nonnulldinu.clionmeson.buildsystem.actions.MesonOpenProject"
+                text="Open This Project with Meson">
+            <add-to-group group-id="BuildMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

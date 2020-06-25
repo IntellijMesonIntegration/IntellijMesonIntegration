@@ -10,6 +10,7 @@ import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import com.jetbrains.cidr.CidrProjectOpenProcessor
 import com.jetbrains.cidr.ProjectOpenFileHelper
+import com.jetbrains.cidr.cpp.compdb.wizard.CompDBProjectOpenProcessor
 import java.io.File
 
 class MesonProjectOpenProcessor : CidrProjectOpenProcessor("Meson Project", projectOpenHelper) {
@@ -43,8 +44,8 @@ class MesonProjectOpenProcessor : CidrProjectOpenProcessor("Meson Project", proj
                     return null
                 }
             }
-//            return ProjectManager.getInstance().loadAndOpenProject(VfsUtil.virtualToIoFile(virtualFile.findFileByRelativePath("/build/compile_commands.json")!!))
-            projectOpenHelper.openProject((var6.first as VirtualFile), projectToClose, forceOpenInNewFrame, var6.second)
+            val project = CompDBProjectOpenProcessor().doOpenProject(virtualFile.findFileByRelativePath("/build/compile_commands.json")!!, projectToClose, forceOpenInNewFrame)
+            project
         }
     }
 

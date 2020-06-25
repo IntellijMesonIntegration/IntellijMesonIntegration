@@ -22,6 +22,7 @@ dependencies {
 intellij {
     type = "CL"
     version = "2020.1.2"
+    setPlugins("clion-compdb")
 }
 
 tasks {

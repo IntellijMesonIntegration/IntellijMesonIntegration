@@ -2,12 +2,14 @@ package com.nonnulldinu.clionmeson.buildsystem
 
 import com.google.gson.Gson
 import com.intellij.notification.Notifications
+import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
 import com.jetbrains.cidr.execution.build.CidrBuildResult
+import com.jetbrains.cidr.project.workspace.CidrWorkspaceManager
 import com.nonnulldinu.clionmeson.buildsystem.actions.OpenMesonLog
 import com.nonnulldinu.clionmeson.buildsystem.meta.MesonBuildMeta
 import com.nonnulldinu.clionmeson.buildsystem.target.MesonBuildTarget
@@ -47,7 +49,8 @@ class MesonBuildSystem(var basePath: String, var mesonBuildRoot: String) {
         }
 
         fun openOn(project: Project): MesonBuildSystem {
-            val buildSystem = MesonBuildSystem(project.basePath!!, project.basePath + "/build")
+            println(CidrWorkspaceManager.getInstance(project).initializedWorkspaces[0].contentRoot)
+            val buildSystem = MesonBuildSystem(project.basePath!! + "/..", project.basePath!!)
             project.putUserData(mesonBuildSystemInstanceKey, buildSystem)
             return buildSystem
         }
