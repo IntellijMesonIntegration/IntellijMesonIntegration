@@ -2,12 +2,12 @@ package com.nonnulldinu.clionmeson.buildsystem
 
 import com.google.gson.Gson
 import com.intellij.notification.Notifications
-import com.intellij.openapi.actionSystem.PlatformDataKeys
 import com.intellij.openapi.progress.PerformInBackgroundOption
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.Key
+import com.jetbrains.cidr.cpp.compdb.CompDBWorkspace
 import com.jetbrains.cidr.execution.build.CidrBuildResult
 import com.jetbrains.cidr.project.workspace.CidrWorkspaceManager
 import com.nonnulldinu.clionmeson.buildsystem.actions.OpenMesonLog
@@ -49,8 +49,18 @@ class MesonBuildSystem(var basePath: String, var mesonBuildRoot: String) {
         }
 
         fun openOn(project: Project): MesonBuildSystem {
-            println(CidrWorkspaceManager.getInstance(project).initializedWorkspaces[0].contentRoot)
-            val buildSystem = MesonBuildSystem(project.basePath!! + "/..", project.basePath!!)
+            val ws = CidrWorkspaceManager.getInstance(project).initializedWorkspaces.find { it is CompDBWorkspace }
+            val root = (if (ws == null) project.basePath else ws.contentRoot!!.absolutePath + "/..")!!
+            val buildSystem = MesonBuildSystem(root, "$root/build")
+            project.putUserData(mesonBuildSystemInstanceKey, buildSystem)
+            return buildSystem
+        }
+
+        fun openOnCombDBWorkspace(project: Project): MesonBuildSystem {
+            val ws = CidrWorkspaceManager.getInstance(project).initializedWorkspaces.find { it is CompDBWorkspace }
+                    ?: throw IllegalArgumentException("No Compilation Database workspace found in project")
+            val root = ws.contentRoot!!.absolutePath
+            val buildSystem = MesonBuildSystem(root, "$root/build")
             project.putUserData(mesonBuildSystemInstanceKey, buildSystem)
             return buildSystem
         }

@@ -10,7 +10,11 @@ import com.intellij.openapi.vfs.VfsUtilCore
 import com.intellij.openapi.vfs.VirtualFile
 import com.jetbrains.cidr.CidrProjectOpenProcessor
 import com.jetbrains.cidr.ProjectOpenFileHelper
+import com.jetbrains.cidr.cpp.compdb.CompDBWorkspace
+import com.jetbrains.cidr.cpp.compdb.actions.CompDBChangeProjectContentRoot
 import com.jetbrains.cidr.cpp.compdb.wizard.CompDBProjectOpenProcessor
+import com.jetbrains.cidr.project.workspace.CidrWorkspaceManager
+import com.nonnulldinu.clionmeson.buildsystem.MesonBuildSystem
 import java.io.File
 
 class MesonProjectOpenProcessor : CidrProjectOpenProcessor("Meson Project", projectOpenHelper) {
@@ -45,6 +49,11 @@ class MesonProjectOpenProcessor : CidrProjectOpenProcessor("Meson Project", proj
                 }
             }
             val project = CompDBProjectOpenProcessor().doOpenProject(virtualFile.findFileByRelativePath("/build/compile_commands.json")!!, projectToClose, forceOpenInNewFrame)
+            CidrWorkspaceManager.getInstance(project!!).initializedWorkspaces.forEach {
+                it.changeContentRoot(virtualFile)
+            }
+            MesonBuildSystem.openOnCombDBWorkspace(project)
+            CompDBWorkspace
             project
         }
     }

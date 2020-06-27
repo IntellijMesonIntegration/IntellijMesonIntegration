@@ -17,6 +17,13 @@
     <depends>com.intellij.modules.cidr.lang</depends>
     <depends>com.intellij.modules.clion</depends>
     <depends>com.intellij.clion-compdb</depends> <!-- Relies on compilation databases to power up most of CLion's features -->
+    <depends>com.intellij.modules.externalSystem</depends>
+
+    <project-components>
+        <component>
+            <implementation-class>com.nonnulldinu.clionmeson.project.MesonWorkspace</implementation-class>
+        </component>
+    </project-components>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Meson Build" implementationClass="com.nonnulldinu.clionmeson.filetypes.MesonBuildFileType"
@@ -61,7 +68,9 @@
                                  instance="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
                                  id="com.nonnulldinu.clionmeson.settings.MesonPluginSettingsConfigurable"
                                  displayName="Meson"/>
+
         <projectOpenProcessor implementation="com.nonnulldinu.clionmeson.project.MesonProjectOpenProcessor"/>
+        <externalSystemManager implementation="com.nonnulldinu.clionmeson.project.MesonManager"/>
     </extensions>
 
     <extensions defaultExtensionNs="cidr">
