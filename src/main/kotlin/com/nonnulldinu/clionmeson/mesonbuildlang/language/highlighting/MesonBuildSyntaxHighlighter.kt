@@ -7,8 +7,8 @@ import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
-import com.nonnulldinu.clionmeson.mesonbuildlang.psi.MesonBuildTypes
 import com.nonnulldinu.clionmeson.languages.lexers.MesonBuildLexerAdapter
+import com.nonnulldinu.clionmeson.mesonbuildlang.psi.MesonBuildTypes
 
 class MesonBuildSyntaxHighlighter : SyntaxHighlighterBase() {
     override fun getHighlightingLexer(): Lexer {
@@ -38,7 +38,7 @@ class MesonBuildSyntaxHighlighter : SyntaxHighlighterBase() {
                 || tokenType == MesonBuildTypes.LANG_TOKEN_QMARK || tokenType == MesonBuildTypes.LANG_TOKEN_COLON
                 || tokenType == MesonBuildTypes.LANG_TOKEN_DOT) {
             OPERATOR_KEYS
-        } else if ( // conditional
+        } else if (
                 tokenType == MesonBuildTypes.IN_OP || tokenType == MesonBuildTypes.LANG_TOKEN_AND
                 || tokenType == MesonBuildTypes.LANG_TOKEN_OR || tokenType == MesonBuildTypes.LANG_TOKEN_NOT
                 || tokenType == MesonBuildTypes.LANG_TOKEN_IF || tokenType == MesonBuildTypes.LANG_TOKEN_ELSE_IF
@@ -65,20 +65,20 @@ class MesonBuildSyntaxHighlighter : SyntaxHighlighterBase() {
     }
 
     companion object {
-        val OPERATOR = TextAttributesKey.createTextAttributesKey("MESON_BUILD_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
-        val KEYWORD = TextAttributesKey.createTextAttributesKey("MESON_BUILD_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
-        val STR_VALUE = TextAttributesKey.createTextAttributesKey("MESON_BUILD_STR_VALUE", DefaultLanguageHighlighterColors.STRING)
-        val NUM_VALUE = TextAttributesKey.createTextAttributesKey("MESON_BUILD_NUM_VALUE", DefaultLanguageHighlighterColors.NUMBER)
-        val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("MESON_BUILD_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
-        val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("MESON_BUILD_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
-        val BAD_CHARACTER = TextAttributesKey.createTextAttributesKey("MESON_BUILD_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
-        private val BAD_CHAR_KEYS : Array<TextAttributesKey> = arrayOf(BAD_CHARACTER)
-        private val OPERATOR_KEYS : Array<TextAttributesKey> = arrayOf(OPERATOR)
-        private val KEYWORD_KEYS : Array<TextAttributesKey> = arrayOf(KEYWORD)
-        private val STR_VALUE_KEYS : Array<TextAttributesKey> = arrayOf(STR_VALUE)
-        private val NUM_VALUE_KEYS : Array<TextAttributesKey> = arrayOf(NUM_VALUE)
-        private val LINE_COMMENT_KEYS : Array<TextAttributesKey> = arrayOf(LINE_COMMENT)
-        private val BLOCK_COMMENT_KEYS : Array<TextAttributesKey> = arrayOf(BLOCK_COMMENT)
-        private val EMPTY_KEYS : Array<TextAttributesKey> = arrayOf()
+        private val OPERATOR = TextAttributesKey.createTextAttributesKey("MESON_BUILD_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN)
+        private val KEYWORD = TextAttributesKey.createTextAttributesKey("MESON_BUILD_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)
+        private val STR_VALUE = TextAttributesKey.createTextAttributesKey("MESON_BUILD_STR_VALUE", DefaultLanguageHighlighterColors.STRING)
+        private val NUM_VALUE = TextAttributesKey.createTextAttributesKey("MESON_BUILD_NUM_VALUE", DefaultLanguageHighlighterColors.NUMBER)
+        private val LINE_COMMENT = TextAttributesKey.createTextAttributesKey("MESON_BUILD_LINE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
+        private val BLOCK_COMMENT = TextAttributesKey.createTextAttributesKey("MESON_BUILD_BLOCK_COMMENT", DefaultLanguageHighlighterColors.BLOCK_COMMENT)
+        private val BAD_CHARACTER = TextAttributesKey.createTextAttributesKey("MESON_BUILD_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+        private val BAD_CHAR_KEYS: Array<TextAttributesKey> = arrayOf(BAD_CHARACTER)
+        private val OPERATOR_KEYS: Array<TextAttributesKey> = arrayOf(OPERATOR)
+        private val KEYWORD_KEYS: Array<TextAttributesKey> = arrayOf(KEYWORD)
+        private val STR_VALUE_KEYS: Array<TextAttributesKey> = arrayOf(STR_VALUE)
+        private val NUM_VALUE_KEYS: Array<TextAttributesKey> = arrayOf(NUM_VALUE)
+        private val LINE_COMMENT_KEYS: Array<TextAttributesKey> = arrayOf(LINE_COMMENT)
+        private val BLOCK_COMMENT_KEYS: Array<TextAttributesKey> = arrayOf(BLOCK_COMMENT)
+        private val EMPTY_KEYS: Array<TextAttributesKey> = arrayOf()
     }
 }

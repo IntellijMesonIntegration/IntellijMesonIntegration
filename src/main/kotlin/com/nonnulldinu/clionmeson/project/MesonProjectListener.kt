@@ -11,7 +11,6 @@ import com.nonnulldinu.clionmeson.runconfigurations.intellij.MesonConfiguration
 class MesonProjectListener : ProjectManagerListener {
     override fun projectOpened(project: Project) {
         if (!Meson.isMesonProject(project)) return
-        CMakeWorkspaceOverride.undoCMakeModifications(project)
 
         val buildSystem: MesonBuildSystem = MesonBuildSystem.openOn(project)
         for (runConfig in RunManager.getInstance(project).allConfigurationsList) {

@@ -1,5 +1,5 @@
 package com.nonnulldinu.clionmeson.project
 
-class MesonLocalSettingsState {
+import com.intellij.openapi.externalSystem.settings.AbstractExternalSystemLocalSettings
 
-}
+class MesonLocalSettingsState : AbstractExternalSystemLocalSettings.State()

@@ -2,19 +2,17 @@ package com.nonnulldinu.clionmeson.project
 
 import com.intellij.ide.IdeBundle
 import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.externalSystem.service.execution.ProgressExecutionMode
+import com.intellij.openapi.externalSystem.util.ExternalSystemUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.util.Key
 import com.intellij.openapi.util.Pair
-import com.intellij.openapi.vfs.VfsUtilCore
+import com.intellij.openapi.vfs.VfsUtil
 import com.intellij.openapi.vfs.VirtualFile
+import com.intellij.util.Consumer
 import com.jetbrains.cidr.CidrProjectOpenProcessor
 import com.jetbrains.cidr.ProjectOpenFileHelper
-import com.jetbrains.cidr.cpp.compdb.CompDBWorkspace
-import com.jetbrains.cidr.cpp.compdb.actions.CompDBChangeProjectContentRoot
-import com.jetbrains.cidr.cpp.compdb.wizard.CompDBProjectOpenProcessor
-import com.jetbrains.cidr.project.workspace.CidrWorkspaceManager
-import com.nonnulldinu.clionmeson.buildsystem.MesonBuildSystem
 import java.io.File
 
 class MesonProjectOpenProcessor : CidrProjectOpenProcessor("Meson Project", projectOpenHelper) {
@@ -39,27 +37,29 @@ class MesonProjectOpenProcessor : CidrProjectOpenProcessor("Meson Project", proj
     override fun doOpenProject(virtualFile: VirtualFile, projectToClose: Project?, forceOpenInNewFrame: Boolean): Project? {
         // Taken mostly from CMakeProjectOpenProcessor
         val vfile = projectOpenHelper.findSupportedSubFile(virtualFile) ?: return null
-        return run {
-            val var6 = util(vfile)
-            if (!ApplicationManager.getApplication().isHeadlessEnvironment) {
-                if (Messages.showOkCancelDialog(projectToClose, "Selected directory looks like a meson project.\nDo you want to open it as one?\n",
-                                IdeBundle.message("title.open.project"), IdeBundle.message("button.yes"),
-                                IdeBundle.message("button.no"), Messages.getQuestionIcon()) != 0) {
-                    return null
-                }
+        if (!ApplicationManager.getApplication().isHeadlessEnvironment) {
+            if (Messages.showOkCancelDialog(projectToClose, "Selected directory looks like a meson project.\nDo you want to open it as one?\n",
+                            IdeBundle.message("title.open.project"), IdeBundle.message("button.yes"),
+                            IdeBundle.message("button.no"), Messages.getQuestionIcon()) != 0) {
+                return null
             }
-            val project = CompDBProjectOpenProcessor().doOpenProject(virtualFile.findFileByRelativePath("/build/compile_commands.json")!!, projectToClose, forceOpenInNewFrame)
-            CidrWorkspaceManager.getInstance(project!!).initializedWorkspaces.forEach {
-                it.changeContentRoot(virtualFile)
-            }
-            MesonBuildSystem.openOnCombDBWorkspace(project)
-            CompDBWorkspace
-            project
         }
+        val v = util(vfile)
+        val project = projectOpenHelper.openProject(v.first
+                ?: virtualFile, projectToClose, forceOpenInNewFrame, v.second) ?: return null
+        val resultListener = Consumer<Boolean> {
+            val var10000 = MesonProjectUtil.LOG
+            val var10001 = StringBuilder().append("Opening Meson \"").append(project.name).append("\" project ")
+            var10000.debug(var10001.append(if (it!!) "finished successfully!" else "failed!").toString())
+        }
+        val settings = MesonProjectSettings.default()
+        settings.externalProjectPath = vfile.parent.path
+        ExternalSystemUtil.linkExternalProject(MesonProjectUtil.ID, settings, project, resultListener, false, if (ApplicationManager.getApplication().isUnitTestMode) ProgressExecutionMode.MODAL_SYNC else ProgressExecutionMode.IN_BACKGROUND_ASYNC)
+        return project
     }
 
-    private fun util(var0: VirtualFile): Pair<VirtualFile?, MesonOpenProjectSpec?> {
-        val var3 = VfsUtilCore.virtualToIoFile(var0.parent)
+    private fun util(var0: VirtualFile): Pair<VirtualFile, MesonOpenProjectSpec> {
+        val var3 = VfsUtil.virtualToIoFile(var0.parent)
         val var5: VirtualFile? = var0
         val var6: File = var3
         val var7: File? = null

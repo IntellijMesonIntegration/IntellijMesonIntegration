@@ -1,5 +1,5 @@
 <idea-plugin>
-    <idea-version since-build="201" until-build="201.*"/>
+    <idea-version since-build="201.7846.88" until-build="201.*"/>
     <id>com.non.null.dinu.MesonIntegration</id>
     <name>CLion Meson Integration</name>
     <vendor email="dinu.blanovschi@criptext.com" url="http://www.github.com/NonNullDinu/CLionMesonIntegration">
@@ -18,6 +18,8 @@
     <depends>com.intellij.modules.clion</depends>
     <depends>com.intellij.clion-compdb</depends> <!-- Relies on compilation databases to power up most of CLion's features -->
     <depends>com.intellij.modules.externalSystem</depends>
+
+    <resource-bundle>mesonbundle.MesonBundle</resource-bundle>
 
     <project-components>
         <component>
@@ -71,6 +73,13 @@
 
         <projectOpenProcessor implementation="com.nonnulldinu.clionmeson.project.MesonProjectOpenProcessor"/>
         <externalSystemManager implementation="com.nonnulldinu.clionmeson.project.MesonManager"/>
+
+        <projectService serviceImplementation="com.nonnulldinu.clionmeson.project.MesonSettings"/>
+        <projectService serviceImplementation="com.nonnulldinu.clionmeson.project.MesonLocalSettings"/>
+
+        <externalProjectDataService implementation="com.nonnulldinu.clionmeson.project.MesonProjectDataService"/>
+
+        <projectTaskRunner implementation="com.nonnulldinu.clionmeson.project.MesonProjectTaskRunner" id="MesonProjectTaskRunner" order="after CMakeProjectTaskRunner"/>
     </extensions>
 
     <extensions defaultExtensionNs="cidr">

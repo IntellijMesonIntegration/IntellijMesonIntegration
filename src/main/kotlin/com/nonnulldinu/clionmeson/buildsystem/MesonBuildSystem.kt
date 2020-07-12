@@ -27,20 +27,13 @@ class MesonBuildSystem(var basePath: String, var mesonBuildRoot: String) {
     companion object {
         private val mesonBuildSystemInstanceKey = Key<MesonBuildSystem>("MesonBuildSystemInstance")
         fun createBuildSystem(project: Project) {
-            object : Task.Backgroundable(project, "Initializing build system", false, PerformInBackgroundOption.DEAF) {
-                override fun run(indicator: ProgressIndicator) {
-                    val p: Process = ProcessBuilder().command(MesonPluginSettingsState.getInstance().getValue(MesonPluginSettingsState.MesonPath), "build").directory(File(project.basePath!!)).start()
-                    p.waitFor()
-                    Notifications.Bus.notify(when (p.exitValue()) {
-                        0 -> MesonBuildNotifications.infoNotify("Successfully created the build system")
-                        else -> MesonBuildNotifications.errNotify("Meson Build failed with exit code " + p.exitValue(), OpenMesonLog())
-                    })
-                }
-
-                override fun onFinished() {
-                    openOn(project)
-                }
-            }.queue()
+            val p: Process = ProcessBuilder().command(MesonPluginSettingsState.getInstance().getValue(MesonPluginSettingsState.MesonPath), "build").directory(File(project.basePath!!)).start()
+            p.waitFor()
+            Notifications.Bus.notify(when (p.exitValue()) {
+                0 -> MesonBuildNotifications.infoNotify("Successfully created the build system")
+                else -> MesonBuildNotifications.errNotify("Meson Build failed with exit code " + p.exitValue(), OpenMesonLog())
+            })
+            openOn(project)
         }
 
         fun getBuildSystem(project: Project): MesonBuildSystem {
